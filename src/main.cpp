@@ -1,6 +1,7 @@
 #include <iostream>
 #include <unistd.h>
 #include <string>
+#include <fstream>
 
 // Team Definitions
 #define RED 0
@@ -28,6 +29,21 @@ int main() {
  * @return
  */
 bool setTeam(const char* teamName, int teamNumber) {
-    printf("Setting Team %d as %s", teamNumber, teamName);
+    printf("setTeam(): Setting Team %d as %s.\n", teamNumber, teamName);
+
+    //todo update TeamX.png
+
+    //todo update TeamX.txt
+    //output file stream, truncate (overwrite current contents)
+    char fileName[10] = "ss";
+    char fileContents[20] = "lorem ipsum";
+    std::ofstream ofs(fileName, std::ofstream::trunc);
+
+    ofs << fileContents;
+
+    ofs.close();
+
+    //todo update TeamShortX.txt
+
     return false;
 }
