@@ -33,7 +33,7 @@ public class Main {
      *  File name formatted as `"Team" + teamIdentifier + ".txt"`,
      *  and `"TeamShort" + teamIdentifier + ".txt"`
      *
-     * @param newTeamName Name of the team
+     * @param newTeamName Name of the team. MUST BE A VALID TEAM!
      * @param teamIdentifier Either "A" or "B".
      * @return success or fail
      * @throws IOException
@@ -53,9 +53,34 @@ public class Main {
 
         //update output file "TeamShortX.txt"
         Writer fileWriter2 = new FileWriter(outputPath + teamShortTXT); //TeamShortX.txt
-        fileWriter2.write("TODO SHORTNAME GOES HERE"); //todo get shortname from teams.txt
+        fileWriter2.write("TODO SHORTNAME GOES HERE"); //todo get shortname from input/teams.txt
         fileWriter2.close();
 
         return false;
+    }
+
+
+    /**
+     * Parses `teams.txt` to get a team's longName from its shortName
+     */
+    void getLongName(String shortName) {
+        //open input/teams.txt
+        /*todo*/
+        //parse through File for shortName
+        /*todo*/
+        //get and return corresponding longName
+        /*todo*/
+    }
+
+    /**
+     * Parses `teams.txt` to get a team's longName from its shortName
+     */
+    void getShortName(String longName) {
+        //open input/teams.txt
+        /*todo*/
+        //parse through File for longName
+        /*todo*/
+        //get and return corresponding shortname
+        /*todo*/
     }
 }
