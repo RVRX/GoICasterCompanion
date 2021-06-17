@@ -44,9 +44,11 @@ public class Main {
                 break;
             case "help":
                 System.out.println("'setTeam' or 'st' to set a new team");
-                System.out.println("'setMap' or 'sm' to set current map"); //todo
+                System.out.println("'setMap' or 'sm' to set current map");
                 System.out.println("'clean' to empty output folder"); //todo
-                System.out.println("'verify' to verify existence of required folders"); //todo
+                System.out.println("'verify' to verify existence of required folders");
+                System.out.println("'settimer' to set timer length"); //todo
+                System.out.println("'starttimer' to start timer"); //todo
                 break;
             case "setteam": case "st":
                 System.out.print("Enter team's full name: ");
