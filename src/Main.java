@@ -78,6 +78,7 @@ public class Main {
                 } catch (IOException exception) {
                     exception.printStackTrace();
                 }
+                break;
             default:
                 System.out.println("Unknown Input. Type 'help' for commands");
         }
@@ -85,20 +86,28 @@ public class Main {
 
     /**
      * Changes the current map.
+     * DOES NOT CHECK FOR VALIDITY OF INPUT, HOWEVER INPUT MUST BE VALID
+     *
+     * {@// TODO: 6/17/21 error handling, check up on file writes! }
      *
      * @param mapName
      * @return
      * @throws IOException
      */
     private static boolean setMap(String mapName) throws IOException {
-//        Files.copy(teamLogo,Paths.get(outputPath + "Team" + teamIdentifier + ".png"), StandardCopyOption.REPLACE_EXISTING);
 
         /*--- Update Map.png ---*/
-        /*todo*/
+        //copy map from map_images
+        Files.copy(Paths.get(inputPath + "map_images" + File.separator + mapName + ".png"), Paths.get(outputPath + "Map.png"), StandardCopyOption.REPLACE_EXISTING);
+        System.out.println("Map.png Updated");
 
         /*--- Update Map.txt ---*/
-        /*todo*/
-        return false;
+        Writer fileWriter = new FileWriter(outputPath + "Map.txt"); //TeamX.txt
+        fileWriter.write(mapName);
+        fileWriter.close();
+        System.out.println("Map.txt Updated");
+
+        return true;
     }
 
     /**
