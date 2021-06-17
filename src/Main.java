@@ -87,7 +87,9 @@ public class Main {
     }
 
     /**
-     * Checks for the existence of the application's directories in the cwd
+     * Checks for <code>input</code> and <code>output</code> folders, creates them if necessary.
+     *
+     * @return <code>true</code> if folders found or recreation successful; <code>false</code> otherwise.
      */
     private static boolean verifyFolders() {
         System.out.println("verifying folders");
