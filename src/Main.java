@@ -77,7 +77,10 @@ public class Main {
                 }
                 break;
             case "verify": case "v":
-                verifyFolders();
+                if (verifyFolders()) {
+                    System.out.println("All folders verified!");
+                } else System.out.println("Folder recreation failed!");
+                break;
             default:
                 System.out.println("Unknown Input. Type 'help' for commands");
         }
@@ -86,8 +89,35 @@ public class Main {
     /**
      * Checks for the existence of the application's directories in the cwd
      */
-    private static void verifyFolders() {
+    private static boolean verifyFolders() {
+        System.out.println("verifying folders");
+        boolean status = true;
 
+        //check input folder
+        Path inputPathObject = Paths.get(inputPath);
+        if (!Files.exists(inputPathObject)) {
+            System.out.println("Input folder cannot be found... recreating");
+            if (inputPathObject.toFile().mkdirs()) {
+                System.out.println("Input folder created successfully");
+            } else {
+                System.err.println("Error when creating input directory!");
+                status = false;
+            }
+        } else System.out.println("Input folder found");
+
+        //check output folder
+        Path outputPathObject = Paths.get(outputPath);
+        if (!Files.exists(outputPathObject)) {
+            System.out.println("Output folder cannot be found... recreating");
+            if (outputPathObject.toFile().mkdirs()) {
+                System.out.println("Output folder created successfully");
+            } else {
+                System.err.println("Error when creating output directory!");
+                status = false;
+            }
+        } else System.out.println("Output folder found");
+
+        return status;
     }
 
     /**
