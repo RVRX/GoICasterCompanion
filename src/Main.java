@@ -83,16 +83,12 @@ public class Main {
                 break;
             case "setnumber":
                 System.out.print("Enter tournament number: ");
-                int tourneyNumber = scanner.nextInt();
-                try {
+                String tourneyNumber = scanner.nextLine();
                     if (setTourneyNumber(tourneyNumber)) {
                         System.out.println("Current tournament number updated!");
                     } else {
                         System.err.println("Failed to update current tournament number.");
                     }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
                 break;
             case "verify": case "v":
                 if (verifyFolders()) {
@@ -110,9 +106,19 @@ public class Main {
      * @param number new number representing current tournament
      * @return false if IO operation failed
      */
-    private static boolean setTourneyNumber(int number) throws IOException {
-        //todo implement setTourneyNumber
-        return false;
+    private static boolean setTourneyNumber(String number) {
+        //write 'number' to TournamentNumber.txt
+        try {
+            Writer fileWriter = new FileWriter(outputPath + "TournamentNumber.txt");
+            fileWriter.write(number);
+            fileWriter.close();
+            System.out.println("TournamentNumber.txt Updated");
+        } catch (IOException e) {
+            System.err.println("Couldn't write to TournamentNumber.txt, reason: " + e.getMessage());
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -180,7 +186,7 @@ public class Main {
         System.out.println("Map.png Updated");
 
         /*--- Update Map.txt ---*/
-        Writer fileWriter = new FileWriter(outputPath + "Map.txt"); //TeamX.txt
+        Writer fileWriter = new FileWriter(outputPath + "Map.txt");
         fileWriter.write(mapName);
         fileWriter.close();
         System.out.println("Map.txt Updated");
