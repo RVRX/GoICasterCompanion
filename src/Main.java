@@ -1,3 +1,5 @@
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -99,9 +101,23 @@ public class Main {
             //copy from teamLogo Path to TeamX.png
             Files.copy(teamLogo,Paths.get(outputPath + "Team" + teamIdentifier + ".png"), StandardCopyOption.REPLACE_EXISTING);
         } else { //logo not PNG
-            //todo convert
-            System.err.println("Image conversion to PNG not supported!");
-            return false;
+            try {
+                //convert to png
+                boolean wasConverted = convertFormat(teamLogo.toString(),inputPath + "team_logos" + File.separator + newTeamName + ".png","PNG");
+                if (wasConverted) {
+                    System.out.println("Image converted to PNG");
+                    //delete/rename old photo
+                    /*todo*/
+                    //copy from teamLogo Path to TeamX.png
+                    /*todo*/
+                } else {
+                    System.out.println("Image could not be converted to PNG");
+                }
+            } catch (IOException exception) {
+                System.out.println("Error during converting image.");
+                exception.printStackTrace();
+                return false;
+            }
         }
 
         //successful finish
@@ -157,5 +173,36 @@ public class Main {
             }
         }
         return null;
+    }
+
+    /**
+     * Converts an image to another format
+     * @author <a href="https://www.codejava.net/java-se/graphics/convert-image-formats">Nam Ha Minh</a>
+     *
+     * @param inputImagePath Path of the source image
+     * @param outputImagePath Path of the destination image
+     * @param formatName the format to be converted to, one of: jpeg, png,
+     * bmp, wbmp, and gif
+     * @return true if successful, false otherwise
+     * @throws IOException if errors occur during writing
+     */
+    public static boolean convertFormat(String inputImagePath,
+                                        String outputImagePath, String formatName) throws IOException {
+        FileInputStream inputStream = new FileInputStream(inputImagePath);
+        FileOutputStream outputStream = new FileOutputStream(outputImagePath);
+
+        // reads input image from file
+        BufferedImage inputImage = ImageIO.read(inputStream);
+
+        // writes to the output image in specified format
+        boolean result = ImageIO.write(inputImage, formatName, outputStream);
+        System.out.println("RESULT! = " + result);
+
+        // needs to close the streams
+        outputStream.close();
+        inputStream.close();
+
+
+        return result;
     }
 }
