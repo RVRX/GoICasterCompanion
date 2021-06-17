@@ -1,7 +1,6 @@
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Writer;
+import java.io.*;
+import java.util.Locale;
+import java.util.Scanner;
 
 public class Main {
 
@@ -53,34 +52,52 @@ public class Main {
 
         //update output file "TeamShortX.txt"
         Writer fileWriter2 = new FileWriter(outputPath + teamShortTXT); //TeamShortX.txt
-        fileWriter2.write("TODO SHORTNAME GOES HERE"); //todo get shortname from input/teams.txt
+        String shortname = getShortName(newTeamName);
+        if (shortname != null) {
+            fileWriter2.write(getShortName(newTeamName)); //todo get shortname from input/teams.txt
+        } else {
+            System.err.println("Shortname Could not be found!");
+            return false;
+        }
         fileWriter2.close();
 
-        return false;
+        //successful finish
+        return true;
     }
 
 
     /**
      * Parses `teams.txt` to get a team's longName from its shortName
      */
-    void getLongName(String shortName) {
+    String getLongName(String shortName) {
         //open input/teams.txt
         /*todo*/
         //parse through File for shortName
         /*todo*/
         //get and return corresponding longName
         /*todo*/
+        return null;
     }
 
     /**
      * Parses `teams.txt` to get a team's longName from its shortName
+     *
+     * @param longName longName to find corresponding shortName of
+     * @return Returns null or shortName.
+     * @throws FileNotFoundException
      */
-    void getShortName(String longName) {
+    public static String getShortName(String longName) throws FileNotFoundException {
         //open input/teams.txt
-        /*todo*/
+        File teamsTXT = new File(inputPath + "teams.txt");
+        Scanner scanner = new Scanner(teamsTXT);
         //parse through File for longName
-        /*todo*/
-        //get and return corresponding shortname
-        /*todo*/
+        while (scanner.hasNext()) {
+            String line = scanner.nextLine().toLowerCase();
+            if (line.contains(longName)) {
+                //long name line has been found, get shortname.
+                return line.substring(line.indexOf("|"));
+            }
+        }
+        return null;
     }
 }
