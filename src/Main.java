@@ -1,10 +1,7 @@
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
+import java.nio.file.*;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Scanner;
@@ -77,8 +74,10 @@ public class Main {
                     } else {
                         System.err.println("Failed to Update Current Map");
                     }
+                } catch (NoSuchFileException exception) {
+                    System.err.println("NoSuchFileException! Missing map png? Details: " + exception.getMessage());
                 } catch (IOException exception) {
-                    exception.printStackTrace();
+                    System.err.println("I/O Error! reason: " + exception.getMessage());
                 }
                 break;
             case "setnumber":
