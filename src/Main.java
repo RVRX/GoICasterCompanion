@@ -2,6 +2,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Locale;
@@ -21,6 +22,7 @@ public class Main {
 
         try {
             setTeam("The Skyborne", "A");
+            setTeam("The Pomelos", "B");
         } catch (IOException e) {
             System.out.println("Failure in setTeam()!");
             e.printStackTrace();
@@ -45,6 +47,7 @@ public class Main {
      * @throws IOException
      */
     static boolean setTeam(String newTeamName, String teamIdentifier) throws IOException {
+        System.out.println("setTeam("+newTeamName+","+teamIdentifier+")");
 
         /*--- Update TXTs ---*/
 
@@ -88,6 +91,18 @@ public class Main {
             return false;
         }
         System.out.println("Found Team logo: " + teamLogo);
+
+        //If extension is .png move it, else convert then move.
+        String logoExt = teamLogo.getFileName().toString().substring(teamLogo.getFileName().toString().indexOf(".") + 1);
+        if (logoExt.equalsIgnoreCase("png")) {
+
+            //copy from teamLogo Path to TeamX.png
+            Files.copy(teamLogo,Paths.get(outputPath + "Team" + teamIdentifier + ".png"), StandardCopyOption.REPLACE_EXISTING);
+        } else { //logo not PNG
+            //todo convert
+            System.err.println("Image conversion to PNG not supported!");
+            return false;
+        }
 
         //successful finish
         return true;
