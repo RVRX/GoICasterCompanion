@@ -106,10 +106,19 @@ public class Main {
                 boolean wasConverted = convertFormat(teamLogo.toString(),inputPath + "team_logos" + File.separator + newTeamName + ".png","PNG");
                 if (wasConverted) {
                     System.out.println("Image converted to PNG");
-                    //delete/rename old photo
-                    /*todo*/
+
+                    //delete old photo
+                    if(teamLogo.toFile().delete()) {
+                        System.out.println("File deleted successfully");
+                    }
+                    else {
+                        System.out.println("Failed to delete the file");
+                        return false;
+                    }
+
                     //copy from teamLogo Path to TeamX.png
-                    /*todo*/
+                    Files.copy(teamLogo,Paths.get(outputPath + "Team" + teamIdentifier + ".png"), StandardCopyOption.REPLACE_EXISTING);
+
                 } else {
                     System.out.println("Image could not be converted to PNG");
                 }
