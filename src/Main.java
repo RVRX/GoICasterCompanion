@@ -20,17 +20,61 @@ public class Main {
     public static String inputPath = System.getProperty("user.dir") + File.separator + "input" + File.separator;
 
     public static void main(String[] args) {
-        System.out.println("Welcome to GoIStreamToolRedux CLI");
-
-        try {
-            setTeam("The Skyborne", "A");
-            setTeam("The Pomelos", "B");
-        } catch (IOException e) {
-            System.out.println("Failure in setTeam()!");
-            e.printStackTrace();
+        System.out.println("Welcome to GoIStreamToolRedux CLI!\n\nAwaiting User input...");
+        boolean live = true;
+        Scanner scanner = new Scanner(System.in);
+        while (live) {
+            System.out.print("> ");
+            String input = scanner.nextLine();
+            CLIParse(input);
         }
+    }
 
+    private static void CLIParse(String input) {
 
+        switch (inputTrimmed(input).toLowerCase()) {
+            case "quit": case "exit": case "q":
+                System.out.println("exiting...");
+                System.exit(0);
+                break;
+            case "help":
+                System.out.println("'setTeam' or 'st' to set a new team");
+                System.out.println("'setMap' or 'sm' to set current map"); //todo
+                System.out.println("'clean' to empty output folder"); //todo
+                System.out.println("'verify' to verify existence of required folders"); //todo
+                break;
+            case "setteam": case "st":
+                System.out.print("Enter team's full name: ");
+                Scanner scanner = new Scanner(System.in);
+                String teamName = scanner.nextLine();
+                System.out.print("\nEnter team's letter: ");
+                String teamLetter = scanner.nextLine();
+                try {
+                    if (setTeam(teamName,teamLetter)) {
+                        System.out.println("Updated!");
+                    } else {
+                        System.out.println("Failed to Update Team Completely. Risk of Incomplete update!");
+                    }
+                } catch (IOException exception) {
+                    exception.printStackTrace();
+                }
+                break;
+            default:
+                System.out.println("Unknown Input. Type 'help' for commands");
+        }
+    }
+
+    /**
+     * Trims off everything after space
+     * @param input
+     * @return
+     */
+    private static String inputTrimmed(String input) {
+        if (input.contains(" ")) {
+            return input.substring(0,input.indexOf(" "));
+        } else {
+            return input;
+        }
     }
 
     /**
@@ -49,6 +93,7 @@ public class Main {
      * @throws IOException
      */
     static boolean setTeam(String newTeamName, String teamIdentifier) throws IOException {
+        teamIdentifier = teamIdentifier.toUpperCase();
         System.out.println("setTeam("+newTeamName+","+teamIdentifier+")");
 
         /*--- Update TXTs ---*/
