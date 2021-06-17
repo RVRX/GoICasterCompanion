@@ -45,7 +45,6 @@ public class Main {
             case "help":
                 System.out.println("'setTeam' or 'st' to set a new team");
                 System.out.println("'setMap' or 'sm' to set current map");
-                System.out.println("'clean' to empty output folder"); //todo
                 System.out.println("'verify' to verify existence of required folders");
                 System.out.println("'settimer' to set timer length"); //todo
                 System.out.println("'starttimer' to start timer"); //todo
@@ -59,7 +58,7 @@ public class Main {
                     if (setTeam(teamName,teamLetter)) {
                         System.out.println("Updated!");
                     } else {
-                        System.out.println("Failed to Update Team Completely. Risk of Incomplete update!");
+                        System.err.println("Failed to Update Team Completely. Risk of Incomplete update!");
                     }
                 } catch (IOException exception) {
                     exception.printStackTrace();
@@ -72,7 +71,7 @@ public class Main {
                     if (setMap(mapName)) {
                         System.out.println("Current Map Updated!");
                     } else {
-                        System.out.println("Failed to Update Current Map");
+                        System.err.println("Failed to Update Current Map");
                     }
                 } catch (IOException exception) {
                     exception.printStackTrace();
@@ -81,7 +80,7 @@ public class Main {
             case "verify": case "v":
                 if (verifyFolders()) {
                     System.out.println("All folders verified!");
-                } else System.out.println("Folder recreation failed!");
+                } else System.err.println("Folder recreation failed!");
                 break;
             default:
                 System.out.println("Unknown Input. Type 'help' for commands");
