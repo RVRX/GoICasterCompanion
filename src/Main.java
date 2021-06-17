@@ -46,8 +46,9 @@ public class Main {
                 System.out.println("'setTeam' or 'st' to set a new team");
                 System.out.println("'setMap' or 'sm' to set current map");
                 System.out.println("'verify' to verify existence of required folders");
-                System.out.println("'settimer' to set timer length"); //todo
-                System.out.println("'starttimer' to start timer"); //todo
+                System.out.println("'settimer' to set timer length"); //todo implement setTimer()
+                System.out.println("'starttimer' to start timer"); //todo implement startTimer()
+                System.out.println("'setnumber' to set tournament number");
                 break;
             case "setteam": case "st":
                 System.out.print("Enter team's full name: ");
@@ -77,6 +78,19 @@ public class Main {
                     exception.printStackTrace();
                 }
                 break;
+            case "setnumber":
+                System.out.print("Enter tournament number: ");
+                int tourneyNumber = scanner.nextInt();
+                try {
+                    if (setTourneyNumber(tourneyNumber)) {
+                        System.out.println("Current tournament number updated!");
+                    } else {
+                        System.err.println("Failed to update current tournament number.");
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
             case "verify": case "v":
                 if (verifyFolders()) {
                     System.out.println("All folders verified!");
@@ -85,6 +99,17 @@ public class Main {
             default:
                 System.out.println("Unknown Input. Type 'help' for commands");
         }
+    }
+
+    /**
+     * Sets the current tournament number.
+     *
+     * @param number new number representing current tournament
+     * @return false if IO operation failed
+     */
+    private static boolean setTourneyNumber(int number) throws IOException {
+        //todo implement setTourneyNumber
+        return false;
     }
 
     /**
@@ -130,6 +155,7 @@ public class Main {
      * @return
      */
     private static boolean isValidMap(String map) {
+        //todo implement isValidMap()
         return false;
     }
 
@@ -278,12 +304,12 @@ public class Main {
      * Parses `teams.txt` to get a team's longName from its shortName
      */
     String getLongName(String shortName) {
-        //open input/teams.txt
-        /*todo*/
-        //parse through File for shortName
-        /*todo*/
-        //get and return corresponding longName
-        /*todo*/
+        //todo open input/teams.txt
+
+        //todo parse through File for shortName
+
+        //todo get and return corresponding longName
+
         return null;
     }
 
