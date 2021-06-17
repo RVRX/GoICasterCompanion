@@ -5,11 +5,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.Locale;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Main {
@@ -79,9 +76,18 @@ public class Main {
                     exception.printStackTrace();
                 }
                 break;
+            case "verify": case "v":
+                verifyFolders();
             default:
                 System.out.println("Unknown Input. Type 'help' for commands");
         }
+    }
+
+    /**
+     * Checks for the existence of the application's directories in the cwd
+     */
+    private static void verifyFolders() {
+
     }
 
     /**
