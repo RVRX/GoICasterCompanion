@@ -155,8 +155,7 @@ public class Main {
 
 
         /*--- Update Image ---*/
-        /*todo Update the output teamA/B image with the new team's image.
-         *  File is in the format `"Team" + teamIdentifier + ".png"`*/
+
         //get all files in team_logos folder
         LinkedList<Path> allTeamImages = new LinkedList<>();
         try (Stream<Path> paths = Files.walk(Paths.get(inputPath + "team_logos"))) {
