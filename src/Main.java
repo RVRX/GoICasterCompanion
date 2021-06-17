@@ -192,7 +192,7 @@ public class Main {
         /*--- Check Map Validity ---*/
         try {
             if (!isValidMap(mapName)) {
-                System.err.println("That map does not exist.");
+                System.err.println("That map does not exist in maps.txt");
                 return false;
             }
         } catch (FileNotFoundException e) {
