@@ -1,6 +1,13 @@
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.Locale;
 import java.util.Scanner;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Main {
 
@@ -49,6 +56,7 @@ public class Main {
         Writer fileWriter = new FileWriter(outputPath + teamTXT); //TeamX.txt
         fileWriter.write(newTeamName);
         fileWriter.close();
+        System.out.println(teamTXT + " updated.");
 
         //update output file "TeamShortX.txt"
         Writer fileWriter2 = new FileWriter(outputPath + teamShortTXT); //TeamShortX.txt
@@ -60,9 +68,43 @@ public class Main {
             return false;
         }
         fileWriter2.close();
+        System.out.println(teamShortTXT + " updated.");
+
+
+        /*--- Update Image ---*/
+        /*todo Update the output teamA/B image with the new team's image.
+         *  File is in the format `"Team" + teamIdentifier + ".png"`*/
+        //get all files in team_logos folder
+        LinkedList<Path> allTeamImages = new LinkedList<>();
+        try (Stream<Path> paths = Files.walk(Paths.get(inputPath + "team_logos"))) {
+            paths
+                    .filter(Files::isRegularFile)
+                    .forEach(allTeamImages::add);
+        }
+        //find specific team's logo from list
+        Path teamLogo = findFile(allTeamImages, newTeamName);
+        if (teamLogo == null) {
+            System.err.println("team logo not found!");
+            return false;
+        }
+        System.out.println("Found Team logo: " + teamLogo);
 
         //successful finish
         return true;
+    }
+
+    /**
+     * Takes a list of {@link Path}s and finds a certain file by name, excluding extension
+     * @param allTeamImages
+     * @return Path of found file.
+     */
+    private static Path findFile(LinkedList<Path> allTeamImages, String searchFor) {
+        for (Path aPath : allTeamImages) {
+            if (aPath.getFileName().toString().substring(0,aPath.getFileName().toString().indexOf(".")).equalsIgnoreCase(searchFor)) {
+                return aPath;
+            }
+        }
+        return null;
     }
 
 
