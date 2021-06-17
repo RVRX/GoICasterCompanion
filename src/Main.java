@@ -124,6 +124,16 @@ public class Main {
     }
 
     /**
+     * Checks if a map name is a valid map found in <code>maps.txt</code>.
+     *
+     * @param map Full name of a map to check
+     * @return
+     */
+    private static boolean isValidMap(String map) {
+        return false;
+    }
+
+    /**
      * Changes the current map.
      * DOES NOT CHECK FOR VALIDITY OF INPUT, HOWEVER INPUT MUST BE VALID
      *
@@ -160,7 +170,7 @@ public class Main {
      *  and `"TeamShort" + teamIdentifier + ".txt"`
      *
      * @param newTeamName Name of the team. MUST BE A VALID TEAM!
-     * @param teamIdentifier Either "A" or "B".
+     * @param teamIdentifier Either "A" or "B". {@// TODO: 6/17/21 update, can be more than just A/B }
      * @return success or fail
      * @throws IOException
      */
@@ -182,7 +192,7 @@ public class Main {
 
         //update output file "TeamShortX.txt"
         Writer fileWriter2 = new FileWriter(outputPath + teamShortTXT); //TeamShortX.txt
-        String shortname = getShortName(newTeamName);
+        String shortname = getShortName(newTeamName); //todo will fail if doesnt exist, should call this method first to determine validity of team long name
         if (shortname != null) {
             fileWriter2.write(shortname); //write shortName to file
         } else {
@@ -204,7 +214,7 @@ public class Main {
         }
         //find specific team's logo from list
         Path teamLogo = findFile(allTeamImages, newTeamName);
-        if (teamLogo == null) {
+        if (teamLogo == null) { //todo remove current output teamLogo if no logo can be sourced for new team?
             System.err.println("team logo not found!");
             return false;
         }
@@ -235,7 +245,7 @@ public class Main {
                     //copy from teamLogo Path to TeamX.png
                     Files.copy(Paths.get(inputPath + "team_logos" + File.separator + newTeamName + ".png"),Paths.get(outputPath + "Team" + teamIdentifier + ".png"), StandardCopyOption.REPLACE_EXISTING);
 
-                } else {
+                } else { //todo, remove current output team logo if new logo cannot be converted
                     System.out.println("Image could not be converted to PNG");
                 }
             } catch (IOException exception) {
@@ -280,9 +290,10 @@ public class Main {
     /**
      * Parses `teams.txt` to get a team's longName from its shortName.
      * Case insensitive search. Uppercase return.
+     * Can be used to verify the existence of a team by their full team name.
      *
      * @param longName longName to find corresponding shortName of
-     * @return Returns null or shortName.
+     * @return Shortname, or null if no shortname can be found
      * @throws FileNotFoundException
      */
     public static String getShortName(String longName) throws FileNotFoundException {
