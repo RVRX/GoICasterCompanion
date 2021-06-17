@@ -15,7 +15,7 @@ public class Main {
     public static String inputPath = System.getProperty("user.dir") + File.separator + "input" + File.separator;
 
     public static void main(String[] args) {
-        System.out.println("Welcome to GoIStreamToolRedux CLI!\n\nAwaiting User input...");
+        System.out.println("Welcome to GoIStreamToolRedux CLI!\ntype 'help' for more info\nAwaiting User input...");
         boolean live = true;
         Scanner scanner = new Scanner(System.in);
         while (live) {
@@ -28,27 +28,31 @@ public class Main {
     private static void CLIParse(String input) {
         Scanner scanner = new Scanner(System.in); //stdin
 
-        String parsedInput = "";
-        if (input.contains(" ")) {
-            parsedInput = input.substring(0,input.indexOf(" "));
-        } else {
-            parsedInput = input;
-        }
-
-        switch (parsedInput.toLowerCase()) {
+        switch (input) {
             case "quit": case "exit": case "q":
                 System.out.println("exiting...");
                 System.exit(0);
                 break;
             case "help":
-                System.out.println("'setTeam' or 'st' to set a new team");
-                System.out.println("'setMap' or 'sm' to set current map");
-                System.out.println("'verify' to verify existence of required folders");
-                System.out.println("'settimer' to set timer length"); //todo implement setTimer()
-                System.out.println("'starttimer' to start timer"); //todo implement startTimer()
-                System.out.println("'setnumber' to set tournament number");
+                System.out.println("     TOURNAMENT NUMBER");
+                System.out.println("'number set', update current tourney number");
+
+//                System.out.println("     TIMER");
+//                System.out.println("'timer add', add time to timer");
+//                System.out.println("'timer set', set timer length");
+//                System.out.println("'timer start', start timer");
+//                System.out.println("'timer cancel', end timer");
+
+                System.out.println("     TEAMS");
+//                System.out.println("'team add', add a team");
+//                System.out.println("'team remove', remove a team");
+                System.out.println("'team set', set an active team (MAIN FCN)");
+
+                System.out.println("     MAPS");
+                System.out.println("'map set', set current map");
+
                 break;
-            case "setteam": case "st":
+            case "team set": case "ts":
                 System.out.print("Enter team's full name: ");
                 String teamName = scanner.nextLine();
                 System.out.print("\nEnter team's letter: ");
@@ -65,7 +69,8 @@ public class Main {
                     System.err.println(exception.getMessage());
                 }
                 break;
-            case "setmap": case "sm":
+
+            case "map set": case "ms":
                 System.out.print("Enter full map name: ");
                 String mapName = scanner.nextLine();
                 try {
@@ -80,7 +85,8 @@ public class Main {
                     System.err.println("I/O Error! reason: " + exception.getMessage());
                 }
                 break;
-            case "setnumber":
+
+            case "number set":
                 System.out.print("Enter tournament number: ");
                 String tourneyNumber = scanner.nextLine();
                     if (setTourneyNumber(tourneyNumber)) {
@@ -89,11 +95,13 @@ public class Main {
                         System.err.println("Failed to update current tournament number.");
                     }
                 break;
+
             case "verify": case "v":
                 if (verifyFolders()) {
                     System.out.println("All folders verified!");
                 } else System.err.println("Folder recreation failed!");
                 break;
+
             default:
                 System.out.println("Unknown Input. Type 'help' for commands");
         }
@@ -160,7 +168,7 @@ public class Main {
      * Checks if a map name is a valid map found in <code>maps.txt</code>.
      *
      * @param map Full name of a map to check
-     * @return
+     * @return <code>true</code> if map was found in maps.txt; <code>false</code> otherwise.
      */
     private static boolean isValidMap(String map) throws FileNotFoundException {
         //open Maps.txt
@@ -178,13 +186,10 @@ public class Main {
     }
 
     /**
-     * Changes the current map.
-     * DOES NOT CHECK FOR VALIDITY OF INPUT, HOWEVER INPUT MUST BE VALID
+     * Sets the current map.
      *
-     * {@// TODO: 6/17/21 error handling, check up on file writes! }
-     *
-     * @param mapName
-     * @return
+     * @param mapName Name of map to be set as current.
+     * @return false if map could not be updated (Doesnt exist, IO error). True otherwise.
      * @throws IOException
      */
     private static boolean setMap(String mapName) throws IOException {
@@ -315,7 +320,7 @@ public class Main {
                     //copy from teamLogo Path to TeamX.png
                     Files.copy(Paths.get(inputPath + "team_logos" + File.separator + newTeamName + ".png"),Paths.get(outputPath + "Team" + teamIdentifier + ".png"), StandardCopyOption.REPLACE_EXISTING);
 
-                } else { //todo, remove current output team logo if new logo cannot be converted
+                } else {
                     System.err.println("Image could not be converted to PNG");
                     //remove current output team logo to prevent mismatch
                     // better to have right text and no logo, than right text and wrong logo.
