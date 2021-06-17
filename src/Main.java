@@ -31,6 +31,7 @@ public class Main {
     }
 
     private static void CLIParse(String input) {
+        Scanner scanner = new Scanner(System.in); //stdin
 
         String parsedInput = "";
         if (input.contains(" ")) {
@@ -52,7 +53,6 @@ public class Main {
                 break;
             case "setteam": case "st":
                 System.out.print("Enter team's full name: ");
-                Scanner scanner = new Scanner(System.in);
                 String teamName = scanner.nextLine();
                 System.out.print("\nEnter team's letter: ");
                 String teamLetter = scanner.nextLine();
@@ -66,9 +66,39 @@ public class Main {
                     exception.printStackTrace();
                 }
                 break;
+            case "setmap": case "sm":
+                System.out.print("Enter full map name: ");
+                String mapName = scanner.nextLine();
+                try {
+                    if (setMap(mapName)) {
+                        System.out.println("Current Map Updated!");
+                    } else {
+                        System.out.println("Failed to Update Current Map");
+                    }
+                } catch (IOException exception) {
+                    exception.printStackTrace();
+                }
             default:
                 System.out.println("Unknown Input. Type 'help' for commands");
         }
+    }
+
+    /**
+     * Changes the current map.
+     *
+     * @param mapName
+     * @return
+     * @throws IOException
+     */
+    private static boolean setMap(String mapName) throws IOException {
+//        Files.copy(teamLogo,Paths.get(outputPath + "Team" + teamIdentifier + ".png"), StandardCopyOption.REPLACE_EXISTING);
+
+        /*--- Update Map.png ---*/
+        /*todo*/
+
+        /*--- Update Map.txt ---*/
+        /*todo*/
+        return false;
     }
 
     /**
