@@ -117,7 +117,7 @@ public class Main {
                     }
 
                     //copy from teamLogo Path to TeamX.png
-                    Files.copy(teamLogo,Paths.get(outputPath + "Team" + teamIdentifier + ".png"), StandardCopyOption.REPLACE_EXISTING);
+                    Files.copy(Paths.get(inputPath + "team_logos" + File.separator + newTeamName + ".png"),Paths.get(outputPath + "Team" + teamIdentifier + ".png"), StandardCopyOption.REPLACE_EXISTING);
 
                 } else {
                     System.out.println("Image could not be converted to PNG");
@@ -205,7 +205,6 @@ public class Main {
 
         // writes to the output image in specified format
         boolean result = ImageIO.write(inputImage, formatName, outputStream);
-        System.out.println("RESULT! = " + result);
 
         // needs to close the streams
         outputStream.close();
