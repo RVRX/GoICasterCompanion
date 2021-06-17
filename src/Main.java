@@ -163,8 +163,18 @@ public class Main {
      * @param map Full name of a map to check
      * @return
      */
-    private static boolean isValidMap(String map) {
-        //todo implement isValidMap()
+    private static boolean isValidMap(String map) throws FileNotFoundException {
+        //open Maps.txt
+        File teamsTXT = new File(inputPath + "maps.txt");
+        Scanner scanner = new Scanner(teamsTXT);
+        //parse through File for 'map'
+        while (scanner.hasNext()) {
+            String line = scanner.nextLine();
+            if (line.equalsIgnoreCase(map)) {
+                return true;
+            }
+        }
+
         return false;
     }
 
@@ -179,6 +189,17 @@ public class Main {
      * @throws IOException
      */
     private static boolean setMap(String mapName) throws IOException {
+
+        /*--- Check Map Validity ---*/
+        try {
+            if (!isValidMap(mapName)) {
+                System.err.println("That map does not exist.");
+                return false;
+            }
+        } catch (FileNotFoundException e) {
+            System.err.println("Map file could not be found, reason:" + e.getMessage());
+            return false;
+        }
 
         /*--- Update Map.png ---*/
         //copy map from map_images
