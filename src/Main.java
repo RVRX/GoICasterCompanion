@@ -32,7 +32,14 @@ public class Main {
 
     private static void CLIParse(String input) {
 
-        switch (inputTrimmed(input).toLowerCase()) {
+        String parsedInput = "";
+        if (input.contains(" ")) {
+            parsedInput = input.substring(0,input.indexOf(" "));
+        } else {
+            parsedInput = input;
+        }
+
+        switch (parsedInput.toLowerCase()) {
             case "quit": case "exit": case "q":
                 System.out.println("exiting...");
                 System.exit(0);
@@ -61,19 +68,6 @@ public class Main {
                 break;
             default:
                 System.out.println("Unknown Input. Type 'help' for commands");
-        }
-    }
-
-    /**
-     * Trims off everything after space
-     * @param input
-     * @return
-     */
-    private static String inputTrimmed(String input) {
-        if (input.contains(" ")) {
-            return input.substring(0,input.indexOf(" "));
-        } else {
-            return input;
         }
     }
 
