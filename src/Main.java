@@ -54,7 +54,7 @@ public class Main {
         Writer fileWriter2 = new FileWriter(outputPath + teamShortTXT); //TeamShortX.txt
         String shortname = getShortName(newTeamName);
         if (shortname != null) {
-            fileWriter2.write(getShortName(newTeamName)); //todo get shortname from input/teams.txt
+            fileWriter2.write(shortname); //write shortName to file
         } else {
             System.err.println("Shortname Could not be found!");
             return false;
@@ -80,7 +80,8 @@ public class Main {
     }
 
     /**
-     * Parses `teams.txt` to get a team's longName from its shortName
+     * Parses `teams.txt` to get a team's longName from its shortName.
+     * Case insensitive search. Uppercase return.
      *
      * @param longName longName to find corresponding shortName of
      * @return Returns null or shortName.
@@ -93,9 +94,9 @@ public class Main {
         //parse through File for longName
         while (scanner.hasNext()) {
             String line = scanner.nextLine().toLowerCase();
-            if (line.contains(longName)) {
+            if (line.contains(longName.toLowerCase())) {
                 //long name line has been found, get shortname.
-                return line.substring(line.indexOf("|"));
+                return line.substring(line.indexOf("|") + 1).toUpperCase();
             }
         }
         return null;
