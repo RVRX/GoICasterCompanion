@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Scanner;
 import java.util.stream.Stream;
@@ -63,6 +64,8 @@ public class Main {
                     }
                 } catch (IOException exception) {
                     exception.printStackTrace();
+                } catch (IllegalArgumentException exception) {
+                    System.err.println(exception.getMessage());
                 }
                 break;
             case "setmap": case "sm":
@@ -195,12 +198,24 @@ public class Main {
      *  File name formatted as `"Team" + teamIdentifier + ".txt"`,
      *  and `"TeamShort" + teamIdentifier + ".txt"`
      *
-     * @param newTeamName Name of the team. MUST BE A VALID TEAM!
-     * @param teamIdentifier Either "A" or "B". {@// TODO: 6/17/21 update, can be more than just A/B }
+     * @param newTeamName Name of the team. Must occur in teams.txt
+     * @param teamIdentifier Value to identify team. Must be a valid character for filesystem
      * @return success or fail
-     * @throws IOException
+     * @throws IOException error writing, reading, or converting files.
+     * @throws IllegalArgumentException Thrown if fcn args contain invalid characters or do not correspond to a team in teams.txt
      */
-    static boolean setTeam(String newTeamName, String teamIdentifier) throws IOException {
+    static boolean setTeam(String newTeamName, String teamIdentifier) throws IOException, IllegalArgumentException {
+
+        //throw exception if teamIdentifier contains filesystem illegal characters
+        final String[] ILLEGAL_CHARACTERS = { "/", "\n", "\r", "\t", "\0", "\f", "`", "?", "*", "\\", "<", ">", "|", "\"", ":", ".", ".." };
+        if (Arrays.stream(ILLEGAL_CHARACTERS).anyMatch(teamIdentifier::contains)) {
+            throw new IllegalArgumentException("Team identifier contains illegal characters");
+        }
+        //throw exception if team name has the separator character "|" used by teams.txt
+        if (newTeamName.contains("|")) {
+            throw new IllegalArgumentException("Team name contains illegal character, '|'");
+        }
+
         teamIdentifier = teamIdentifier.toUpperCase();
         System.out.println("setTeam("+newTeamName+","+teamIdentifier+")");
 
@@ -210,23 +225,22 @@ public class Main {
         String teamTXT = "Team" + teamIdentifier + ".txt";
         String teamShortTXT = "TeamShort" + teamIdentifier + ".txt";
 
+        //update output file "TeamShortX.txt"
+        Writer fileWriter2 = new FileWriter(outputPath + teamShortTXT); //TeamShortX.txt
+        String shortname = getShortName(newTeamName);
+        if (shortname == null) {
+            throw new IllegalArgumentException("Team '" + newTeamName + "' does not exist in teams.txt");
+        }
+        fileWriter2.write(shortname); //write shortName to file
+        fileWriter2.close();
+        System.out.println(teamShortTXT + " updated.");
+
         //update output file "TeamX.txt"
         Writer fileWriter = new FileWriter(outputPath + teamTXT); //TeamX.txt
         fileWriter.write(newTeamName);
         fileWriter.close();
         System.out.println(teamTXT + " updated.");
 
-        //update output file "TeamShortX.txt"
-        Writer fileWriter2 = new FileWriter(outputPath + teamShortTXT); //TeamShortX.txt
-        String shortname = getShortName(newTeamName); //todo will fail if doesnt exist, should call this method first to determine validity of team long name
-        if (shortname != null) {
-            fileWriter2.write(shortname); //write shortName to file
-        } else {
-            System.err.println("Shortname Could not be found!");
-            return false;
-        }
-        fileWriter2.close();
-        System.out.println(teamShortTXT + " updated.");
 
 
         /*--- Update Image ---*/
@@ -240,8 +254,12 @@ public class Main {
         }
         //find specific team's logo from list
         Path teamLogo = findFile(allTeamImages, newTeamName);
-        if (teamLogo == null) { //todo remove current output teamLogo if no logo can be sourced for new team?
+        if (teamLogo == null) {
             System.err.println("team logo not found!");
+            //remove current output team logo to prevent mismatch
+            // better to have right text and no logo, than right text and wrong logo.
+            File outputTeamLogo = new File(outputPath + "Team" + teamIdentifier + ".png");
+            outputTeamLogo.delete();
             return false;
         }
         System.out.println("Found Team logo: " + teamLogo);
@@ -264,7 +282,7 @@ public class Main {
                         System.out.println("File deleted successfully");
                     }
                     else {
-                        System.out.println("Failed to delete the file");
+                        System.err.println("Failed to delete the file");
                         return false;
                     }
 
@@ -272,10 +290,14 @@ public class Main {
                     Files.copy(Paths.get(inputPath + "team_logos" + File.separator + newTeamName + ".png"),Paths.get(outputPath + "Team" + teamIdentifier + ".png"), StandardCopyOption.REPLACE_EXISTING);
 
                 } else { //todo, remove current output team logo if new logo cannot be converted
-                    System.out.println("Image could not be converted to PNG");
+                    System.err.println("Image could not be converted to PNG");
+                    //remove current output team logo to prevent mismatch
+                    // better to have right text and no logo, than right text and wrong logo.
+                    File outputTeamLogo = new File(outputPath + "Team" + teamIdentifier + ".png");
+                    outputTeamLogo.delete();
                 }
             } catch (IOException exception) {
-                System.out.println("Error during converting image.");
+                System.err.println("Error during converting image.");
                 exception.printStackTrace();
                 return false;
             }
