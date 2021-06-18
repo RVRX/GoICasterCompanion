@@ -1,6 +1,7 @@
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.net.URL;
 import java.nio.file.*;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -364,19 +365,28 @@ public class Main {
     /**
      * Adds a team with a logo
      * Updates <code>teams.txt</code> and the corresponding image
+     *
+     * {@// TODO: 6/17/21 https://stackoverflow.com/a/41069565/10714709 need to modify request}
      * @param fullName
      * @param shortName
      * @param url
      */
-    static void addTeam(String fullName, String shortName, String url) throws IOException {
-        //add team to txt
-        addTeam(fullName, shortName);
-
-        //add image
-        /*todo*/
+    static void addTeam(String fullName, String shortName, URL url) throws IOException {
+//        //add team to txt
+//        addTeam(fullName, shortName);
+//
+//        //parse url extension/filetype
+//        String file = url.getFile();
+//        String extension = file.substring(file.indexOf(".")); //includes "."
+//
+//        //download image to file
+//        try(InputStream in = url.openStream()){
+//            Files.copy(in, Paths.get(outputPath + fullName + extension));
+//        }
     }
 
     /**
+     * {@// FIXME: 6/17/21 implement fcn}
      * Adds a team with no logo
      * Updates <code>teams.txt</code>.
      * @param fullName
@@ -384,11 +394,11 @@ public class Main {
      * @param logo
      */
     static void addTeam(String fullName, String shortName, File logo) throws IOException {
-        //add team to txt
-        addTeam(fullName, shortName);
-
-        //add image
-        /*todo*/
+//        //add team to txt
+//        addTeam(fullName, shortName);
+//
+//        //add image
+//
     }
 
     /**
