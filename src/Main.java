@@ -16,7 +16,7 @@ public class Main {
     public static String inputPath = System.getProperty("user.dir") + File.separator + "input" + File.separator;
 
     public static void main(String[] args) {
-        System.out.println("Welcome to GoIStreamToolRedux CLI!\ntype 'help' for more info\nAwaiting User input...");
+        System.out.println("Welcome to GoIStreamToolRedux CLI!\ntype 'help' for more info. Type 'verify' if first start.\nAwaiting User input...");
         boolean live = true;
         Scanner scanner = new Scanner(System.in);
         while (live) {
@@ -189,6 +189,30 @@ public class Main {
                 status = false;
             }
         } else System.out.println("Output folder found");
+
+        //check map_images folder
+        Path map_imagesPathObject = Paths.get(inputPath + "map_images");
+        if (!Files.exists(outputPathObject)) {
+            System.out.println("map_images folder cannot be found... recreating");
+            if (outputPathObject.toFile().mkdirs()) {
+                System.out.println("map_images folder created successfully");
+            } else {
+                System.err.println("Error when creating map_images directory!");
+                status = false;
+            }
+        } else System.out.println("map_images folder found");
+
+        //check team_logos folder
+        Path team_logosPathObject = Paths.get(inputPath + "team_logos");
+        if (!Files.exists(outputPathObject)) {
+            System.out.println("team_logos folder cannot be found... recreating");
+            if (outputPathObject.toFile().mkdirs()) {
+                System.out.println("team_logos folder created successfully");
+            } else {
+                System.err.println("Error when creating team_logos directory!");
+                status = false;
+            }
+        } else System.out.println("team_logos folder found");
 
         return status;
     }
