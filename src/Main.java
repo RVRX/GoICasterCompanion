@@ -45,7 +45,7 @@ public class Main {
 //                System.out.println("'timer cancel', end timer");
 
                 System.out.println("     TEAMS");
-//                System.out.println("'team add', add a team");
+                System.out.println("'team add', add a team (no image)");
 //                System.out.println("'team remove', remove a team");
                 System.out.println("'team set', set an active team (MAIN FCN)");
 
@@ -104,9 +104,13 @@ public class Main {
                 } else System.err.println("Folder recreation failed!");
                 break;
 
-            case "temp addteam":
+            case "team add":
+                System.out.println("Enter Team Name: ");
+                String fullName = scanner.nextLine();
+                System.out.println("Enter team abbreviation: ");
+                String  shortName = scanner.nextLine();
                 try {
-                    addTeam("Full Team Name", "FTL");
+                    addTeam(fullName, shortName);
                 } catch (IOException exception) {
                     exception.printStackTrace();
                 }
