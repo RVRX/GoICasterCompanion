@@ -290,15 +290,9 @@ public class Main {
      */
     public static boolean setTeam(String newTeamName, String teamIdentifier) throws IOException, IllegalArgumentException {
 
-        //throw exception if teamIdentifier contains filesystem illegal characters
-        final String[] ILLEGAL_CHARACTERS = { "/", "\n", "\r", "\t", "\0", "\f", "`", "?", "*", "\\", "<", ">", "|", "\"", ":", ".", ".." };
-        if (Arrays.stream(ILLEGAL_CHARACTERS).anyMatch(teamIdentifier::contains)) {
-            throw new IllegalArgumentException("Team identifier contains illegal characters");
-        }
-        //throw exception if team name has the separator character "|" used by teams.txt
-        if (newTeamName.contains("|")) {
-            throw new IllegalArgumentException("Team name contains illegal character, '|'");
-        }
+        //check for illegal characters in input
+        if (checkCharLegality(newTeamName) || checkCharLegality(teamIdentifier)) throw new IllegalArgumentException("Invalid team name or identifier");
+
 
         teamIdentifier = teamIdentifier.toUpperCase();
         System.out.println("setTeam("+newTeamName+","+teamIdentifier+")");
@@ -389,6 +383,20 @@ public class Main {
 
         //successful finish
         return true;
+    }
+
+    /**
+     * Check if a string contains illegal characters for the filesystem.
+     * This is not an all-inclusive list, but should deal with most erroneous inputs.
+     *
+     * @param stringToCheck A string intended to be part of a file name, that needs checking.
+     * @return
+     * @throws IllegalArgumentException
+     */
+    private static boolean checkCharLegality(String stringToCheck) {
+        //throw exception if stringToCheck contains filesystem illegal characters
+        final String[] ILLEGAL_CHARACTERS = { "/", "\n", "\r", "\t", "\0", "\f", "`", "?", "*", "\\", "<", ">", "|", "\"", ":", ".", ".." };
+        return Arrays.stream(ILLEGAL_CHARACTERS).noneMatch(stringToCheck::contains);
     }
 
     /**
