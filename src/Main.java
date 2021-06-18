@@ -106,9 +106,23 @@ public class Main {
 
             case "team add":
                 System.out.println("Enter Team Name: ");
+                String fullName0 = scanner.nextLine();
+                System.out.println("Enter team abbreviation: ");
+                String shortName0 = scanner.nextLine();
+                System.out.println("Enter image path: ");
+                Path imagePath = Paths.get(scanner.nextLine());
+                try {
+                    addTeam(fullName0, shortName0, imagePath);
+                } catch (IOException exception) {
+                    exception.printStackTrace();
+                }
+                break;
+
+            case "team add-noimg":
+                System.out.println("Enter Team Name: ");
                 String fullName = scanner.nextLine();
                 System.out.println("Enter team abbreviation: ");
-                String  shortName = scanner.nextLine();
+                String shortName = scanner.nextLine();
                 try {
                     addTeam(fullName, shortName);
                 } catch (IOException exception) {
@@ -364,6 +378,20 @@ public class Main {
 
         //add string to teams.txt
         Files.write(Paths.get(inputPath + "teams.txt"), newTeamLine.getBytes(), StandardOpenOption.APPEND);
+    }
+
+    static void addTeam(String fullName, String shortName, Path image) throws IOException {
+        //add team to txt
+        addTeam(fullName, shortName);
+
+        //parse image filetype
+        String file = image.getFileName().toString();
+        String ext = file.substring(file.indexOf(".")); //fixme will error if path is not a file/doesnt have an extension
+
+
+        //add image
+        // copy from image Path to input/team_logos/fullName.ext
+        Files.copy(image, Paths.get(inputPath + "team_logos" + File.separator + fullName + ext));
     }
 
     /**
