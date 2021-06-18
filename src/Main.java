@@ -61,7 +61,8 @@ public class Main {
                     if (setTeam(teamName,teamLetter)) {
                         System.out.println("Updated!");
                     } else {
-                        System.err.println("Failed to Update Team Completely. Risk of Incomplete update!");
+                        System.out.println("Failed to Update Team Completely. Risk of Incomplete update! " +
+                                "Check the previous error message for details");
                     }
                 } catch (IOException exception) {
                     exception.printStackTrace();
@@ -100,6 +101,14 @@ public class Main {
                 if (verifyFolders()) {
                     System.out.println("All folders verified!");
                 } else System.err.println("Folder recreation failed!");
+                break;
+
+            case "temp addteam":
+                try {
+                    addTeam("Full Team Name", "FTL");
+                } catch (IOException exception) {
+                    exception.printStackTrace();
+                }
                 break;
 
             default:
@@ -336,6 +345,50 @@ public class Main {
 
         //successful finish
         return true;
+    }
+
+    /**
+     * Adds a team with no logo
+     * Updates <code>teams.txt</code>.
+     * @param fullName
+     * @param shortName
+     */
+    static void addTeam(String fullName, String shortName) throws IOException {
+        //create string
+        String newTeamLine = System.lineSeparator() + fullName + "|" + shortName;
+
+        //add string to teams.txt
+        Files.write(Paths.get(inputPath + "teams.txt"), newTeamLine.getBytes(), StandardOpenOption.APPEND);
+    }
+
+    /**
+     * Adds a team with a logo
+     * Updates <code>teams.txt</code> and the corresponding image
+     * @param fullName
+     * @param shortName
+     * @param url
+     */
+    static void addTeam(String fullName, String shortName, String url) throws IOException {
+        //add team to txt
+        addTeam(fullName, shortName);
+
+        //add image
+        /*todo*/
+    }
+
+    /**
+     * Adds a team with no logo
+     * Updates <code>teams.txt</code>.
+     * @param fullName
+     * @param shortName
+     * @param logo
+     */
+    static void addTeam(String fullName, String shortName, File logo) throws IOException {
+        //add team to txt
+        addTeam(fullName, shortName);
+
+        //add image
+        /*todo*/
     }
 
     /**
