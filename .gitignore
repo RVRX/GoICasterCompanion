@@ -30,3 +30,15 @@
 *.exe
 *.out
 *.app
+out/*
+
+# CMake
+CMakeLists.txt
+cmake-build-debug
+
+# Jetbrains IDE files
+.idea/*
+
+# Input and Output folders
+input/*
+output/*
