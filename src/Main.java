@@ -35,8 +35,8 @@ public class Main {
                 System.exit(0);
                 break;
             case "help":
-                System.out.println("     TOURNAMENT NUMBER");
-                System.out.println("'number set', update current tourney number");
+                System.out.println("TOURNAMENT NUMBER");
+                System.out.println("    'number set', update current tourney number");
 
 //                System.out.println("     TIMER");
 //                System.out.println("'timer add', add time to timer");
@@ -44,13 +44,14 @@ public class Main {
 //                System.out.println("'timer start', start timer");
 //                System.out.println("'timer cancel', end timer");
 
-                System.out.println("     TEAMS");
-                System.out.println("'team add', add a team (no image)");
+                System.out.println("TEAMS");
+                System.out.println("    'team add', add a team");
+                System.out.println("    'team add-noimg', add a team (no image)");
 //                System.out.println("'team remove', remove a team");
-                System.out.println("'team set', set an active team (MAIN FCN)");
+                System.out.println("    'team set', set an active team (MAIN FCN)");
 
-                System.out.println("     MAPS");
-                System.out.println("'map set', set current map");
+                System.out.println("MAPS");
+                System.out.println("    'map set', set current map");
 
                 break;
             case "team set": case "ts":
@@ -444,20 +445,6 @@ public class Main {
                 return aPath;
             }
         }
-        return null;
-    }
-
-
-    /**
-     * Parses `teams.txt` to get a team's longName from its shortName
-     */
-    String getLongName(String shortName) {
-        //todo open input/teams.txt
-
-        //todo parse through File for shortName
-
-        //todo get and return corresponding longName
-
         return null;
     }
 
