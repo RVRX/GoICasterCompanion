@@ -11,9 +11,9 @@ import java.util.stream.Stream;
 public class Main {
 
     //System independent path to output folder
-    public static String outputPath = System.getProperty("user.dir") + File.separator + "output" + File.separator;
+    protected static String outputPath = System.getProperty("user.dir") + File.separator + "output" + File.separator;
     //System independent path to input folder
-    public static String inputPath = System.getProperty("user.dir") + File.separator + "input" + File.separator;
+    protected static String inputPath = System.getProperty("user.dir") + File.separator + "input" + File.separator;
 
     public static void main(String[] args) {
         System.out.println("Welcome to GoIStreamToolRedux CLI!\ntype 'help' for more info. Type 'verify' if first start.\nAwaiting User input...");
@@ -142,7 +142,7 @@ public class Main {
      * @param number new number representing current tournament
      * @return false if IO operation failed
      */
-    private static boolean setTourneyNumber(String number) {
+    public static boolean setTourneyNumber(String number) {
         //write 'number' to TournamentNumber.txt
         try {
             Writer fileWriter = new FileWriter(outputPath + "TournamentNumber.txt");
@@ -162,7 +162,7 @@ public class Main {
      *
      * @return <code>true</code> if folders found or recreation successful; <code>false</code> otherwise.
      */
-    private static boolean verifyFolders() {
+    public static boolean verifyFolders() {
         System.out.println("verifying folders");
         boolean status = true;
 
@@ -245,7 +245,7 @@ public class Main {
      * @return false if map could not be updated (Doesnt exist, IO error). True otherwise.
      * @throws IOException
      */
-    private static boolean setMap(String mapName) throws IOException {
+    public static boolean setMap(String mapName) throws IOException {
 
         /*--- Check Map Validity ---*/
         try {
@@ -288,7 +288,7 @@ public class Main {
      * @throws IOException error writing, reading, or converting files.
      * @throws IllegalArgumentException Thrown if fcn args contain invalid characters or do not correspond to a team in teams.txt
      */
-    static boolean setTeam(String newTeamName, String teamIdentifier) throws IOException, IllegalArgumentException {
+    public static boolean setTeam(String newTeamName, String teamIdentifier) throws IOException, IllegalArgumentException {
 
         //throw exception if teamIdentifier contains filesystem illegal characters
         final String[] ILLEGAL_CHARACTERS = { "/", "\n", "\r", "\t", "\0", "\f", "`", "?", "*", "\\", "<", ">", "|", "\"", ":", ".", ".." };
@@ -397,7 +397,7 @@ public class Main {
      * @param fullName
      * @param shortName
      */
-    static void addTeam(String fullName, String shortName) throws IOException {
+    public static void addTeam(String fullName, String shortName) throws IOException {
         //create string
         String newTeamLine = System.lineSeparator() + fullName + "|" + shortName;
 
@@ -405,7 +405,7 @@ public class Main {
         Files.write(Paths.get(inputPath + "teams.txt"), newTeamLine.getBytes(), StandardOpenOption.APPEND);
     }
 
-    static void addTeam(String fullName, String shortName, Path image) throws IOException {
+    public static void addTeam(String fullName, String shortName, Path image) throws IOException {
         //add team to txt
         addTeam(fullName, shortName);
 
@@ -428,7 +428,7 @@ public class Main {
      * @param shortName
      * @param url
      */
-    static void addTeam(String fullName, String shortName, URL url) throws IOException {
+    public static void addTeam(String fullName, String shortName, URL url) throws IOException {
 //        //add team to txt
 //        addTeam(fullName, shortName);
 //
@@ -450,7 +450,7 @@ public class Main {
      * @param shortName
      * @param logo
      */
-    static void addTeam(String fullName, String shortName, File logo) throws IOException {
+    public static void addTeam(String fullName, String shortName, File logo) throws IOException {
 //        //add team to txt
 //        addTeam(fullName, shortName);
 //
