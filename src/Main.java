@@ -1,7 +1,6 @@
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.net.URL;
 import java.nio.file.*;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -11,9 +10,9 @@ import java.util.stream.Stream;
 public class Main {
 
     //System independent path to output folder
-    public static String outputPath = System.getProperty("user.dir") + File.separator + "output" + File.separator;
+    protected static String outputPath = System.getProperty("user.dir") + File.separator + "output" + File.separator;
     //System independent path to input folder
-    public static String inputPath = System.getProperty("user.dir") + File.separator + "input" + File.separator;
+    protected static String inputPath = System.getProperty("user.dir") + File.separator + "input" + File.separator;
 
     public static void main(String[] args) {
         System.out.println("Welcome to GoIStreamToolRedux CLI!\ntype 'help' for more info. Type 'verify' if first start.\nAwaiting User input...");
@@ -38,16 +37,9 @@ public class Main {
                 System.out.println("TOURNAMENT NUMBER");
                 System.out.println("    'number set', update current tourney number");
 
-//                System.out.println("     TIMER");
-//                System.out.println("'timer add', add time to timer");
-//                System.out.println("'timer set', set timer length");
-//                System.out.println("'timer start', start timer");
-//                System.out.println("'timer cancel', end timer");
-
                 System.out.println("TEAMS");
                 System.out.println("    'team add', add a team");
                 System.out.println("    'team add-noimg', add a team (no image)");
-//                System.out.println("'team remove', remove a team");
                 System.out.println("    'team set', set an active team (MAIN FCN)");
 
                 System.out.println("MAPS");
@@ -60,12 +52,7 @@ public class Main {
                 System.out.print("\nEnter team's letter: ");
                 String teamLetter = scanner.nextLine();
                 try {
-                    if (setTeam(teamName,teamLetter)) {
-                        System.out.println("Updated!");
-                    } else {
-                        System.out.println("Failed to Update Team Completely. Risk of Incomplete update! " +
-                                "Check the previous error message for details");
-                    }
+                    setTeam(teamName,teamLetter);
                 } catch (IOException exception) {
                     exception.printStackTrace();
                 } catch (IllegalArgumentException exception) {
@@ -100,9 +87,13 @@ public class Main {
                 break;
 
             case "verify": case "v":
-                if (verifyFolders()) {
+                try {
+                    verifyContent();
                     System.out.println("All folders verified!");
-                } else System.err.println("Folder recreation failed!");
+                } catch (IOException exception) {
+                    System.err.println("Folder recreation failed!");
+                    exception.printStackTrace();
+                }
                 break;
 
             case "team add":
@@ -142,7 +133,7 @@ public class Main {
      * @param number new number representing current tournament
      * @return false if IO operation failed
      */
-    private static boolean setTourneyNumber(String number) {
+    public static boolean setTourneyNumber(String number) {
         //write 'number' to TournamentNumber.txt
         try {
             Writer fileWriter = new FileWriter(outputPath + "TournamentNumber.txt");
@@ -160,11 +151,10 @@ public class Main {
     /**
      * Checks for <code>input</code> and <code>output</code> folders, creates them if necessary.
      *
-     * @return <code>true</code> if folders found or recreation successful; <code>false</code> otherwise.
+     * @throws IOException Error creating file or directory
      */
-    private static boolean verifyFolders() {
+    public static void verifyContent() throws IOException {
         System.out.println("verifying folders");
-        boolean status = true;
 
         //check input folder
         Path inputPathObject = Paths.get(inputPath);
@@ -173,8 +163,7 @@ public class Main {
             if (inputPathObject.toFile().mkdirs()) {
                 System.out.println("Input folder created successfully");
             } else {
-                System.err.println("Error when creating input directory!");
-                status = false;
+                throw new IOException("Error when creating input directory!");
             }
         } else System.out.println("Input folder found");
 
@@ -185,36 +174,39 @@ public class Main {
             if (outputPathObject.toFile().mkdirs()) {
                 System.out.println("Output folder created successfully");
             } else {
-                System.err.println("Error when creating output directory!");
-                status = false;
+                throw new IOException("Error when creating output directory!");
             }
         } else System.out.println("Output folder found");
 
         //check map_images folder
         Path map_imagesPathObject = Paths.get(inputPath + "map_images");
-        if (!Files.exists(outputPathObject)) {
+        if (!Files.exists(map_imagesPathObject)) {
             System.out.println("map_images folder cannot be found... recreating");
-            if (outputPathObject.toFile().mkdirs()) {
+            if (map_imagesPathObject.toFile().mkdirs()) {
                 System.out.println("map_images folder created successfully");
             } else {
-                System.err.println("Error when creating map_images directory!");
-                status = false;
+                throw new IOException("Error when creating map_images directory!");
             }
         } else System.out.println("map_images folder found");
 
         //check team_logos folder
         Path team_logosPathObject = Paths.get(inputPath + "team_logos");
-        if (!Files.exists(outputPathObject)) {
+        if (!Files.exists(team_logosPathObject)) {
             System.out.println("team_logos folder cannot be found... recreating");
-            if (outputPathObject.toFile().mkdirs()) {
+            if (team_logosPathObject.toFile().mkdirs()) {
                 System.out.println("team_logos folder created successfully");
             } else {
-                System.err.println("Error when creating team_logos directory!");
-                status = false;
+                throw new IOException("Error when creating team_logos directory!");
             }
         } else System.out.println("team_logos folder found");
 
-        return status;
+        //check maps.txt file
+        File maps = new File(inputPath + "maps.txt");
+        maps.createNewFile(); // if file already exists will do nothing
+
+        //check teams.txt
+        File teams = new File(inputPath + "teams.txt");
+        teams.createNewFile(); // if file already exists will do nothing
     }
 
     /**
@@ -243,9 +235,10 @@ public class Main {
      *
      * @param mapName Name of map to be set as current.
      * @return false if map could not be updated (Doesnt exist, IO error). True otherwise.
-     * @throws IOException
+     * @throws IOException IO error for maps.txt opening or writing
+     * @throws FileNotFoundException Likely error finding map file
      */
-    private static boolean setMap(String mapName) throws IOException {
+    public static boolean setMap(String mapName) throws IOException {
 
         /*--- Check Map Validity ---*/
         try {
@@ -254,8 +247,7 @@ public class Main {
                 return false;
             }
         } catch (FileNotFoundException e) {
-            System.err.println("Map file could not be found, reason:" + e.getMessage());
-            return false;
+            throw new FileNotFoundException("Map file could not be found, reason:" + e.getMessage());
         }
 
         /*--- Update Map.png ---*/
@@ -284,21 +276,14 @@ public class Main {
      *
      * @param newTeamName Name of the team. Must occur in teams.txt
      * @param teamIdentifier Value to identify team. Must be a valid character for filesystem
-     * @return success or fail
-     * @throws IOException error writing, reading, or converting files.
+     * @throws IOException error writing, reading, or converting files team files.
      * @throws IllegalArgumentException Thrown if fcn args contain invalid characters or do not correspond to a team in teams.txt
      */
-    static boolean setTeam(String newTeamName, String teamIdentifier) throws IOException, IllegalArgumentException {
+    public static void setTeam(String newTeamName, String teamIdentifier) throws IOException, IllegalArgumentException {
 
-        //throw exception if teamIdentifier contains filesystem illegal characters
-        final String[] ILLEGAL_CHARACTERS = { "/", "\n", "\r", "\t", "\0", "\f", "`", "?", "*", "\\", "<", ">", "|", "\"", ":", ".", ".." };
-        if (Arrays.stream(ILLEGAL_CHARACTERS).anyMatch(teamIdentifier::contains)) {
-            throw new IllegalArgumentException("Team identifier contains illegal characters");
-        }
-        //throw exception if team name has the separator character "|" used by teams.txt
-        if (newTeamName.contains("|")) {
-            throw new IllegalArgumentException("Team name contains illegal character, '|'");
-        }
+        //check for illegal characters in input
+        if (checkCharLegality(newTeamName) || checkCharLegality(teamIdentifier)) throw new IllegalArgumentException("Invalid team name or identifier");
+
 
         teamIdentifier = teamIdentifier.toUpperCase();
         System.out.println("setTeam("+newTeamName+","+teamIdentifier+")");
@@ -344,7 +329,7 @@ public class Main {
             // better to have right text and no logo, than right text and wrong logo.
             File outputTeamLogo = new File(outputPath + "Team" + teamIdentifier + ".png");
             outputTeamLogo.delete();
-            return false;
+            throw new NoSuchFileException("Team logo not found!");
         }
         System.out.println("Found Team logo: " + teamLogo);
 
@@ -366,8 +351,7 @@ public class Main {
                         System.out.println("File deleted successfully");
                     }
                     else {
-                        System.err.println("Failed to delete the file");
-                        return false;
+                        throw new IOException("Failed to delete the file");
                     }
 
                     //copy from teamLogo Path to TeamX.png
@@ -379,40 +363,61 @@ public class Main {
                     // better to have right text and no logo, than right text and wrong logo.
                     File outputTeamLogo = new File(outputPath + "Team" + teamIdentifier + ".png");
                     outputTeamLogo.delete();
+                    throw new IOException("Image could not be converted to PNG. Warning TXTs may already be updated!");
                 }
             } catch (IOException exception) {
-                System.err.println("Error during converting image.");
-                exception.printStackTrace();
-                return false;
+                throw new IOException("Error during converting or copying image. Reason: " + exception.getMessage(), exception);
             }
         }
+    }
 
-        //successful finish
-        return true;
+    /**
+     * Check if a string contains illegal characters for the filesystem.
+     * This is not an all-inclusive list, but should deal with most erroneous inputs.
+     *
+     * @param stringToCheck A string intended to be part of a file name, that needs checking.
+     * @return <code>true</code> if all chars are legal, <code>false</code> otherwise
+     */
+    private static boolean checkCharLegality(String stringToCheck) {
+        //throw exception if stringToCheck contains filesystem illegal characters
+        final String[] ILLEGAL_CHARACTERS = { "/", "\n", "\r", "\t", "\0", "\f", "`", "?", "*", "\\", "<", ">", "|", "\"", ":", ".", ".." };
+        return Arrays.stream(ILLEGAL_CHARACTERS).noneMatch(stringToCheck::contains);
     }
 
     /**
      * Adds a team with no logo
      * Updates <code>teams.txt</code>.
-     * @param fullName
-     * @param shortName
+     *
+     * @param fullName full team name to add
+     * @param shortName short name of team, will be converted to caps
+     * @throws IOException IO on teams.txt failed.
      */
-    static void addTeam(String fullName, String shortName) throws IOException {
+    public static void addTeam(String fullName, String shortName) throws IOException {
         //create string
-        String newTeamLine = System.lineSeparator() + fullName + "|" + shortName;
+        String newTeamLine = System.lineSeparator() + fullName + "|" + shortName.toUpperCase();
 
         //add string to teams.txt
         Files.write(Paths.get(inputPath + "teams.txt"), newTeamLine.getBytes(), StandardOpenOption.APPEND);
     }
 
-    static void addTeam(String fullName, String shortName, Path image) throws IOException {
+    /**
+     * Adds a team with no logo
+     * Updates <code>teams.txt</code>.
+     *
+     * @param fullName full team name to add
+     * @param shortName short name of team, will be converted to caps
+     * @param image Path to image file which will be added to input folder
+     * @throws IOException file copy for image failed, or IO to teams.txt failed
+     * @throws FileNotFoundException if the Path is a directory or extensionless file
+     */
+    public static void addTeam(String fullName, String shortName, Path image) throws IOException {
         //add team to txt
         addTeam(fullName, shortName);
 
         //parse image filetype
         String file = image.getFileName().toString();
-        String ext = file.substring(file.indexOf(".")); //fixme will error if path is not a file/doesnt have an extension
-
+        if (!file.contains(".")) throw new FileNotFoundException(""); // path cannot be a directory.
+        String ext = file.substring(file.indexOf("."));
 
         //add image
         // copy from image Path to input/team_logos/fullName.ext
@@ -420,53 +425,16 @@ public class Main {
     }
 
     /**
-     * Adds a team with a logo
-     * Updates <code>teams.txt</code> and the corresponding image
-     *
-     * {@// TODO: 6/17/21 https://stackoverflow.com/a/41069565/10714709 need to modify request}
-     * @param fullName
-     * @param shortName
-     * @param url
-     */
-    static void addTeam(String fullName, String shortName, URL url) throws IOException {
-//        //add team to txt
-//        addTeam(fullName, shortName);
-//
-//        //parse url extension/filetype
-//        String file = url.getFile();
-//        String extension = file.substring(file.indexOf(".")); //includes "."
-//
-//        //download image to file
-//        try(InputStream in = url.openStream()){
-//            Files.copy(in, Paths.get(outputPath + fullName + extension));
-//        }
-    }
-
-    /**
-     * {@// FIXME: 6/17/21 implement fcn}
-     * Adds a team with no logo
-     * Updates <code>teams.txt</code>.
-     * @param fullName
-     * @param shortName
-     * @param logo
-     */
-    static void addTeam(String fullName, String shortName, File logo) throws IOException {
-//        //add team to txt
-//        addTeam(fullName, shortName);
-//
-//        //add image
-//
-    }
-
-    /**
      * Takes a list of {@link Path}s and finds a certain file by name, excluding extension
-     * @param allTeamImages
-     * @return Path of found file.
+     * @param allTeamImages list of paths, all paths should be a file with an extension
+     * @return Path of found file
      */
     private static Path findFile(LinkedList<Path> allTeamImages, String searchFor) {
         for (Path aPath : allTeamImages) {
-            if (aPath.getFileName().toString().substring(0,aPath.getFileName().toString().indexOf(".")).equalsIgnoreCase(searchFor)) {
-                return aPath;
+            if (!aPath.getFileName().toString().contains(".")) {
+                if (aPath.getFileName().toString().substring(0,aPath.getFileName().toString().indexOf(".")).equalsIgnoreCase(searchFor)) {
+                    return aPath;
+                }
             }
         }
         return null;
@@ -478,8 +446,8 @@ public class Main {
      * Can be used to verify the existence of a team by their full team name.
      *
      * @param longName longName to find corresponding shortName of
-     * @return Shortname, or null if no shortname can be found
-     * @throws FileNotFoundException
+     * @return Shortname, or <code>null</code> if no shortname can be found
+     * @throws FileNotFoundException teams.txt could not be found
      */
     public static String getShortName(String longName) throws FileNotFoundException {
         //open input/teams.txt
