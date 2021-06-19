@@ -94,9 +94,13 @@ public class Main {
                 break;
 
             case "verify": case "v":
-                if (verifyFolders()) {
+                try {
+                    verifyFolders();
                     System.out.println("All folders verified!");
-                } else System.err.println("Folder recreation failed!");
+                } catch (IOException exception) {
+                    System.err.println("Folder recreation failed!");
+                    exception.printStackTrace();
+                }
                 break;
 
             case "team add":
@@ -154,11 +158,10 @@ public class Main {
     /**
      * Checks for <code>input</code> and <code>output</code> folders, creates them if necessary.
      *
-     * @return <code>true</code> if folders found or recreation successful; <code>false</code> otherwise.
+     * @throws IOException Error creating file or directory
      */
-    public static boolean verifyFolders() {
+    public static void verifyFolders() throws IOException {
         System.out.println("verifying folders");
-        boolean status = true;
 
         //check input folder
         Path inputPathObject = Paths.get(inputPath);
@@ -167,8 +170,7 @@ public class Main {
             if (inputPathObject.toFile().mkdirs()) {
                 System.out.println("Input folder created successfully");
             } else {
-                System.err.println("Error when creating input directory!");
-                status = false;
+                throw new IOException("Error when creating input directory!");
             }
         } else System.out.println("Input folder found");
 
@@ -179,8 +181,7 @@ public class Main {
             if (outputPathObject.toFile().mkdirs()) {
                 System.out.println("Output folder created successfully");
             } else {
-                System.err.println("Error when creating output directory!");
-                status = false;
+                throw new IOException("Error when creating output directory!");
             }
         } else System.out.println("Output folder found");
 
@@ -191,8 +192,7 @@ public class Main {
             if (map_imagesPathObject.toFile().mkdirs()) {
                 System.out.println("map_images folder created successfully");
             } else {
-                System.err.println("Error when creating map_images directory!");
-                status = false;
+                throw new IOException("Error when creating map_images directory!");
             }
         } else System.out.println("map_images folder found");
 
@@ -203,12 +203,9 @@ public class Main {
             if (team_logosPathObject.toFile().mkdirs()) {
                 System.out.println("team_logos folder created successfully");
             } else {
-                System.err.println("Error when creating team_logos directory!");
-                status = false;
+                throw new IOException("Error when creating team_logos directory!");
             }
         } else System.out.println("team_logos folder found");
-
-        return status;
     }
 
     /**
