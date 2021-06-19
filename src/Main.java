@@ -1,7 +1,6 @@
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.net.URL;
 import java.nio.file.*;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -391,68 +390,41 @@ public class Main {
     /**
      * Adds a team with no logo
      * Updates <code>teams.txt</code>.
-     * @param fullName
-     * @param shortName
+     *
+     * @param fullName full team name to add
+     * @param shortName short name of team, will be converted to caps
+     * @throws IOException IO on teams.txt failed.
      */
     public static void addTeam(String fullName, String shortName) throws IOException {
         //create string
-        String newTeamLine = System.lineSeparator() + fullName + "|" + shortName;
+        String newTeamLine = System.lineSeparator() + fullName + "|" + shortName.toUpperCase();
 
         //add string to teams.txt
         Files.write(Paths.get(inputPath + "teams.txt"), newTeamLine.getBytes(), StandardOpenOption.APPEND);
     }
 
+    /**
+     * Adds a team with no logo
+     * Updates <code>teams.txt</code>.
+     *
+     * @param fullName full team name to add
+     * @param shortName short name of team, will be converted to caps
+     * @param image Path to image file which will be added to input folder
+     * @throws IOException file copy for image failed, or IO to teams.txt failed
+     * @throws FileNotFoundException if the Path is a directory or extensionless file
+     */
     public static void addTeam(String fullName, String shortName, Path image) throws IOException {
         //add team to txt
         addTeam(fullName, shortName);
 
         //parse image filetype
         String file = image.getFileName().toString();
-        String ext = file.substring(file.indexOf(".")); //fixme will error if path is not a file/doesnt have an extension
-
+        if (!file.contains(".")) throw new FileNotFoundException(""); // path cannot be a directory.
+        String ext = file.substring(file.indexOf("."));
 
         //add image
         // copy from image Path to input/team_logos/fullName.ext
         Files.copy(image, Paths.get(inputPath + "team_logos" + File.separator + fullName + ext));
-    }
-
-    /**
-     * Adds a team with a logo
-     * Updates <code>teams.txt</code> and the corresponding image
-     *
-     * {@// TODO: 6/17/21 https://stackoverflow.com/a/41069565/10714709 need to modify request}
-     * @param fullName
-     * @param shortName
-     * @param url
-     */
-    public static void addTeam(String fullName, String shortName, URL url) throws IOException {
-//        //add team to txt
-//        addTeam(fullName, shortName);
-//
-//        //parse url extension/filetype
-//        String file = url.getFile();
-//        String extension = file.substring(file.indexOf(".")); //includes "."
-//
-//        //download image to file
-//        try(InputStream in = url.openStream()){
-//            Files.copy(in, Paths.get(outputPath + fullName + extension));
-//        }
-    }
-
-    /**
-     * {@// FIXME: 6/17/21 implement fcn}
-     * Adds a team with no logo
-     * Updates <code>teams.txt</code>.
-     * @param fullName
-     * @param shortName
-     * @param logo
-     */
-    public static void addTeam(String fullName, String shortName, File logo) throws IOException {
-//        //add team to txt
-//        addTeam(fullName, shortName);
-//
-//        //add image
-//
     }
 
     /**
