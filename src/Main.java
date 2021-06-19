@@ -186,9 +186,9 @@ public class Main {
 
         //check map_images folder
         Path map_imagesPathObject = Paths.get(inputPath + "map_images");
-        if (!Files.exists(outputPathObject)) {
+        if (!Files.exists(map_imagesPathObject)) {
             System.out.println("map_images folder cannot be found... recreating");
-            if (outputPathObject.toFile().mkdirs()) {
+            if (map_imagesPathObject.toFile().mkdirs()) {
                 System.out.println("map_images folder created successfully");
             } else {
                 System.err.println("Error when creating map_images directory!");
@@ -198,9 +198,9 @@ public class Main {
 
         //check team_logos folder
         Path team_logosPathObject = Paths.get(inputPath + "team_logos");
-        if (!Files.exists(outputPathObject)) {
+        if (!Files.exists(team_logosPathObject)) {
             System.out.println("team_logos folder cannot be found... recreating");
-            if (outputPathObject.toFile().mkdirs()) {
+            if (team_logosPathObject.toFile().mkdirs()) {
                 System.out.println("team_logos folder created successfully");
             } else {
                 System.err.println("Error when creating team_logos directory!");
@@ -378,7 +378,7 @@ public class Main {
      * This is not an all-inclusive list, but should deal with most erroneous inputs.
      *
      * @param stringToCheck A string intended to be part of a file name, that needs checking.
-     * @return
+     * @return <code>true</code> if all chars are legal, <code>false</code> otherwise
      * @throws IllegalArgumentException
      */
     private static boolean checkCharLegality(String stringToCheck) {
@@ -429,13 +429,15 @@ public class Main {
 
     /**
      * Takes a list of {@link Path}s and finds a certain file by name, excluding extension
-     * @param allTeamImages
-     * @return Path of found file.
+     * @param allTeamImages list of paths, all paths should be a file with an extension
+     * @return Path of found file
      */
     private static Path findFile(LinkedList<Path> allTeamImages, String searchFor) {
         for (Path aPath : allTeamImages) {
-            if (aPath.getFileName().toString().substring(0,aPath.getFileName().toString().indexOf(".")).equalsIgnoreCase(searchFor)) {
-                return aPath;
+            if (!aPath.getFileName().toString().contains(".")) {
+                if (aPath.getFileName().toString().substring(0,aPath.getFileName().toString().indexOf(".")).equalsIgnoreCase(searchFor)) {
+                    return aPath;
+                }
             }
         }
         return null;
@@ -447,8 +449,8 @@ public class Main {
      * Can be used to verify the existence of a team by their full team name.
      *
      * @param longName longName to find corresponding shortName of
-     * @return Shortname, or null if no shortname can be found
-     * @throws FileNotFoundException
+     * @return Shortname, or <code>null</code> if no shortname can be found
+     * @throws FileNotFoundException teams.txt could not be found
      */
     public static String getShortName(String longName) throws FileNotFoundException {
         //open input/teams.txt
