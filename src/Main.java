@@ -37,16 +37,9 @@ public class Main {
                 System.out.println("TOURNAMENT NUMBER");
                 System.out.println("    'number set', update current tourney number");
 
-//                System.out.println("     TIMER");
-//                System.out.println("'timer add', add time to timer");
-//                System.out.println("'timer set', set timer length");
-//                System.out.println("'timer start', start timer");
-//                System.out.println("'timer cancel', end timer");
-
                 System.out.println("TEAMS");
                 System.out.println("    'team add', add a team");
                 System.out.println("    'team add-noimg', add a team (no image)");
-//                System.out.println("'team remove', remove a team");
                 System.out.println("    'team set', set an active team (MAIN FCN)");
 
                 System.out.println("MAPS");
