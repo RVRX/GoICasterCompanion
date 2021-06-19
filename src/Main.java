@@ -95,7 +95,7 @@ public class Main {
 
             case "verify": case "v":
                 try {
-                    verifyFolders();
+                    verifyContent();
                     System.out.println("All folders verified!");
                 } catch (IOException exception) {
                     System.err.println("Folder recreation failed!");
@@ -160,7 +160,7 @@ public class Main {
      *
      * @throws IOException Error creating file or directory
      */
-    public static void verifyFolders() throws IOException {
+    public static void verifyContent() throws IOException {
         System.out.println("verifying folders");
 
         //check input folder
@@ -206,6 +206,14 @@ public class Main {
                 throw new IOException("Error when creating team_logos directory!");
             }
         } else System.out.println("team_logos folder found");
+
+        //check maps.txt file
+        File maps = new File(inputPath + "maps.txt");
+        maps.createNewFile(); // if file already exists will do nothing
+
+        //check teams.txt
+        File teams = new File(inputPath + "teams.txt");
+        teams.createNewFile(); // if file already exists will do nothing
     }
 
     /**
