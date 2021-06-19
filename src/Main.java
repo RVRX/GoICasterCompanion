@@ -234,7 +234,8 @@ public class Main {
      *
      * @param mapName Name of map to be set as current.
      * @return false if map could not be updated (Doesnt exist, IO error). True otherwise.
-     * @throws IOException
+     * @throws IOException IO error for maps.txt opening or writing
+     * @throws FileNotFoundException Likely error finding map file
      */
     public static boolean setMap(String mapName) throws IOException {
 
@@ -245,8 +246,7 @@ public class Main {
                 return false;
             }
         } catch (FileNotFoundException e) {
-            System.err.println("Map file could not be found, reason:" + e.getMessage());
-            return false;
+            throw new FileNotFoundException("Map file could not be found, reason:" + e.getMessage());
         }
 
         /*--- Update Map.png ---*/
@@ -376,7 +376,6 @@ public class Main {
      *
      * @param stringToCheck A string intended to be part of a file name, that needs checking.
      * @return <code>true</code> if all chars are legal, <code>false</code> otherwise
-     * @throws IllegalArgumentException
      */
     private static boolean checkCharLegality(String stringToCheck) {
         //throw exception if stringToCheck contains filesystem illegal characters
