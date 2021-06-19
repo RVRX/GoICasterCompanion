@@ -60,12 +60,7 @@ public class Main {
                 System.out.print("\nEnter team's letter: ");
                 String teamLetter = scanner.nextLine();
                 try {
-                    if (setTeam(teamName,teamLetter)) {
-                        System.out.println("Updated!");
-                    } else {
-                        System.out.println("Failed to Update Team Completely. Risk of Incomplete update! " +
-                                "Check the previous error message for details");
-                    }
+                    setTeam(teamName,teamLetter);
                 } catch (IOException exception) {
                     exception.printStackTrace();
                 } catch (IllegalArgumentException exception) {
@@ -284,11 +279,10 @@ public class Main {
      *
      * @param newTeamName Name of the team. Must occur in teams.txt
      * @param teamIdentifier Value to identify team. Must be a valid character for filesystem
-     * @return success or fail
-     * @throws IOException error writing, reading, or converting files.
+     * @throws IOException error writing, reading, or converting files team files.
      * @throws IllegalArgumentException Thrown if fcn args contain invalid characters or do not correspond to a team in teams.txt
      */
-    public static boolean setTeam(String newTeamName, String teamIdentifier) throws IOException, IllegalArgumentException {
+    public static void setTeam(String newTeamName, String teamIdentifier) throws IOException, IllegalArgumentException {
 
         //check for illegal characters in input
         if (checkCharLegality(newTeamName) || checkCharLegality(teamIdentifier)) throw new IllegalArgumentException("Invalid team name or identifier");
@@ -338,7 +332,7 @@ public class Main {
             // better to have right text and no logo, than right text and wrong logo.
             File outputTeamLogo = new File(outputPath + "Team" + teamIdentifier + ".png");
             outputTeamLogo.delete();
-            return false;
+            throw new NoSuchFileException("Team logo not found!");
         }
         System.out.println("Found Team logo: " + teamLogo);
 
@@ -360,8 +354,7 @@ public class Main {
                         System.out.println("File deleted successfully");
                     }
                     else {
-                        System.err.println("Failed to delete the file");
-                        return false;
+                        throw new IOException("Failed to delete the file");
                     }
 
                     //copy from teamLogo Path to TeamX.png
@@ -373,16 +366,12 @@ public class Main {
                     // better to have right text and no logo, than right text and wrong logo.
                     File outputTeamLogo = new File(outputPath + "Team" + teamIdentifier + ".png");
                     outputTeamLogo.delete();
+                    throw new IOException("Image could not be converted to PNG. Warning TXTs may already be updated!");
                 }
             } catch (IOException exception) {
-                System.err.println("Error during converting image.");
-                exception.printStackTrace();
-                return false;
+                throw new IOException("Error during converting or copying image. Reason: " + exception.getMessage(), exception);
             }
         }
-
-        //successful finish
-        return true;
     }
 
     /**
