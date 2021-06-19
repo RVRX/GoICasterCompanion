@@ -4,6 +4,7 @@ import java.io.*;
 import java.nio.file.*;
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.stream.Stream;
 
@@ -36,6 +37,12 @@ public class Main {
             case "help":
                 System.out.println("TOURNAMENT NUMBER");
                 System.out.println("    'number set', update current tourney number");
+
+                System.out.println("TIMER");
+                System.out.println("    'timer set', determine timer length");
+                System.out.println("    'timer start', start the timer");
+                System.out.println("    'timer pause', pause the timer");
+                System.out.println("    'timer stop', ends the timer early");
 
                 System.out.println("TEAMS");
                 System.out.println("    'team add', add a team");
@@ -117,6 +124,40 @@ public class Main {
                 String shortName = scanner.nextLine();
                 try {
                     addTeam(fullName, shortName);
+                } catch (IOException exception) {
+                    exception.printStackTrace();
+                }
+                break;
+
+            case "timer set":
+                CustomTimer timer = CustomTimer.getInstance();
+                try {
+                    timer.getTimerLength();
+                } catch (IOException exception) {
+                    exception.printStackTrace();
+                } catch (NoSuchElementException exception) {
+                    exception.printStackTrace();
+                }
+                break;
+
+            case "timer start":
+                try {
+                    CustomTimer.getInstance().start();
+                } catch (IOException exception) {
+                    exception.printStackTrace();
+                } catch (NoSuchElementException exception) {
+                    exception.printStackTrace();
+                }
+                break;
+
+            case "timer stop":
+                CustomTimer.getInstance().stop();
+                break;
+
+            case "foo":
+                try {
+                    CustomTimer.getInstance().set(123);
+                    System.out.println(CustomTimer.getInstance().get());
                 } catch (IOException exception) {
                     exception.printStackTrace();
                 }
