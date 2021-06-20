@@ -2,9 +2,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.file.*;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.Scanner;
+import java.util.*;
 import java.util.stream.Stream;
 
 public class Main {
@@ -36,6 +34,13 @@ public class Main {
             case "help":
                 System.out.println("TOURNAMENT NUMBER");
                 System.out.println("    'number set', update current tourney number");
+
+                System.out.println("TIMER");
+                System.out.println("    'timer set', determine timer length");
+                System.out.println("    'timer start', start the timer");
+                System.out.println("    'timer pause', pause the timer");
+                System.out.println("    'timer stop', ends the timer early");
+                System.out.println("    'timer restart', restarts the timer");
 
                 System.out.println("TEAMS");
                 System.out.println("    'team add', add a team");
@@ -118,6 +123,58 @@ public class Main {
                 try {
                     addTeam(fullName, shortName);
                 } catch (IOException exception) {
+                    exception.printStackTrace();
+                }
+                break;
+
+            case "timer set":
+                CustomTimer timer = CustomTimer.getInstance();
+                try {
+                    System.out.println("How many seconds would you like to set the timer for");
+                    int setTime = scanner.nextInt();
+                    timer.pause(); //pause timer to prevent ticking
+                    timer.setInitialTimerLength(setTime); //set new initial
+                    timer.set(setTime); //set currently displayed timer to not confuse user
+                } catch (IOException exception) {
+                    exception.printStackTrace();
+                } catch (InputMismatchException exception) {
+                    exception.printStackTrace(); //thrown by scanner
+                } catch (NoSuchElementException exception) {
+                    exception.printStackTrace();
+                } catch (IllegalArgumentException exception) {
+                    System.out.println("Cannot set initial timer value to 0!");
+                }
+                break;
+
+            case "timer start":
+                try {
+                    CustomTimer.getInstance().start();
+                } catch (IOException exception) {
+                    exception.printStackTrace();
+                } catch (NoSuchElementException exception) {
+                    exception.printStackTrace();
+                } catch (InvalidDataException e) {
+                    e.printStackTrace();
+                }
+                break;
+
+            case "timer stop":
+                try {
+                    CustomTimer.getInstance().stop();
+                    System.out.println("Stopped!");
+                } catch (IOException exception) {
+                    exception.printStackTrace();
+                }
+                break;
+
+            case "timer pause":
+                CustomTimer.getInstance().pause();
+                break;
+
+            case "timer restart": case "timer reset":
+                try {
+                    CustomTimer.getInstance().restart();
+                } catch (IOException | InvalidDataException exception) {
                     exception.printStackTrace();
                 }
                 break;
@@ -206,6 +263,10 @@ public class Main {
 
         //check teams.txt
         File teams = new File(inputPath + "teams.txt");
+        teams.createNewFile(); // if file already exists will do nothing
+
+        //check TimerLength.txt
+        File timerLength = new File(inputPath + "TimerLength.txt");
         teams.createNewFile(); // if file already exists will do nothing
     }
 
