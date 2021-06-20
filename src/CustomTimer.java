@@ -12,6 +12,7 @@ public class CustomTimer {
 
     private static CustomTimer singleton = new CustomTimer();
     private Timer currentTimer;
+    protected boolean isTimerRunning = false;
 
     public Timer getCurrentTimer() {
         return currentTimer;
@@ -33,9 +34,12 @@ public class CustomTimer {
 
     /**
      * Sets the value the timer will go to on initial start, or after a restart or stop
+     *
+     * @param seconds a positive integer
      * @see #getInitialTimerLength()
      */
     public void setInitialTimerLength(int seconds) throws IOException {
+        if (seconds <= 0) throw new IllegalArgumentException("Cannot set initial timer value to 0");
         //open TimerLength file and set a new value
         Writer fileWriter = new FileWriter(timerLength);
         fileWriter.write(String.valueOf(seconds));
@@ -48,10 +52,11 @@ public class CustomTimer {
      * @see #stop()
      * @see #pause()
      */
-    public void restart() throws IOException {
+    public void restart() throws IOException, InvalidDataException {
         //stop timer
         if (currentTimer != null) {
             currentTimer.cancel();
+            isTimerRunning = false;
         }
 
         //write initial timer length to Timer.txt
@@ -70,12 +75,13 @@ public class CustomTimer {
      * @throws NoSuchElementException TimerLength.txt contains an unexpected character.
      * @see #setInitialTimerLength(int)
      */
-    public int getInitialTimerLength() throws IOException, NoSuchElementException {
+    public int getInitialTimerLength() throws IOException, NoSuchElementException, InvalidDataException {
         //open TimerLength file and gets the current value
         File timerSettings = new File(timerLength);
         Scanner scanner = new Scanner(timerSettings);
-        System.out.println("SCANNER FUCK U: " + new Scanner(timerSettings).nextLine());
-        return scanner.nextInt();
+        int value = scanner.nextInt();
+        if (value <= 0) throw new InvalidDataException("TimerLength.txt cannot contain a non-postive value");
+        return value;
     }
 
     /**
@@ -86,14 +92,17 @@ public class CustomTimer {
      * @see #pause()
      * @see #restart()
      */
-    public void start() throws IOException, NoSuchElementException {
-        if (get() <= 0) { //if timer is currently at 0, restart
-            restart();
-        } else { //otherwise, resume from last position by starting CountdownTimer task
-            currentTimer = new Timer();
-            TimerTask task = new CountdownTimer();
-            currentTimer.schedule(task,0, 1000);
-        }
+    public void start() throws IOException, NoSuchElementException, InvalidDataException {
+        if (!isTimerRunning) { //prevent starting when there is already a timer. no doubling up!
+            if (get() <= 0) { //if timer is currently at 0, restart
+                restart();
+            } else { //otherwise, resume from last position by starting CountdownTimer task
+                isTimerRunning = true;
+                currentTimer = new Timer();
+                TimerTask task = new CountdownTimer();
+                currentTimer.schedule(task,0, 1000);
+            }
+        } else System.err.println("Timer already running!");
     }
 
     /**
@@ -110,6 +119,7 @@ public class CustomTimer {
         //stop the current TimerTask
         if (currentTimer != null) {
             currentTimer.cancel();
+            isTimerRunning = false;
         }
         //set Timer.txt to nothing [will cause start() to restart timer if called next]
         set(0);
@@ -128,14 +138,20 @@ public class CustomTimer {
         //cancel TimerTask to stop countdown. Keeps value, so start() can resume from it
         if (currentTimer != null) {
             currentTimer.cancel();
+            isTimerRunning = false;
         }
     }
 
     /**
      * Set the <b>current</b> value of the timer
+     *
+     * @param seconds a second value (non-negative)
      * @throws IOException if any I/O error occurs when accessing Timer.txt
      */
     public void set(int seconds) throws IOException {
+        if (seconds < 0) {
+            throw new IllegalArgumentException("Cannot set a timer for negative seconds!");
+        }
         Writer fileWriter = new FileWriter(timerTXT);
         fileWriter.write(String.valueOf(seconds));
         fileWriter.close();
@@ -173,6 +189,7 @@ class CountdownTimer extends TimerTask {
             int currentTime = timer.get();
             if (currentTime <= 0) {
                 System.out.println("Timer Finished!\n>");
+                CustomTimer.getInstance().isTimerRunning = false;
                 timer.getCurrentTimer().cancel();
             } else {
                 timer.set(currentTime - 1);

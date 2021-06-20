@@ -40,6 +40,7 @@ public class Main {
                 System.out.println("    'timer start', start the timer");
                 System.out.println("    'timer pause', pause the timer");
                 System.out.println("    'timer stop', ends the timer early");
+                System.out.println("    'timer restart', restarts the timer");
 
                 System.out.println("TEAMS");
                 System.out.println("    'team add', add a team");
@@ -140,6 +141,8 @@ public class Main {
                     exception.printStackTrace(); //thrown by scanner
                 } catch (NoSuchElementException exception) {
                     exception.printStackTrace();
+                } catch (IllegalArgumentException exception) {
+                    System.out.println("Cannot set initial timer value to 0!");
                 }
                 break;
 
@@ -151,6 +154,8 @@ public class Main {
                     exception.printStackTrace();
                 } catch (NoSuchElementException exception) {
                     exception.printStackTrace();
+                } catch (InvalidDataException e) {
+                    e.printStackTrace();
                 }
                 break;
 
@@ -170,7 +175,7 @@ public class Main {
             case "timer restart": case "timer reset":
                 try {
                     CustomTimer.getInstance().restart();
-                } catch (IOException exception) {
+                } catch (IOException | InvalidDataException exception) {
                     exception.printStackTrace();
                 }
                 break;
