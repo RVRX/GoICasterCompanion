@@ -1,3 +1,5 @@
+package goistreamtoolredux;
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
@@ -441,7 +443,7 @@ public class Main {
      */
     private static boolean checkCharLegality(String stringToCheck) {
         //throw exception if stringToCheck contains filesystem illegal characters
-        final String[] ILLEGAL_CHARACTERS = { "/", "\n", "\r", "\t", "\0", "\f", "`", "?", "*", "\\", "<", ">", "|", "\"", ":", ".", ".." };
+        final String[] ILLEGAL_CHARACTERS = { "/", "\n", "\r", "\t", "\0", "\f", "`", "?", "*", "\\", "<", ">", "|", "\"", ":", ".", "src/main"};
         return Arrays.stream(ILLEGAL_CHARACTERS).noneMatch(stringToCheck::contains);
     }
 
