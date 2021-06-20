@@ -130,7 +130,10 @@ public class Main {
                 CustomTimer timer = CustomTimer.getInstance();
                 try {
                     System.out.println("How many seconds would you like to set the timer for");
-                    timer.set(scanner.nextInt());
+                    int setTime = scanner.nextInt();
+                    timer.pause(); //pause timer to prevent ticking
+                    timer.setInitialTimerLength(setTime); //set new initial
+                    timer.set(setTime); //set currently displayed timer to not confuse user
                 } catch (IOException exception) {
                     exception.printStackTrace();
                 } catch (InputMismatchException exception) {
@@ -139,6 +142,7 @@ public class Main {
                     exception.printStackTrace();
                 }
                 break;
+
 
             case "timer start":
                 try {
@@ -153,6 +157,7 @@ public class Main {
             case "timer stop":
                 try {
                     CustomTimer.getInstance().stop();
+                    System.out.println("Stopped!");
                 } catch (IOException exception) {
                     exception.printStackTrace();
                 }
@@ -160,6 +165,14 @@ public class Main {
 
             case "timer pause":
                 CustomTimer.getInstance().pause();
+                break;
+
+            case "timer restart": case "timer reset":
+                try {
+                    CustomTimer.getInstance().restart();
+                } catch (IOException exception) {
+                    exception.printStackTrace();
+                }
                 break;
 
             default:

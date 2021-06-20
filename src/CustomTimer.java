@@ -38,24 +38,24 @@ public class CustomTimer {
     public void setInitialTimerLength(int seconds) throws IOException {
         //open TimerLength file and set a new value
         Writer fileWriter = new FileWriter(timerLength);
-        fileWriter.write(seconds);
+        fileWriter.write(String.valueOf(seconds));
         fileWriter.close();
     }
 
     /**
      * Resets the timer back to beginning value and starts it again
-     *
      * @see #start()
      * @see #stop()
      * @see #pause()
      */
     public void restart() throws IOException {
-        //write initial timer length to Timer.txt
-        int initialTimerLength = getInitialTimerLength();
+        //stop timer
+        if (currentTimer != null) {
+            currentTimer.cancel();
+        }
 
-        //write to file
-        FileWriter writer = new FileWriter(timerTXT);
-        writer.write(initialTimerLength);
+        //write initial timer length to Timer.txt
+        set(getInitialTimerLength());
 
         //start
         start();
@@ -74,6 +74,7 @@ public class CustomTimer {
         //open TimerLength file and gets the current value
         File timerSettings = new File(timerLength);
         Scanner scanner = new Scanner(timerSettings);
+        System.out.println("SCANNER FUCK U: " + new Scanner(timerSettings).nextLine());
         return scanner.nextInt();
     }
 
@@ -111,7 +112,7 @@ public class CustomTimer {
             currentTimer.cancel();
         }
         //set Timer.txt to nothing [will cause start() to restart timer if called next]
-        new FileWriter(timerTXT).write("");
+        set(0);
     }
 
     /**
