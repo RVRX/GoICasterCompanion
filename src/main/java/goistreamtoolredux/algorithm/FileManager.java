@@ -261,15 +261,21 @@ public class FileManager {
 
         //check maps.txt file
         File maps = new File(inputPath + "maps.txt");
-        maps.createNewFile(); // if file already exists will do nothing
+        if (maps.createNewFile()) {
+            System.out.println("maps.txt was missing and has been created");
+        } else System.out.println("maps.txt file found");
 
         //check teams.txt
         File teams = new File(inputPath + "teams.txt");
-        teams.createNewFile(); // if file already exists will do nothing
+        if (teams.createNewFile()) {
+            System.out.println("teams.txt was missing and has been created");
+        } else System.out.println("teams.txt file found");
 
         //check TimerLength.txt
         File timerLength = new File(inputPath + "TimerLength.txt");
-        teams.createNewFile(); // if file already exists will do nothing
+        if (timerLength.createNewFile()) {
+            System.out.println("timerLength.txt was missing and has been created");
+        } else System.out.println("timerLength.txt file found");
     }
 
     /**
