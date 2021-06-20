@@ -42,3 +42,6 @@ cmake-build-debug
 # Input and Output folders
 input/*
 output/*
+
+# JAR META-INF
+*/META-INF/*
