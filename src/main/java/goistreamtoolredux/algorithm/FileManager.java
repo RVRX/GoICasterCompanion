@@ -443,7 +443,7 @@ public class FileManager {
      */
     private static boolean checkCharLegality(String stringToCheck) {
         //throw exception if stringToCheck contains filesystem illegal characters
-        final String[] ILLEGAL_CHARACTERS = { "/", "\n", "\r", "\t", "\0", "\f", "`", "?", "*", "\\", "<", ">", "|", "\"", ":", ".", "src/main"};
+        final String[] ILLEGAL_CHARACTERS = { "/", "\n", "\r", "\t", "\0", "\f", "`", "?", "*", "\\", "<", ">", "|", "\"", ":", ".", ".."};
         return Arrays.stream(ILLEGAL_CHARACTERS).noneMatch(stringToCheck::contains);
     }
 
