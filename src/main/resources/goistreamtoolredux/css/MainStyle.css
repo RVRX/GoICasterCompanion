@@ -1,0 +1,27 @@
+* {
+    /*Set Global Primary and Secondary Color Variables*/
+
+    -fx--primary: #039be5;
+    -fx--primary-dark: #006db3;
+    -fx--primary-light: #63ccff;
+
+    -fx--secondary: #546e7a;
+    -fx--secondary-light: #819ca9;
+    -fx--secondary-dark: #29434e;
+
+    -fx--error: #D34336;
+}
+
+JFXTextField, JFXTextArea, JFXComboBox, JFXPasswordField {
+    -fx-background-color: rgba(0,0,0,.05); /*form bounding box color*/
+    -jfx-unfocus-color: rgba(0,0,0,.42); /*bottom line unfocused*/
+    -jfx-focus-color: -fx--primary; /*bottom line focused*/
+    -jfx-label-float: true; /*label will float above when field is selected*/
+    -fx-prompt-text-fill: #808080; /*prompt text before entry*/
+}
+
+JFXTextField:hover, JFXTextArea:hover, JFXComboBox:hover, JFXPasswordField:hover {
+    -fx-background-color: rgba(0,0,0,.1); /*form bounding box color*/
+    -jfx-unfocus-color: rgba(0,0,0,.87); /*bottom line unfocused*/
+    -jfx-focus-color: -fx--primary; /*bottom line focused*/
+}
