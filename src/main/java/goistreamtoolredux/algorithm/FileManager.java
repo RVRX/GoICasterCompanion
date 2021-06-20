@@ -351,7 +351,7 @@ public class FileManager {
     public static void setTeam(String newTeamName, String teamIdentifier) throws IOException, IllegalArgumentException {
 
         //check for illegal characters in input
-        if (checkCharLegality(newTeamName) || checkCharLegality(teamIdentifier)) throw new IllegalArgumentException("Invalid team name or identifier");
+        if (!checkCharLegality(newTeamName) || !checkCharLegality(teamIdentifier)) throw new IllegalArgumentException("Invalid team name or identifier");
 
 
         teamIdentifier = teamIdentifier.toUpperCase();
@@ -498,9 +498,9 @@ public class FileManager {
      * @param allTeamImages list of paths, all paths should be a file with an extension
      * @return Path of found file
      */
-    private static Path findFile(LinkedList<Path> allTeamImages, String searchFor) {
+    protected static Path findFile(LinkedList<Path> allTeamImages, String searchFor) {
         for (Path aPath : allTeamImages) {
-            if (!aPath.getFileName().toString().contains(".")) {
+            if (aPath.getFileName().toString().contains(".")) { //if is a file not a directory
                 if (aPath.getFileName().toString().substring(0,aPath.getFileName().toString().indexOf(".")).equalsIgnoreCase(searchFor)) {
                     return aPath;
                 }
