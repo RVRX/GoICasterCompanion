@@ -6,6 +6,7 @@ import java.util.TimerTask;
 
 /**
  * Singleton timer class.
+ * Warning: gets confusing with all the uses of timer as a word, vs the actual JDK Timer class.
  */
 public class CustomTimer {
 
@@ -23,74 +24,143 @@ public class CustomTimer {
         return singleton;
     }
 
+    //File paths
+    String timerLength = Main.inputPath + "TimerLength.txt";
+    String timerTXT = Main.outputPath + "Timer.txt";
+
 
     /*--- Methods ---*/
 
     /**
-     * Write timer total to (input?) file
+     * Sets the value the timer will go to on initial start, or after a restart or stop
+     * @see #getInitialTimerLength()
      */
-    public void setTimerLength(int seconds) throws IOException {
-        Writer fileWriter = new FileWriter(Main.inputPath + "timerLength.txt");
+    public void setInitialTimerLength(int seconds) throws IOException {
+        //open TimerLength file and set a new value
+        Writer fileWriter = new FileWriter(timerLength);
         fileWriter.write(seconds);
         fileWriter.close();
     }
 
-    public void reset() {
+    /**
+     * Resets the timer back to beginning value and starts it again
+     *
+     * @see #start()
+     * @see #stop()
+     * @see #pause()
+     */
+    public void restart() throws IOException {
+        //write initial timer length to Timer.txt
+        int initialTimerLength = getInitialTimerLength();
 
+        //write to file
+        FileWriter writer = new FileWriter(timerTXT);
+        writer.write(initialTimerLength);
+
+        //start
+        start();
     }
 
-    public int getTimerLength() throws IOException, NoSuchElementException {
-        File timerSettings = new File(Main.inputPath + "timerLength.txt");
+    /**
+     * Gets the total length of the timer. Not to be confused with the current length,
+     * this value is where the timer will go to when restarting or starting after a stop.
+     *
+     * @return timer length in seconds
+     * @throws IOException
+     * @throws NoSuchElementException TimerLength.txt contains an unexpected character.
+     * @see #setInitialTimerLength(int)
+     */
+    public int getInitialTimerLength() throws IOException, NoSuchElementException {
+        //open TimerLength file and gets the current value
+        File timerSettings = new File(timerLength);
         Scanner scanner = new Scanner(timerSettings);
         return scanner.nextInt();
     }
 
+    /**
+     * Start the timer (initial or after a pause)
+     * @throws IOException
+     * @throws NoSuchElementException
+     * @see #stop()
+     * @see #pause()
+     * @see #restart()
+     */
     public void start() throws IOException, NoSuchElementException {
-        int length = getTimerLength();
-        currentTimer = new Timer();
-        TimerTask task = new CustomTask();
-        currentTimer.schedule(task,0, 1000);
+        if (get() <= 0) { //if timer is currently at 0, restart
+            restart();
+        } else { //otherwise, resume from last position by starting CountdownTimer task
+            currentTimer = new Timer();
+            TimerTask task = new CountdownTimer();
+            currentTimer.schedule(task,0, 1000);
+        }
     }
 
     /**
+     * Completely stops and cancels the timer. NOT EQUIVALENT TO A PAUSE.
+     * Starting after this state will restart the timer.
      *
-     * @throws NullPointerException there is no current timer
+     * @throws NullPointerException there is no current timer or {@link TimerTask} running
+     * @throws IOException if I/O error is encountered when writing to Timer.txt
+     * @see #start()
+     * @see #pause()
+     * @see #restart()
      */
-    public void stop() throws NullPointerException {
-        /*stop timer update*/
-        currentTimer.cancel();
-        /*todo wipe timer.txt*/
+    public void stop() throws NullPointerException, IOException {
+        //stop the current TimerTask
+        if (currentTimer != null) {
+            currentTimer.cancel();
+        }
+        //set Timer.txt to nothing [will cause start() to restart timer if called next]
+        new FileWriter(timerTXT).write("");
     }
 
+    /**
+     * Pauses the current timer state. Starting from this after this state will
+     * continue the timer from where the timer left off.
+     * Does nothing if there is no active timer
+     *
+     * @see #start()
+     * @see #stop()
+     * @see #restart()
+     */
     public void pause() {
-        /*stop timer*/
-        currentTimer.cancel();
-        /*todo, save state, have start() read saved state if it exists*/
+        //cancel TimerTask to stop countdown. Keeps value, so start() can resume from it
+        if (currentTimer != null) {
+            currentTimer.cancel();
+        }
     }
 
     /**
      * Set the <b>current</b> value of the timer
+     * @throws IOException if any I/O error occurs when accessing Timer.txt
      */
     public void set(int seconds) throws IOException {
-        Writer fileWriter = new FileWriter(Main.outputPath + "timer.txt");
+        Writer fileWriter = new FileWriter(timerTXT);
         fileWriter.write(String.valueOf(seconds));
         fileWriter.close();
     }
 
     /**
      * Gets the <b>current</b> value of the timer.
-     * @return
-     * @throws FileNotFoundException
-     * @throws NoSuchElementException
+     * @return time left in seconds.
+     * @throws FileNotFoundException timer.txt cannot be found
+     * @throws NoSuchElementException timer.txt contains an unexpected character
      */
     public int get() throws FileNotFoundException, NoSuchElementException {
-        File timerSettings = new File(Main.outputPath + "timer.txt");
+        //open Timer.txt and scan first integer
+        File timerSettings = new File(timerTXT);
         Scanner scanner = new Scanner(timerSettings);
         return scanner.nextInt();
     }
 }
 
-class CustomTask extends TimerTask {
+/**
+ * Begins countdown from current value in the <code>Timer.txt</code> file. {@link TimerTask} to be scheduled in {@link Timer#schedule(TimerTask, long, long)} for the countdown timer system.
+ * @implNote Be careful with scheduling this function too fast/often, it doesn't implement any
+ * file locks and is not atomic as of the current version.
+ * @implNote Does not use system clock (or at least efficiently. Timer will start to lag behind if more system resources are used or application is active with other tasks
+ */
+class CountdownTimer extends TimerTask {
 
     public void run() {
 
@@ -101,10 +171,9 @@ class CustomTask extends TimerTask {
         try {
             int currentTime = timer.get();
             if (currentTime <= 0) {
-                System.out.println();
+                System.out.println("Timer Finished!\n>");
                 timer.getCurrentTimer().cancel();
             } else {
-                System.out.println("Timer value is " + (currentTime -1));
                 timer.set(currentTime - 1);
             }
         } catch (FileNotFoundException exception) {

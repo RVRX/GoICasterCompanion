@@ -2,10 +2,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.file.*;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.NoSuchElementException;
-import java.util.Scanner;
+import java.util.*;
 import java.util.stream.Stream;
 
 public class Main {
@@ -132,9 +129,12 @@ public class Main {
             case "timer set":
                 CustomTimer timer = CustomTimer.getInstance();
                 try {
-                    timer.getTimerLength();
+                    System.out.println("How many seconds would you like to set the timer for");
+                    timer.set(scanner.nextInt());
                 } catch (IOException exception) {
                     exception.printStackTrace();
+                } catch (InputMismatchException exception) {
+                    exception.printStackTrace(); //thrown by scanner
                 } catch (NoSuchElementException exception) {
                     exception.printStackTrace();
                 }
@@ -151,16 +151,15 @@ public class Main {
                 break;
 
             case "timer stop":
-                CustomTimer.getInstance().stop();
-                break;
-
-            case "foo":
                 try {
-                    CustomTimer.getInstance().set(123);
-                    System.out.println(CustomTimer.getInstance().get());
+                    CustomTimer.getInstance().stop();
                 } catch (IOException exception) {
                     exception.printStackTrace();
                 }
+                break;
+
+            case "timer pause":
+                CustomTimer.getInstance().pause();
                 break;
 
             default:
