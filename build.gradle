@@ -1,0 +1,36 @@
+plugins {
+    id 'application'
+    id 'java'
+}
+mainClassName = 'goistreamtoolredux.Main'
+
+repositories {
+    mavenCentral()
+    jcenter()
+    maven {
+        url 'https://apisite.crmyers.dev/maven'
+    }
+}
+
+dependencies {
+    implementation(
+            'com.jfoenix:jfoenix:8.0.10',
+    )
+
+    testCompile(
+            "org.testfx:testfx-core:4.0.16-alpha",
+            'org.junit.jupiter:junit-jupiter:5.6.0',
+            'org.testfx:testfx-junit5:4.0.16-alpha',
+    )
+}
+
+
+test {
+    useJUnitPlatform()
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': mainClassName
+    }
+}
