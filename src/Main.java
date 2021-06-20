@@ -146,7 +146,6 @@ public class Main {
                 }
                 break;
 
-
             case "timer start":
                 try {
                     CustomTimer.getInstance().start();
@@ -264,6 +263,10 @@ public class Main {
 
         //check teams.txt
         File teams = new File(inputPath + "teams.txt");
+        teams.createNewFile(); // if file already exists will do nothing
+
+        //check TimerLength.txt
+        File timerLength = new File(inputPath + "TimerLength.txt");
         teams.createNewFile(); // if file already exists will do nothing
     }
 
