@@ -1,6 +1,7 @@
 package goistreamtoolredux.controller;
 
 import com.jfoenix.controls.JFXComboBox;
+import goistreamtoolredux.algorithm.FileManager;
 import goistreamtoolredux.algorithm.Team;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -31,12 +32,23 @@ public class Default {
     @FXML
     void selectTeamA(ActionEvent event) {
         Team selectedTeam = TeamAComboBox.getSelectionModel().getSelectedItem();
-        System.out.println(selectedTeam.getTeamLogo());
+        try {
+            FileManager.setTeam(selectedTeam.getTeamName(), "A");
+        } catch (IOException exception) {
+            exception.printStackTrace();
+            //todo, error popup
+        }
     }
 
     @FXML
     void selectTeamB(ActionEvent event) {
-
+        Team selectedTeam = TeamBComboBox.getSelectionModel().getSelectedItem();
+        try {
+            FileManager.setTeam(selectedTeam.getTeamName(), "B");
+        } catch (IOException exception) {
+            exception.printStackTrace();
+            //todo, error popup
+        }
     }
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
