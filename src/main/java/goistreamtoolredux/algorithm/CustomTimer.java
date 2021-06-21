@@ -1,3 +1,5 @@
+package goistreamtoolredux.algorithm;
+
 import java.io.*;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
@@ -26,8 +28,8 @@ public class CustomTimer {
     }
 
     //File paths
-    String timerLength = Main.inputPath + "TimerLength.txt";
-    String timerTXT = Main.outputPath + "Timer.txt";
+    String timerLength = FileManager.inputPath + "TimerLength.txt";
+    String timerTXT = FileManager.outputPath + "Timer.txt";
 
 
     /*--- Methods ---*/
@@ -38,7 +40,7 @@ public class CustomTimer {
      * @param seconds a positive integer
      * @see #getInitialTimerLength()
      */
-    public void setInitialTimerLength(int seconds) throws IOException {
+    public void setInitialTimerLength(int seconds) throws IOException, IllegalArgumentException {
         if (seconds <= 0) throw new IllegalArgumentException("Cannot set initial timer value to 0");
         //open TimerLength file and set a new value
         Writer fileWriter = new FileWriter(timerLength);
@@ -96,7 +98,7 @@ public class CustomTimer {
         if (!isTimerRunning) { //prevent starting when there is already a timer. no doubling up!
             if (get() <= 0) { //if timer is currently at 0, restart
                 restart();
-            } else { //otherwise, resume from last position by starting CountdownTimer task
+            } else { //otherwise, resume from last position by starting goistreamtoolredux.algorithm.CountdownTimer task
                 isTimerRunning = true;
                 currentTimer = new Timer();
                 TimerTask task = new CountdownTimer();

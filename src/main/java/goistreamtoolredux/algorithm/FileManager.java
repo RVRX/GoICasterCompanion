@@ -1,3 +1,5 @@
+package goistreamtoolredux.algorithm;
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
@@ -5,12 +7,12 @@ import java.nio.file.*;
 import java.util.*;
 import java.util.stream.Stream;
 
-public class Main {
+public class FileManager {
 
     //System independent path to output folder
     protected static String outputPath = System.getProperty("user.dir") + File.separator + "output" + File.separator;
     //System independent path to input folder
-    protected static String inputPath = System.getProperty("user.dir") + File.separator + "input" + File.separator;
+    public static String inputPath = System.getProperty("user.dir") + File.separator + "input" + File.separator;
 
     public static void main(String[] args) {
         System.out.println("Welcome to GoIStreamToolRedux CLI!\ntype 'help' for more info. Type 'verify' if first start.\nAwaiting User input...");
@@ -259,15 +261,21 @@ public class Main {
 
         //check maps.txt file
         File maps = new File(inputPath + "maps.txt");
-        maps.createNewFile(); // if file already exists will do nothing
+        if (maps.createNewFile()) {
+            System.out.println("maps.txt was missing and has been created");
+        } else System.out.println("maps.txt file found");
 
         //check teams.txt
         File teams = new File(inputPath + "teams.txt");
-        teams.createNewFile(); // if file already exists will do nothing
+        if (teams.createNewFile()) {
+            System.out.println("teams.txt was missing and has been created");
+        } else System.out.println("teams.txt file found");
 
         //check TimerLength.txt
         File timerLength = new File(inputPath + "TimerLength.txt");
-        teams.createNewFile(); // if file already exists will do nothing
+        if (timerLength.createNewFile()) {
+            System.out.println("timerLength.txt was missing and has been created");
+        } else System.out.println("timerLength.txt file found");
     }
 
     /**
@@ -343,7 +351,7 @@ public class Main {
     public static void setTeam(String newTeamName, String teamIdentifier) throws IOException, IllegalArgumentException {
 
         //check for illegal characters in input
-        if (checkCharLegality(newTeamName) || checkCharLegality(teamIdentifier)) throw new IllegalArgumentException("Invalid team name or identifier");
+        if (!checkCharLegality(newTeamName) || !checkCharLegality(teamIdentifier)) throw new IllegalArgumentException("Invalid team name or identifier");
 
 
         teamIdentifier = teamIdentifier.toUpperCase();
@@ -441,7 +449,7 @@ public class Main {
      */
     private static boolean checkCharLegality(String stringToCheck) {
         //throw exception if stringToCheck contains filesystem illegal characters
-        final String[] ILLEGAL_CHARACTERS = { "/", "\n", "\r", "\t", "\0", "\f", "`", "?", "*", "\\", "<", ">", "|", "\"", ":", ".", ".." };
+        final String[] ILLEGAL_CHARACTERS = { "/", "\n", "\r", "\t", "\0", "\f", "`", "?", "*", "\\", "<", ">", "|", "\"", ":", ".", ".."};
         return Arrays.stream(ILLEGAL_CHARACTERS).noneMatch(stringToCheck::contains);
     }
 
@@ -490,9 +498,9 @@ public class Main {
      * @param allTeamImages list of paths, all paths should be a file with an extension
      * @return Path of found file
      */
-    private static Path findFile(LinkedList<Path> allTeamImages, String searchFor) {
+    protected static Path findFile(LinkedList<Path> allTeamImages, String searchFor) {
         for (Path aPath : allTeamImages) {
-            if (!aPath.getFileName().toString().contains(".")) {
+            if (aPath.getFileName().toString().contains(".")) { //if is a file not a directory
                 if (aPath.getFileName().toString().substring(0,aPath.getFileName().toString().indexOf(".")).equalsIgnoreCase(searchFor)) {
                     return aPath;
                 }
@@ -553,5 +561,19 @@ public class Main {
 
 
         return result;
+    }
+
+    public static LinkedList<String> getAllMapsFromDisk() throws FileNotFoundException {
+        //return list
+        LinkedList<String> mapList = new LinkedList<>();
+
+        //get all lines from maps.txt
+        File mapFile = new File(inputPath + "maps.txt");
+        Scanner scanner = new Scanner(mapFile);
+        while (scanner.hasNext()) {
+            String line = scanner.nextLine();
+            if (!line.equals("")) { mapList.add(line); }
+        }
+        return mapList;
     }
 }

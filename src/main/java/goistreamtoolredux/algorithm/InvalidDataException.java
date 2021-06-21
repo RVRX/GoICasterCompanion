@@ -1,3 +1,5 @@
+package goistreamtoolredux.algorithm;
+
 /**
  * A file read in by the application contains invalid data, typically due to outside tampering.
  */
