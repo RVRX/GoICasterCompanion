@@ -2,9 +2,13 @@ package goistreamtoolredux;
 
 import goistreamtoolredux.algorithm.CustomTimer;
 import goistreamtoolredux.algorithm.InvalidDataException;
+import goistreamtoolredux.algorithm.Team;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.util.LinkedList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -47,6 +51,22 @@ public class AlgorithmTest {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
            CustomTimer.getInstance().setInitialTimerLength(0);
         });
+    }
+
+
+    @Test
+    public void readTeamsFromDiskTest() throws IOException {
+        LinkedList<Team> teamLinkedList = Team.getAllTeamsFromDisk();
+        ObservableList<Team> teams = FXCollections.observableArrayList();
+        teams.addAll(teamLinkedList);
+        for (Team aTeam :
+                teams) {
+            String logo = null;
+            if (aTeam.getTeamLogo() != null) {
+                logo = aTeam.getTeamLogo().toString();
+            }
+            System.out.println(aTeam.getTeamName() + " (" + aTeam.getAbbreviatedName() + "): " + logo);
+        }
     }
 
 }
