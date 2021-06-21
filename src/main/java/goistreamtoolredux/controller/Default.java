@@ -65,6 +65,7 @@ public class Default {
         if (!isTimerOn) {
             //start
             isTimerOn = true;
+            lobbyTimerButton.setText("Stop Timer");
             try {
                 CustomTimer.getInstance().restart();
             } catch (IOException | InvalidDataException exception) {
@@ -74,6 +75,8 @@ public class Default {
         } else {
             //stop
             isTimerOn = false;
+            lobbyTimerButton.setText("Lobby Timer");
+
             try {
                 CustomTimer.getInstance().stop();
             } catch (IOException exception) {
@@ -176,6 +179,10 @@ public class Default {
         } catch (FileNotFoundException exception) {
             exception.printStackTrace();
         }
+
+//        new AutoCompleteComboBoxListener<>(mapComboBox);
+//        new AutoCompleteComboBoxListener<>(TeamAComboBox);
+//        new AutoCompleteComboBoxListener<>(TeamBComboBox);
     }
 
     /**
