@@ -37,6 +37,6 @@ JFXTextField:hover, JFXTextArea:hover, JFXComboBox:hover, JFXPasswordField:hover
     -fx-background-color: -fx--primary-light;
 }
 
-.combo-box-popup:selected .list-cell:selected .combo-box:selected JFXComboBox:selected {
-    -fx-text-fill: -fx--primary-dark;
+.cell:selected {
+    -fx-text-fill: -fx--primary-dark; /*selected item's text color*/
 }
