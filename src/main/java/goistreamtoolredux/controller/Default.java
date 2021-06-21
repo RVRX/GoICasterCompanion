@@ -2,7 +2,9 @@ package goistreamtoolredux.controller;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
+import goistreamtoolredux.algorithm.CustomTimer;
 import goistreamtoolredux.algorithm.FileManager;
+import goistreamtoolredux.algorithm.InvalidDataException;
 import goistreamtoolredux.algorithm.Team;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -49,9 +51,37 @@ public class Default {
     @FXML // fx:id="teamBImage"
     private ImageView teamBImage; // Value injected by FXMLLoader
 
+    @FXML // fx:id="lobbyTimerButton"
+    private JFXButton lobbyTimerButton; // Value injected by FXMLLoader
+
     private Team selectedATeam;
     private Team selectedBTeam;
     private String selectedMap;
+    private boolean isTimerOn = false;
+
+
+    @FXML
+    void lobbyTimerAction(ActionEvent event) {
+        if (!isTimerOn) {
+            //start
+            isTimerOn = true;
+            try {
+                CustomTimer.getInstance().restart();
+            } catch (IOException | InvalidDataException exception) {
+                exception.printStackTrace();
+                //todo handle
+            }
+        } else {
+            //stop
+            isTimerOn = false;
+            try {
+                CustomTimer.getInstance().stop();
+            } catch (IOException exception) {
+                exception.printStackTrace();
+                //todo handle
+            }
+        }
+    }
 
     /**
      * Called by the "save" button. Intended to save/set all of the currently selected options

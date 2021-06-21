@@ -1,5 +1,6 @@
 package goistreamtoolredux;
 
+import goistreamtoolredux.algorithm.CustomTimer;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -26,6 +27,10 @@ public class App extends Application {
     @Override
     public void stop() {
         System.out.println("Shutting Down");
+        //cancel the current TimerTask so the app doesn't hang on quit
+        if (CustomTimer.getInstance().getCurrentTimer() != null) {
+            CustomTimer.getInstance().getCurrentTimer().cancel();
+        }
     }
 }
 
