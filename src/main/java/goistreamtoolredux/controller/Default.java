@@ -9,6 +9,8 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.util.StringConverter;
 
 import java.io.IOException;
@@ -32,6 +34,15 @@ public class Default {
 
     @FXML // fx:id="saveButton"
     private JFXButton saveButton; // Value injected by FXMLLoader
+
+    @FXML // fx:id="teamAImage"
+    private ImageView teamAImage = new ImageView(); // Value injected by FXMLLoader
+
+    @FXML // fx:id="mapImage"
+    private ImageView mapImage; // Value injected by FXMLLoader
+
+    @FXML // fx:id="teamBImage"
+    private ImageView teamBImage; // Value injected by FXMLLoader
 
     private Team selectedATeam;
     private Team selectedBTeam;
@@ -64,13 +75,27 @@ public class Default {
     @FXML
     void selectTeamA(ActionEvent event) {
         selectedATeam = TeamAComboBox.getSelectionModel().getSelectedItem();
-        //todo update UI image
+        //update UI image
+        if (selectedATeam.getTeamLogo() == null) { //if there isn't an image
+            //delete image
+            teamAImage.setImage(null);
+        } else {
+            //update image
+            teamAImage.setImage(new Image(selectedATeam.getTeamLogo().toUri().toString()));
+        }
     }
 
     @FXML
     void selectTeamB(ActionEvent event) {
         selectedBTeam = TeamBComboBox.getSelectionModel().getSelectedItem();
-        //todo update UI image
+        //update UI image
+        if (selectedBTeam.getTeamLogo() == null) { //if there isn't an image
+            //delete image
+            teamBImage.setImage(null);
+        } else {
+            //update image
+            teamBImage.setImage(new Image(selectedBTeam.getTeamLogo().toUri().toString()));
+        }
     }
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
