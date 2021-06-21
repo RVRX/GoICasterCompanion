@@ -11,6 +11,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Spinner;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.StringConverter;
@@ -38,6 +39,9 @@ public class Default {
 
     @FXML // fx:id="mapComboBox"
     private JFXComboBox<String> mapComboBox; // Value injected by FXMLLoader
+
+    @FXML // fx:id="TournamentNumberSpinner"
+    private Spinner<Integer> TournamentNumberSpinner; // Value injected by FXMLLoader
 
     @FXML // fx:id="saveButton"
     private JFXButton saveButton; // Value injected by FXMLLoader
@@ -118,6 +122,8 @@ public class Default {
                 //todo, error popup
             }
         }
+        //save tournament number
+        FileManager.setTourneyNumber(TournamentNumberSpinner.getValue().toString());
     }
 
     @FXML
