@@ -1,5 +1,6 @@
 package goistreamtoolredux.controller;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import goistreamtoolredux.algorithm.FileManager;
 import goistreamtoolredux.algorithm.Team;
@@ -29,26 +30,47 @@ public class Default {
     @FXML // fx:id="TeamBComboBox"
     private JFXComboBox<Team> TeamBComboBox; // Value injected by FXMLLoader
 
+    @FXML // fx:id="saveButton"
+    private JFXButton saveButton; // Value injected by FXMLLoader
+
+    private Team selectedATeam;
+    private Team selectedBTeam;
+
+    /**
+     * Called by the "save" button. Intended to save/set all of the currently selected options
+     * @param event
+     */
     @FXML
-    void selectTeamA(ActionEvent event) {
-        Team selectedTeam = TeamAComboBox.getSelectionModel().getSelectedItem();
-        try {
-            FileManager.setTeam(selectedTeam.getTeamName(), "A");
-        } catch (IOException exception) {
-            exception.printStackTrace();
-            //todo, error popup
+    void save(ActionEvent event) {
+        // save team selections
+        if (selectedATeam != null) { //A Team
+            try {
+                FileManager.setTeam(selectedATeam.getTeamName(), "A");
+            } catch (IOException exception) {
+                exception.printStackTrace();
+                //todo, error popup
+            }
+        }
+        if (selectedBTeam != null) { //B Team
+            try {
+                FileManager.setTeam(selectedBTeam.getTeamName(), "B");
+            } catch (IOException exception) {
+                exception.printStackTrace();
+                //todo, error popup
+            }
         }
     }
 
     @FXML
+    void selectTeamA(ActionEvent event) {
+        selectedATeam = TeamAComboBox.getSelectionModel().getSelectedItem();
+        //todo update UI image
+    }
+
+    @FXML
     void selectTeamB(ActionEvent event) {
-        Team selectedTeam = TeamBComboBox.getSelectionModel().getSelectedItem();
-        try {
-            FileManager.setTeam(selectedTeam.getTeamName(), "B");
-        } catch (IOException exception) {
-            exception.printStackTrace();
-            //todo, error popup
-        }
+        selectedBTeam = TeamBComboBox.getSelectionModel().getSelectedItem();
+        //todo update UI image
     }
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
