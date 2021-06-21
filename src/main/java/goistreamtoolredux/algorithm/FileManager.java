@@ -12,7 +12,7 @@ public class FileManager {
     //System independent path to output folder
     protected static String outputPath = System.getProperty("user.dir") + File.separator + "output" + File.separator;
     //System independent path to input folder
-    protected static String inputPath = System.getProperty("user.dir") + File.separator + "input" + File.separator;
+    public static String inputPath = System.getProperty("user.dir") + File.separator + "input" + File.separator;
 
     public static void main(String[] args) {
         System.out.println("Welcome to GoIStreamToolRedux CLI!\ntype 'help' for more info. Type 'verify' if first start.\nAwaiting User input...");

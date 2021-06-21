@@ -13,6 +13,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.StringConverter;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.LinkedList;
@@ -32,6 +34,9 @@ public class Default {
     @FXML // fx:id="TeamBComboBox"
     private JFXComboBox<Team> TeamBComboBox; // Value injected by FXMLLoader
 
+    @FXML // fx:id="mapComboBox"
+    private JFXComboBox<String> mapComboBox; // Value injected by FXMLLoader
+
     @FXML // fx:id="saveButton"
     private JFXButton saveButton; // Value injected by FXMLLoader
 
@@ -46,6 +51,7 @@ public class Default {
 
     private Team selectedATeam;
     private Team selectedBTeam;
+    private String selectedMap;
 
     /**
      * Called by the "save" button. Intended to save/set all of the currently selected options
@@ -70,6 +76,23 @@ public class Default {
                 //todo, error popup
             }
         }
+        //save map
+        if (selectedMap != null) {
+            try {
+                FileManager.setMap(selectedMap);
+            } catch (IOException exception) {
+                exception.printStackTrace();
+                //todo, error popup
+            }
+        }
+    }
+
+    @FXML
+    void selectMap(ActionEvent event) {
+        selectedMap = mapComboBox.getSelectionModel().getSelectedItem();
+        //update UI image
+        File mapFile = new File(FileManager.inputPath + "map_images" + File.separator + selectedMap + ".png");
+        mapImage.setImage(new Image(mapFile.toURI().toString()));
     }
 
     @FXML
@@ -103,6 +126,7 @@ public class Default {
         assert TeamAComboBox != null : "fx:id=\"TeamAComboBox\" was not injected: check your FXML file 'Default.fxml'.";
         assert TeamBComboBox != null : "fx:id=\"TeamBComboBox\" was not injected: check your FXML file 'Default.fxml'.";
 
+        //init team combo boxes
         LinkedList<ComboBox<Team>> comboBoxesToInit = new LinkedList<>();
         comboBoxesToInit.add(TeamAComboBox);
         comboBoxesToInit.add(TeamBComboBox);
@@ -111,6 +135,16 @@ public class Default {
         } catch (IOException exception) {
             exception.printStackTrace();
             //todo error popup if failure
+        }
+
+        try {
+            //init map combo box
+            ObservableList<String> mapObsList = FXCollections.observableArrayList();
+            LinkedList<String> mapLL = FileManager.getAllMapsFromDisk();
+            mapObsList.addAll(mapLL);
+            mapComboBox.setItems(mapObsList);
+        } catch (FileNotFoundException exception) {
+            exception.printStackTrace();
         }
     }
 

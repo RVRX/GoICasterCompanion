@@ -17,6 +17,7 @@
             </HBox>
             <HBox prefHeight="43.0" prefWidth="600.0">
                <children>
+                  <JFXComboBox fx:id="mapComboBox" onAction="#selectMap" prefHeight="27.0" prefWidth="124.0" promptText="Map Selection" />
                   <JFXButton fx:id="saveButton" onAction="#save" text="Save" />
                </children>
             </HBox>
