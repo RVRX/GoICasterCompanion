@@ -562,4 +562,18 @@ public class FileManager {
 
         return result;
     }
+
+    public static LinkedList<String> getAllMapsFromDisk() throws FileNotFoundException {
+        //return list
+        LinkedList<String> mapList = new LinkedList<>();
+
+        //get all lines from maps.txt
+        File mapFile = new File(inputPath + "maps.txt");
+        Scanner scanner = new Scanner(mapFile);
+        while (scanner.hasNext()) {
+            String line = scanner.nextLine();
+            if (!line.equals("")) { mapList.add(line); }
+        }
+        return mapList;
+    }
 }
