@@ -179,10 +179,6 @@ public class Default {
         } catch (FileNotFoundException exception) {
             exception.printStackTrace();
         }
-
-//        new AutoCompleteComboBoxListener<>(mapComboBox);
-//        new AutoCompleteComboBoxListener<>(TeamAComboBox);
-//        new AutoCompleteComboBoxListener<>(TeamBComboBox);
     }
 
     /**
