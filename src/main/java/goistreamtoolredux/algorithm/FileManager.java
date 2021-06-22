@@ -28,7 +28,7 @@ public class FileManager {
     public static String getOutputPath() {
         if (System.getProperty("os.name").toLowerCase().contains("mac os")) {
             return System.getProperty("user.home") + File.separator + "Library" + File.separator +
-                    "Application Support" + File.separator + "GoIStreamToolRedux" + File.separator + "output" + File.separator; //todo, will need to add this folder to verify command, so that it gets created
+                    "Application Support" + File.separator + "GoIStreamToolRedux" + File.separator + "output" + File.separator;
         } else {
             return System.getProperty("user.dir") + File.separator + "output" + File.separator;
         }
@@ -37,7 +37,7 @@ public class FileManager {
     public static String getInputPath() {
         if (System.getProperty("os.name").toLowerCase().contains("mac os")) {
             return System.getProperty("user.home") + File.separator + "Library" + File.separator +
-                    "Application Support" + File.separator + "GoIStreamToolRedux" + File.separator + "input" + File.separator; //todo, will need to add this folder to verify command, so that it gets created
+                    "Application Support" + File.separator + "GoIStreamToolRedux" + File.separator + "input" + File.separator;
         } else {
             return System.getProperty("user.dir") + File.separator + "input" + File.separator;
         }
