@@ -13,6 +13,14 @@ public class FileManager {
     protected static String outputPath = System.getProperty("user.dir") + File.separator + "output" + File.separator;
     //System independent path to input folder
     public static String inputPath = System.getProperty("user.dir") + File.separator + "input" + File.separator;
+    //Mac specific path to output folder
+    public static String outputPathMac = System.getProperty("user.home") + File.separator + "Library" + File.separator +
+            "Application Support" + File.separator + "GoIStreamToolRedux" + File.separator + "output" + File.separator;
+    //Mac specific path to input folder
+    private static String inputPathMac = System.getProperty("user.home") + File.separator + "Library" + File.separator +
+            "Application Support" + File.separator + "GoIStreamToolRedux" + File.separator + "input" + File.separator;
+    //Os Name
+    private static final String osName = System.getProperty("os.name").toLowerCase();
 
     public static void main(String[] args) {
         System.out.println("Welcome to GoIStreamToolRedux CLI!\ntype 'help' for more info. Type 'verify' if first start.\nAwaiting User input...");
@@ -22,6 +30,22 @@ public class FileManager {
             System.out.print("> ");
             String input = scanner.nextLine();
             CLIParse(input);
+        }
+    }
+
+    public static String getOutputPath() {
+        if (osName.contains("mac os")) {
+            return outputPathMac; //todo, will need to add this folder to verify command, so that it gets created
+        } else {
+            return outputPath;
+        }
+    }
+
+    public static String getInputPath() {
+        if (osName.contains("mac os")) {
+            return inputPathMac; //todo, will need to add this folder to verify command, so that it gets created
+        } else {
+            return inputPath;
         }
     }
 
