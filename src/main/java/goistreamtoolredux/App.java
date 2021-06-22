@@ -1,7 +1,9 @@
 package goistreamtoolredux;
 
 import goistreamtoolredux.algorithm.CustomTimer;
+import goistreamtoolredux.algorithm.FileManager;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -14,6 +16,12 @@ public class App extends Application {
     @Override
     public void init() {
         System.out.println("Starting Up");
+        try {
+            FileManager.verifyContent();
+        } catch (IOException exception) {
+            exception.printStackTrace();
+            Platform.exit();
+        }
     }
 
     @Override
