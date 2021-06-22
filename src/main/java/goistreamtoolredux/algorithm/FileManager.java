@@ -5,9 +5,12 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.file.*;
 import java.util.*;
+import java.util.logging.Logger;
 import java.util.stream.Stream;
 
 public class FileManager {
+
+    static Logger logger = Logger.getLogger("BWH"); //get logger
 
     //System independent path to output folder
     protected static String outputPath = System.getProperty("user.dir") + File.separator + "output" + File.separator;
@@ -213,7 +216,7 @@ public class FileManager {
      * @throws IOException Error creating file or directory
      */
     public static void verifyContent() throws IOException {
-        System.out.println("verifying folders");
+        logger.info("Verifying Folders");
 
         //check input folder
         Path inputPathObject = Paths.get(inputPath);
@@ -222,6 +225,7 @@ public class FileManager {
             if (inputPathObject.toFile().mkdirs()) {
                 System.out.println("Input folder created successfully");
             } else {
+                logger.warning("Error when creating input directory");
                 throw new IOException("Error when creating input directory!");
             }
         } else System.out.println("Input folder found");

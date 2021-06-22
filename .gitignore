@@ -46,6 +46,10 @@ output/*
 # JAR META-INF
 */META-INF/*
 
+# log files
+GoISTR.log.*
+GoISTRCrash.log
+
 ### Gradle ###
 .gradle
 /build/
