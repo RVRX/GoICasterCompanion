@@ -10,9 +10,9 @@ import java.util.stream.Stream;
 public class FileManager {
 
     //System independent path to output folder
-    protected static String outputPath = System.getProperty("user.dir") + File.separator + "output" + File.separator;
+    protected static String outputPath = getOutputPath();
     //System independent path to input folder
-    public static String inputPath = System.getProperty("user.dir") + File.separator + "input" + File.separator;
+    public static String inputPath = getInputPath();
 
     public static void main(String[] args) {
         System.out.println("Welcome to GoIStreamToolRedux CLI!\ntype 'help' for more info. Type 'verify' if first start.\nAwaiting User input...");
@@ -22,6 +22,46 @@ public class FileManager {
             System.out.print("> ");
             String input = scanner.nextLine();
             CLIParse(input);
+        }
+    }
+
+    /**
+     * Gets the (OS specific) application output folder path.
+     *
+     * This should be the current working directory of the application (where it was launched from)
+     * on all OS's except for Mac, where it will be
+     * the <code>~/Application Support/GoIStreamToolRedux/output/</code> folder.
+     *
+     * @return full path to output folder ending with separator char (typically '<code>/</code>'),
+     * so that content may be appended to it
+     * @see #getOutputPath()
+     */
+    public static String getOutputPath() {
+        if (System.getProperty("os.name").toLowerCase().contains("mac os")) {
+            return System.getProperty("user.home") + File.separator + "Library" + File.separator +
+                    "Application Support" + File.separator + "GoIStreamToolRedux" + File.separator + "output" + File.separator;
+        } else {
+            return System.getProperty("user.dir") + File.separator + "output" + File.separator;
+        }
+    }
+
+    /**
+     * Gets the (OS specific) application input folder path.
+     *
+     * This should be the current working directory of the application (where it was launched from)
+     * on all OS's except for Mac, where it will be
+     * the <code>~/Application Support/GoIStreamToolRedux/input/</code> folder.
+     *
+     * @return full path to input folder ending with separator char (typically '<code>/</code>'),
+     * so that content may be appended to it
+     * @see #getOutputPath()
+     */
+    public static String getInputPath() {
+        if (System.getProperty("os.name").toLowerCase().contains("mac os")) {
+            return System.getProperty("user.home") + File.separator + "Library" + File.separator +
+                    "Application Support" + File.separator + "GoIStreamToolRedux" + File.separator + "input" + File.separator;
+        } else {
+            return System.getProperty("user.dir") + File.separator + "input" + File.separator;
         }
     }
 
@@ -563,6 +603,11 @@ public class FileManager {
         return result;
     }
 
+    /**
+     * Gets an updated list of maps from the <code>maps.txt</code> file
+     * @return Each line of the maps.txt file, except empty lines
+     * @throws FileNotFoundException if <code>maps.txt</code> file was not found
+     */
     public static LinkedList<String> getAllMapsFromDisk() throws FileNotFoundException {
         //return list
         LinkedList<String> mapList = new LinkedList<>();
