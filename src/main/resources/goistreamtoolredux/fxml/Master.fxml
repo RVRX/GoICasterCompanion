@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-
 <?import com.jfoenix.controls.*?>
 <?import de.jensd.fx.glyphs.materialdesignicons.*?>
 <?import javafx.scene.layout.*?>
@@ -37,7 +36,7 @@
                   </JFXButton>
                </children>
             </VBox>
-            <VBox fx:id="rightVBox" alignment="CENTER" prefHeight="500.0" prefWidth="800.0" />
+            <VBox fx:id="rightVBox" alignment="TOP_CENTER" prefHeight="500.0" prefWidth="800.0" />
          </children>
       </HBox>
    </children>

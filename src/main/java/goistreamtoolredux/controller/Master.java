@@ -34,7 +34,8 @@ public class Master {
         Node sideBar = null;
 
         try {
-            rightVBox.getChildren().add(FXMLLoader.load(getClass().getResource("/goistreamtoolredux/fxml/Default.fxml")));
+            //set default page
+            rightVBox.getChildren().add(FXMLLoader.load(getClass().getResource("/goistreamtoolredux/fxml/TeamPane.fxml")));
         } catch (IOException e) {
             e.printStackTrace();
         }
