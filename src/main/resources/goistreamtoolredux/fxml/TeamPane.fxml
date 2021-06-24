@@ -5,7 +5,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="goistreamtoolredux.controller.TeamPane">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../css/MainStyle.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="goistreamtoolredux.controller.TeamPane">
    <children>
       <HBox prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -15,7 +15,7 @@
                      <children>
                         <HBox alignment="CENTER_LEFT" prefHeight="42.0" prefWidth="300.0">
                            <children>
-                              <JFXComboBox fx:id="teamAComboBox" onAction="#selectTeamA" prefHeight="27.0" prefWidth="175.0">
+                              <JFXComboBox fx:id="teamAComboBox" onAction="#selectTeamA" prefHeight="27.0" prefWidth="175.0" promptText="Team A">
                                  <HBox.margin>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </HBox.margin>
@@ -26,6 +26,9 @@
                                  </HBox.margin>
                               </Label>
                            </children>
+                           <padding>
+                              <Insets top="10.0" />
+                           </padding>
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                            <children>
@@ -42,7 +45,7 @@
                      <children>
                         <HBox alignment="CENTER_LEFT" prefHeight="42.0" prefWidth="300.0">
                            <children>
-                              <JFXComboBox fx:id="teamCComboBox" onAction="#selectTeamC" prefHeight="27.0" prefWidth="175.0">
+                              <JFXComboBox fx:id="teamCComboBox" onAction="#selectTeamC" prefHeight="27.0" prefWidth="175.0" promptText="Team C">
                                  <HBox.margin>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </HBox.margin>
@@ -53,6 +56,9 @@
                                  </HBox.margin>
                               </Label>
                            </children>
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin>
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                            <children>
@@ -73,7 +79,7 @@
                      <children>
                         <HBox alignment="CENTER_LEFT" prefHeight="42.0" prefWidth="300.0">
                            <children>
-                              <JFXComboBox fx:id="teamBComboBox" onAction="#selectTeamB" prefHeight="27.0" prefWidth="175.0">
+                              <JFXComboBox fx:id="teamBComboBox" onAction="#selectTeamB" prefHeight="27.0" prefWidth="175.0" promptText="Team B">
                                  <HBox.margin>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </HBox.margin>
@@ -84,6 +90,9 @@
                                  </HBox.margin>
                               </Label>
                            </children>
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin>
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                            <children>
@@ -100,7 +109,7 @@
                      <children>
                         <HBox alignment="CENTER_LEFT" prefHeight="42.0" prefWidth="300.0">
                            <children>
-                              <JFXComboBox fx:id="teamDComboBox" onAction="#selectTeamD" prefHeight="27.0" prefWidth="175.0">
+                              <JFXComboBox fx:id="teamDComboBox" onAction="#selectTeamD" prefHeight="27.0" prefWidth="175.0" promptText="Team D">
                                  <HBox.margin>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </HBox.margin>
@@ -111,6 +120,9 @@
                                  </HBox.margin>
                               </Label>
                            </children>
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin>
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                            <children>

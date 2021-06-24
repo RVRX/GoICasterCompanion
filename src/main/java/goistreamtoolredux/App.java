@@ -28,7 +28,7 @@ public class App extends Application {
     public void start(Stage primaryStage) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("fxml/Master.fxml"));
         primaryStage.setTitle("GoIStreamToolRedux");
-        primaryStage.setScene(new Scene(root, 600, 275));
+        primaryStage.setScene(new Scene(root, 600, 400));
         primaryStage.show();
     }
 
