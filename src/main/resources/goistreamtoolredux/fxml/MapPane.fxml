@@ -1,9 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.AnchorPane?>
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="goistreamtoolredux.controller.MapPane"
-            prefHeight="400.0" prefWidth="600.0">
 
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="goistreamtoolredux.controller.MapPane">
+   <children>
+      <HBox prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <VBox prefHeight="200.0" prefWidth="300.0">
+               <children>
+                  <JFXComboBox fx:id="mapComboBox" onAction="#selectMap" prefHeight="27.0" prefWidth="201.0">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <VBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="15.0" />
+                     </VBox.margin>
+                  </JFXComboBox>
+                  <HBox alignment="CENTER">
+                     <children>
+                        <ImageView fx:id="mapImage" fitHeight="250.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true">
+                           <HBox.margin>
+                              <Insets top="10.0" />
+                           </HBox.margin>
+                        </ImageView>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox prefHeight="200.0" prefWidth="300.0">
+               <children>
+                  <Text fx:id="mapDetailText" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="290.22900390625">
+                     <VBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="15.0" />
+                     </VBox.margin>
+                  </Text>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+   </children>
 </AnchorPane>
