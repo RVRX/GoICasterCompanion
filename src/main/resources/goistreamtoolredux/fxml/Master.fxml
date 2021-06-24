@@ -9,27 +9,27 @@
          <children>
             <VBox fx:id="navigationSidebarVBox" minWidth="-Infinity" prefHeight="500.0" prefWidth="100.0">
                <children>
-                  <JFXButton prefHeight="200.0" prefWidth="100.0" text="Teams">
+                  <JFXButton fx:id="teamButton" onAction="#teamButtonAction" prefHeight="200.0" prefWidth="100.0" text="Teams">
                      <graphic>
                         <MaterialDesignIconView glyphName="ACCOUNT" />
                      </graphic>
                   </JFXButton>
-                  <JFXButton prefHeight="200.0" prefWidth="100.0" text="Map" textAlignment="CENTER">
+                  <JFXButton fx:id="mapButton" onAction="#mapButtonAction" prefHeight="200.0" prefWidth="100.0" text="Map" textAlignment="CENTER">
                      <graphic>
                         <MaterialDesignIconView glyphName="MAP" />
                      </graphic>
                   </JFXButton>
-                  <JFXButton prefHeight="200.0" prefWidth="100.0" text="Timer">
+                  <JFXButton fx:id="timerButton" onAction="#timerButtonAction" prefHeight="200.0" prefWidth="100.0" text="Timer">
                      <graphic>
                         <MaterialDesignIconView glyphName="TIMER" />
                      </graphic>
                   </JFXButton>
-                  <JFXButton prefHeight="200.0" prefWidth="100.0" text="Tourney">
+                  <JFXButton fx:id="tournamentButton" onAction="#tournamentButtonAction" prefHeight="200.0" prefWidth="100.0" text="Tourney">
                      <graphic>
                         <MaterialDesignIconView glyphName="TROPHY" />
                      </graphic>
                   </JFXButton>
-                  <JFXButton prefHeight="200.0" prefWidth="100.0" text="Settings">
+                  <JFXButton fx:id="settingsButton" onAction="#settingsButtonAction" prefHeight="200.0" prefWidth="100.0" text="Settings">
                      <graphic>
                         <MaterialDesignIconView glyphName="SETTINGS" />
                      </graphic>
