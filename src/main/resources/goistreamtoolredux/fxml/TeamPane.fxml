@@ -11,102 +11,118 @@
          <children>
             <VBox fx:id="leftVBox" prefHeight="200.0" prefWidth="300.0">
                <children>
-                  <HBox alignment="CENTER_LEFT" prefHeight="42.0" prefWidth="300.0">
+                  <VBox minHeight="200.0">
                      <children>
-                        <JFXComboBox fx:id="teamAComboBox" onAction="#selectTeamA" prefHeight="27.0" prefWidth="175.0">
-                           <HBox.margin>
-                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                           </HBox.margin>
-                        </JFXComboBox>
-                        <Label fx:id="teamALabel" text="Label">
-                           <HBox.margin>
-                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                           </HBox.margin>
-                        </Label>
+                        <HBox alignment="CENTER_LEFT" prefHeight="42.0" prefWidth="300.0">
+                           <children>
+                              <JFXComboBox fx:id="teamAComboBox" onAction="#selectTeamA" prefHeight="27.0" prefWidth="175.0">
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </HBox.margin>
+                              </JFXComboBox>
+                              <Label fx:id="teamALabel" text="Label">
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </HBox.margin>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <ImageView fx:id="teamAImage" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </HBox.margin>
+                              </ImageView>
+                           </children>
+                        </HBox>
                      </children>
-                  </HBox>
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                  </VBox>
+                  <VBox minHeight="200.0">
                      <children>
-                        <ImageView fx:id="teamAImage" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                           <HBox.margin>
-                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                           </HBox.margin>
-                        </ImageView>
+                        <HBox alignment="CENTER_LEFT" prefHeight="42.0" prefWidth="300.0">
+                           <children>
+                              <JFXComboBox fx:id="teamCComboBox" onAction="#selectTeamC" prefHeight="27.0" prefWidth="175.0">
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </HBox.margin>
+                              </JFXComboBox>
+                              <Label fx:id="teamCLabel" text="Label">
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </HBox.margin>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <ImageView fx:id="teamCImage" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </HBox.margin>
+                              </ImageView>
+                           </children>
+                        </HBox>
                      </children>
-                  </HBox>
-                  <HBox alignment="CENTER_LEFT" prefHeight="42.0" prefWidth="300.0">
-                     <children>
-                        <JFXComboBox fx:id="teamCComboBox" onAction="#selectTeamC" prefHeight="27.0" prefWidth="175.0">
-                           <HBox.margin>
-                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                           </HBox.margin>
-                        </JFXComboBox>
-                        <Label fx:id="teamCLabel" text="Label">
-                           <HBox.margin>
-                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                           </HBox.margin>
-                        </Label>
-                     </children>
-                  </HBox>
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                     <children>
-                        <ImageView fx:id="teamCImage" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                           <HBox.margin>
-                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                           </HBox.margin>
-                        </ImageView>
-                     </children>
-                  </HBox>
+                  </VBox>
                </children>
             </VBox>
             <VBox fx:id="rightVBox" prefHeight="200.0" prefWidth="300.0">
                <children>
-                  <HBox alignment="CENTER_LEFT" prefHeight="42.0" prefWidth="300.0">
+                  <VBox minHeight="200.0">
                      <children>
-                        <JFXComboBox fx:id="teamBComboBox" onAction="#selectTeamB" prefHeight="27.0" prefWidth="175.0">
-                           <HBox.margin>
-                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                           </HBox.margin>
-                        </JFXComboBox>
-                        <Label fx:id="teamBLabel" text="Label">
-                           <HBox.margin>
-                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                           </HBox.margin>
-                        </Label>
+                        <HBox alignment="CENTER_LEFT" prefHeight="42.0" prefWidth="300.0">
+                           <children>
+                              <JFXComboBox fx:id="teamBComboBox" onAction="#selectTeamB" prefHeight="27.0" prefWidth="175.0">
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </HBox.margin>
+                              </JFXComboBox>
+                              <Label fx:id="teamBLabel" text="Label">
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </HBox.margin>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <ImageView fx:id="teamBImage" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </HBox.margin>
+                              </ImageView>
+                           </children>
+                        </HBox>
                      </children>
-                  </HBox>
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                  </VBox>
+                  <VBox minHeight="200.0">
                      <children>
-                        <ImageView fx:id="teamBImage" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                           <HBox.margin>
-                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                           </HBox.margin>
-                        </ImageView>
+                        <HBox alignment="CENTER_LEFT" prefHeight="42.0" prefWidth="300.0">
+                           <children>
+                              <JFXComboBox fx:id="teamDComboBox" onAction="#selectTeamD" prefHeight="27.0" prefWidth="175.0">
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </HBox.margin>
+                              </JFXComboBox>
+                              <Label fx:id="teamDLabel" text="Label">
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </HBox.margin>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <ImageView fx:id="teamDImage" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </HBox.margin>
+                              </ImageView>
+                           </children>
+                        </HBox>
                      </children>
-                  </HBox>
-                  <HBox alignment="CENTER_LEFT" prefHeight="42.0" prefWidth="300.0">
-                     <children>
-                        <JFXComboBox fx:id="teamDComboBox" onAction="#selectTeamD" prefHeight="27.0" prefWidth="175.0">
-                           <HBox.margin>
-                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                           </HBox.margin>
-                        </JFXComboBox>
-                        <Label fx:id="teamDLabel" text="Label">
-                           <HBox.margin>
-                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                           </HBox.margin>
-                        </Label>
-                     </children>
-                  </HBox>
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                     <children>
-                        <ImageView fx:id="teamDImage" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                           <HBox.margin>
-                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                           </HBox.margin>
-                        </ImageView>
-                     </children>
-                  </HBox>
+                  </VBox>
                </children>
             </VBox>
          </children>
