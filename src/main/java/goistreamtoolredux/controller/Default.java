@@ -11,6 +11,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -57,6 +58,9 @@ public class Default {
 
     @FXML // fx:id="lobbyTimerButton"
     private JFXButton lobbyTimerButton; // Value injected by FXMLLoader
+
+    @FXML // fx:id="testLabel"
+    private Label testLabel; // Value injected by FXMLLoader
 
     private Team selectedATeam;
     private Team selectedBTeam;
@@ -164,6 +168,8 @@ public class Default {
     void initialize() {
         assert TeamAComboBox != null : "fx:id=\"TeamAComboBox\" was not injected: check your FXML file 'Default.fxml'.";
         assert TeamBComboBox != null : "fx:id=\"TeamBComboBox\" was not injected: check your FXML file 'Default.fxml'.";
+
+        testLabel.setText(FileManager.getInputPath());
 
         //init team combo boxes
         LinkedList<ComboBox<Team>> comboBoxesToInit = new LinkedList<>();
