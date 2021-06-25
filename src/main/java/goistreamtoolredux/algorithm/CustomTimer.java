@@ -161,15 +161,26 @@ public class CustomTimer {
 
     /**
      * Gets the <b>current</b> value of the timer.
+     * If the timer file is empty or invalid, the file will be fixed,
+     * and the default length (TimerLength.txt will be returned)
      * @return time left in seconds.
      * @throws FileNotFoundException timer.txt cannot be found
-     * @throws NoSuchElementException timer.txt contains an unexpected character
+     * @throws InvalidDataException incorrect values in TimerLength.txt
      */
-    public int get() throws FileNotFoundException, NoSuchElementException {
+    public int get() throws IOException, InvalidDataException {
         //open Timer.txt and scan first integer
         File timerSettings = new File(timerTXT);
         Scanner scanner = new Scanner(timerSettings);
-        return scanner.nextInt();
+        try {
+            return scanner.nextInt();
+        } catch (NoSuchElementException e) {
+            //timer file is empty or invalid.
+            //write value of "TimerLength.txt" to "Timer.txt", and return such
+            Writer fileWriter = new FileWriter(timerTXT);
+            fileWriter.write(getInitialTimerLength());
+            fileWriter.close();
+        }
+        return 240;
     }
 }
 
@@ -199,6 +210,8 @@ class CountdownTimer extends TimerTask {
         } catch (FileNotFoundException exception) {
             exception.printStackTrace();
         } catch (IOException exception) {
+            exception.printStackTrace();
+        } catch (InvalidDataException exception) {
             exception.printStackTrace();
         }
     }
