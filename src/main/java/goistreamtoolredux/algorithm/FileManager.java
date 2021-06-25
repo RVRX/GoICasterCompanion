@@ -10,7 +10,7 @@ import java.util.stream.Stream;
 public class FileManager {
 
     //System independent path to output folder
-    protected static String outputPath = getOutputPath();
+    public static String outputPath = getOutputPath();
     //System independent path to input folder
     public static String inputPath = getInputPath();
 
