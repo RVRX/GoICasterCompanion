@@ -72,8 +72,13 @@ public class Master {
                     bar.enqueue(new JFXSnackbar.SnackbarEvent(new JFXSnackbarLayout("Updating Teams...",null,null),new Duration(1000)));
                     break;
                 case "/goistreamtoolredux/fxml/MapPane.fxml":
-                    System.out.println("Map Save Call");
                     //todo save map content
+                    break;
+                case "/goistreamtoolredux/fxml/TournamentPane.fxml":
+                    //todo save tourney content
+                    break;
+                case "/goistreamtoolredux/fxml/SettingsPane.fxml":
+                    //todo save settings content
                     break;
             }
         }
