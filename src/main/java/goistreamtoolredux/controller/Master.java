@@ -1,7 +1,3 @@
-/**
- * Sample Skeleton for 'Master.fxml' Controller Class
- */
-
 package goistreamtoolredux.controller;
 
 import com.jfoenix.controls.JFXButton;
@@ -91,12 +87,12 @@ public class Master {
     private void setPage(String pathToPage) {
         System.out.println("setPage(" + pathToPage + ")");
 
-        Node sideBar = null;
+        Node page = null;
 
         try {
             //set page
-            sideBar = FXMLLoader.load(getClass().getResource(pathToPage));
-            rightVBox.getChildren().set(0, sideBar);
+            page = FXMLLoader.load(getClass().getResource(pathToPage));
+            rightVBox.getChildren().set(0, page);
         } catch (IOException e) {
             e.printStackTrace();
             //todo handle
