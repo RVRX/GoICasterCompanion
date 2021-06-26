@@ -2,6 +2,7 @@
 
 <?import com.jfoenix.controls.*?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Spinner?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
@@ -19,9 +20,9 @@
             <HBox prefHeight="43.0" prefWidth="600.0">
                <children>
                   <JFXComboBox fx:id="mapComboBox" onAction="#selectMap" prefHeight="27.0" prefWidth="124.0" promptText="Map Selection" />
-                  <Spinner fx:id="TournamentNumberSpinner" editable="true" prefHeight="27.0" prefWidth="79.0" min="1" initialValue="1" amountToStepBy="1">
+                  <Spinner fx:id="TournamentNumberSpinner" amountToStepBy="1" editable="true" initialValue="1" min="1" prefHeight="27.0" prefWidth="79.0">
                      <max>
-                        <Integer fx:constant="MAX_VALUE"/>
+                        <Integer fx:constant="MAX_VALUE" />
                      </max>
                   </Spinner>
                   <JFXButton fx:id="saveButton" onAction="#save" text="Save" />
@@ -50,6 +51,7 @@
                      </children></VBox>
                </children>
             </HBox>
+            <Label fx:id="testLabel" text="Label" />
          </children>
       </VBox>
    </children>

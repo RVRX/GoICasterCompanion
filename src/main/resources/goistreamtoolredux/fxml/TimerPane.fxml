@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import de.jensd.fx.glyphs.materialdesignicons.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="goistreamtoolredux.controller.TimerPane">
+   <children>
+      <HBox prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="300.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Lobby Timer">
+                     <font>
+                        <Font size="17.0" />
+                     </font>
+                  </Text>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <MaterialDesignIconView fx:id="lobbyPlay" glyphName="PLAY" onMouseClicked="#lobbyPlayClicked" size="35.0" />
+                        <MaterialDesignIconView fx:id="lobbyPause" glyphName="PAUSE" onMouseClicked="#lobbyPauseClicked" size="35" />
+                        <MaterialDesignIconView fx:id="lobbyStop" glyphName="STOP" onMouseClicked="#lobbyStopClicked" size="35" />
+                        <MaterialDesignIconView fx:id="lobbyRestart" glyphName="REPLAY" onMouseClicked="#lobbyRestartClicked" size="35" />
+                     </children>
+                  </HBox>
+                  <Label fx:id="lobbyTimerText" text="00:00">
+                     <font>
+                        <Font size="96.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+            <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="300.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Custom Timer">
+                     <font>
+                        <Font size="17.0" />
+                     </font>
+                  </Text>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <MaterialDesignIconView fx:id="customPlay" glyphName="PLAY" onMouseClicked="#customPlayClicked" size="35.0" />
+                        <MaterialDesignIconView fx:id="customPause" glyphName="PAUSE" onMouseClicked="#customPauseClicked" size="35" />
+                        <MaterialDesignIconView fx:id="customStop" glyphName="STOP" onMouseClicked="#customStopClicked" size="35" />
+                        <MaterialDesignIconView fx:id="customRestart" glyphName="REPLAY" onMouseClicked="#customRestartClicked" size="35" />
+                     </children>
+                  </HBox>
+                  <Label fx:id="customTimerText" text="00:00">
+                     <font>
+                        <Font size="96.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
+<?import java.lang.Integer?>
+<AnchorPane fx:id="anchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="goistreamtoolredux.controller.TournamentPane">
+   <children>
+      <HBox prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Tournament #:" wrappingWidth="90.8662109375">
+               <HBox.margin>
+                  <Insets left="5.0" top="15.0" />
+               </HBox.margin>
+            </Text>
+            <Spinner fx:id="tournamentNumberSpinner" amountToStepBy="1" editable="true" initialValue="1" min="1" prefHeight="27.0" prefWidth="79.0">
+               <max>
+                  <Integer fx:constant="MAX_VALUE" />
+               </max>
+               <HBox.margin>
+                  <Insets right="5.0" top="10.0" />
+               </HBox.margin>
+            </Spinner>
+            <JFXButton fx:id="saveButton" onAction="#saveChanges" text="Save">
+               <HBox.margin>
+                  <Insets left="5.0" top="10.0" />
+               </HBox.margin>
+            </JFXButton>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>
