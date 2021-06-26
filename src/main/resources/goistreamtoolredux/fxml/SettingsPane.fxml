@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-
-<?import javafx.geometry.Insets?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
@@ -14,47 +13,57 @@
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </HBox.margin>
                <content>
-                  <VBox prefHeight="200.0" prefWidth="300.0">
+                  <VBox prefHeight="370.0" prefWidth="600.0">
                      <children>
                         <HBox>
                            <children>
                               <Label minWidth="-Infinity" text="Input Path:  " />
                               <Text fx:id="inputPathText" strokeType="OUTSIDE" strokeWidth="0.0" text="..." />
                            </children>
+                           <VBox.margin>
+                              <Insets bottom="5.0" />
+                           </VBox.margin>
                         </HBox>
                         <HBox>
                            <children>
                               <Label minWidth="-Infinity" text="Output Path: " />
                               <Text fx:id="outputPathText" strokeType="OUTSIDE" strokeWidth="0.0" text="..." />
                            </children>
+                           <VBox.margin>
+                              <Insets bottom="5.0" />
+                           </VBox.margin>
                         </HBox>
                         <HBox>
                            <children>
                               <Label minWidth="-Infinity" text="OS Name: " />
                               <Text fx:id="osNameText" strokeType="OUTSIDE" strokeWidth="0.0" text="..." />
                            </children>
+                           <VBox.margin>
+                              <Insets bottom="5.0" />
+                           </VBox.margin>
                         </HBox>
                         <HBox>
                            <children>
                               <Label minWidth="-Infinity" text="OS Arch: " />
                               <Text fx:id="osArchText" strokeType="OUTSIDE" strokeWidth="0.0" text="..." />
                            </children>
+                           <VBox.margin>
+                              <Insets bottom="5.0" />
+                           </VBox.margin>
                         </HBox>
                         <HBox>
                            <children>
                               <Label minWidth="-Infinity" text="OS Version: " />
                               <Text fx:id="osVersionText" strokeType="OUTSIDE" strokeWidth="0.0" text="..." />
                            </children>
+                           <VBox.margin>
+                              <Insets bottom="5.0" />
+                           </VBox.margin>
                         </HBox>
                      </children>
                   </VBox>
                </content>
             </ScrollPane>
-            <VBox prefHeight="200.0" prefWidth="300.0">
-               <HBox.margin>
-                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-               </HBox.margin>
-            </VBox>
          </children>
       </HBox>
    </children>
