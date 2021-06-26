@@ -1,12 +1,19 @@
 package goistreamtoolredux.controller;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXSnackbar;
+import com.jfoenix.controls.JFXSnackbarLayout;
+import goistreamtoolredux.algorithm.FileManager;
+import goistreamtoolredux.algorithm.Team;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.util.Duration;
 
 import java.io.IOException;
 import java.net.URL;
@@ -19,6 +26,9 @@ public class Master {
 
     @FXML // URL location of the FXML file that was given to the FXMLLoader
     private URL location;
+
+    @FXML // fx:id="masterAnchorPane"
+    private AnchorPane masterAnchorPane; // Value injected by FXMLLoader
 
     @FXML // fx:id="navigationSidebarVBox"
     private VBox navigationSidebarVBox; // Value injected by FXMLLoader
@@ -40,6 +50,63 @@ public class Master {
 
     @FXML // fx:id="rightVBox"
     private VBox rightVBox; // Value injected by FXMLLoader
+
+
+    //---VARIABLES---
+    private String currentPage;
+
+
+    /**
+     *
+     * @param keyEvent
+     */
+    @FXML
+    public void keyListener(KeyEvent keyEvent) {
+        if (keyEvent.isMetaDown() && keyEvent.getText().equalsIgnoreCase("s")) {
+            switch (currentPage) {
+                case "/goistreamtoolredux/fxml/TeamPane.fxml":
+                    //save team content
+                    updateTeams();
+                    //snackBar popup, team infos saved
+                    JFXSnackbar bar = new JFXSnackbar(masterAnchorPane);
+                    bar.enqueue(new JFXSnackbar.SnackbarEvent(new JFXSnackbarLayout("Updating Teams...",null,null),new Duration(1000)));
+                    break;
+                case "/goistreamtoolredux/fxml/MapPane.fxml":
+                    System.out.println("Map Save Call");
+                    //todo save map content
+                    break;
+            }
+        }
+    }
+
+    /**
+     *
+     */
+    private void updateTeams() {
+        Team teamNameA = TeamPane.getSelectedATeam();
+        Team teamNameB = TeamPane.getSelectedBTeam();
+        Team teamNameC = TeamPane.getSelectedCTeam();
+        Team teamNameD = TeamPane.getSelectedDTeam();
+        setTeamIfNotNull(teamNameA, "A");
+        setTeamIfNotNull(teamNameB, "B");
+        setTeamIfNotNull(teamNameC, "C");
+        setTeamIfNotNull(teamNameD, "D");
+    }
+
+    /**
+     * Helper for {@link #updateTeams()}
+     */
+    private void setTeamIfNotNull(Team aTeam, String letter) {
+        if (aTeam != null) {
+            try {
+                FileManager.setTeam(aTeam.getTeamName(), "A");
+            } catch (IOException exception) {
+                exception.printStackTrace();
+                //todo, handle
+            }
+        } else System.out.println("null team");
+
+    }
 
     @FXML
     void teamButtonAction(ActionEvent event) {
@@ -93,6 +160,7 @@ public class Master {
             //set page
             page = FXMLLoader.load(getClass().getResource(pathToPage));
             rightVBox.getChildren().set(0, page);
+            currentPage = pathToPage;
         } catch (IOException e) {
             e.printStackTrace();
             //todo handle

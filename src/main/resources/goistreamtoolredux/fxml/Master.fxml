@@ -3,7 +3,7 @@
 <?import com.jfoenix.controls.*?>
 <?import de.jensd.fx.glyphs.materialdesignicons.*?>
 <?import javafx.scene.layout.*?>
-<AnchorPane prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="goistreamtoolredux.controller.Master">
+<AnchorPane fx:id="masterAnchorPane" onKeyPressed="#keyListener" prefHeight="500.0" prefWidth="600.0" stylesheets="@../css/MainStyle.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="goistreamtoolredux.controller.Master">
    <children>
       <HBox prefHeight="500.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>

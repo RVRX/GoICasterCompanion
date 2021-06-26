@@ -68,10 +68,26 @@ public class TeamPane {
     @FXML // fx:id="teamDImage"
     private ImageView teamDImage; // Value injected by FXMLLoader
 
-    private Team selectedATeam;
-    private Team selectedBTeam;
-    private Team selectedCTeam;
-    private Team selectedDTeam;
+    private static Team selectedATeam;
+    private static Team selectedBTeam;
+    private static Team selectedCTeam;
+    private static Team selectedDTeam;
+
+    public static Team getSelectedATeam() {
+        return selectedATeam;
+    }
+
+    public static Team getSelectedBTeam() {
+        return selectedBTeam;
+    }
+
+    public static Team getSelectedCTeam() {
+        return selectedCTeam;
+    }
+
+    public static Team getSelectedDTeam() {
+        return selectedDTeam;
+    }
 
     @FXML
     void selectTeamA(ActionEvent event) {
