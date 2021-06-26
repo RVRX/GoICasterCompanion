@@ -150,5 +150,10 @@ public class TimerPane {
             //todo handle
         }
 
+        //todo, figure out a method for updating timer value,
+        //  for now, however, they will be hidden
+        lobbyTimerText.setVisible(false);
+        customTimerText1.setVisible(false);
+
     }
 }
