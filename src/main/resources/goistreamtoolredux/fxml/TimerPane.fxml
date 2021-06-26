@@ -46,7 +46,7 @@
                         <MaterialDesignIconView fx:id="customRestart" glyphName="REPLAY" onMouseClicked="#customRestartClicked" size="35" />
                      </children>
                   </HBox>
-                  <Label fx:id="customTimerText1" text="00:00">
+                  <Label fx:id="customTimerText" text="00:00">
                      <font>
                         <Font size="96.0" />
                      </font>

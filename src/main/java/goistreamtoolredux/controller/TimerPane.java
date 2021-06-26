@@ -50,7 +50,7 @@ public class TimerPane {
     private MaterialDesignIconView customRestart; // Value injected by FXMLLoader
 
     @FXML // fx:id="customTimerText1"
-    private Label customTimerText1; // Value injected by FXMLLoader
+    private Label customTimerText; // Value injected by FXMLLoader
 
     @FXML
     void customPauseClicked(MouseEvent event) {
@@ -125,7 +125,7 @@ public class TimerPane {
         assert customPause != null : "fx:id=\"customPause\" was not injected: check your FXML file 'TimerPane.fxml'.";
         assert customStop != null : "fx:id=\"customStop\" was not injected: check your FXML file 'TimerPane.fxml'.";
         assert customRestart != null : "fx:id=\"customRestart\" was not injected: check your FXML file 'TimerPane.fxml'.";
-        assert customTimerText1 != null : "fx:id=\"customTimerText1\" was not injected: check your FXML file 'TimerPane.fxml'.";
+        assert customTimerText != null : "fx:id=\"customTimerText1\" was not injected: check your FXML file 'TimerPane.fxml'.";
 
         //get initial lobby timer length
         try {
@@ -153,7 +153,7 @@ public class TimerPane {
         //todo, figure out a method for updating timer value,
         //  for now, however, they will be hidden
         lobbyTimerText.setVisible(false);
-        customTimerText1.setVisible(false);
+        customTimerText.setVisible(false);
 
     }
 }
