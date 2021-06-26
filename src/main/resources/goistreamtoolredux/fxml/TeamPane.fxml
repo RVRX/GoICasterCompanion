@@ -20,7 +20,7 @@
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </HBox.margin>
                               </JFXComboBox>
-                              <Label fx:id="teamALabel" text="Label">
+                              <Label fx:id="teamALabel">
                                  <HBox.margin>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </HBox.margin>
@@ -50,7 +50,7 @@
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </HBox.margin>
                               </JFXComboBox>
-                              <Label fx:id="teamCLabel" text="Label">
+                              <Label fx:id="teamCLabel">
                                  <HBox.margin>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </HBox.margin>
@@ -84,7 +84,7 @@
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </HBox.margin>
                               </JFXComboBox>
-                              <Label fx:id="teamBLabel" text="Label">
+                              <Label fx:id="teamBLabel">
                                  <HBox.margin>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </HBox.margin>
@@ -114,7 +114,7 @@
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </HBox.margin>
                               </JFXComboBox>
-                              <Label fx:id="teamDLabel" text="Label">
+                              <Label fx:id="teamDLabel">
                                  <HBox.margin>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </HBox.margin>
