@@ -42,7 +42,7 @@ public class MapPane {
         File mapFile = new File(FileManager.inputPath + "map_images" + File.separator + selectedMap + ".png");
         mapImage.setImage(new Image(mapFile.toURI().toString()));
         //todo update text, current is concept filler
-        mapDetailText.setText("Selected Map is " + selectedMap + " which is a " + "MAP_TYPE" + " map. " + "\n     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\n    Mattis pellentesque id nibh tortor id aliquet lectus proin nibh. Rutrum quisque non tellus orci ac auctor augue. Morbi non arcu risus quis varius quam. Fringilla phasellus faucibus scelerisque eleifend. Quam lacus suspendisse faucibus interdum posuere lorem. Gravida dictum fusce ut placerat orci nulla. Eget egestas purus viverra accumsan in nisl nisi. Quis enim lobortis scelerisque fermentum dui faucibus. Tincidunt nunc pulvinar sapien et ligula. Mauris a diam maecenas sed enim. Nisl pretium fusce id velit ut. Duis convallis convallis tellus id. Ac turpis egestas sed tempus. Varius vel pharetra vel turpis nunc eget lorem dolor. In ante metus dictum at.");
+        mapDetailText.setText("Selected Map is " + selectedMap);
     }
 
     @FXML // This method is called by the FXMLLoader when initialization is complete

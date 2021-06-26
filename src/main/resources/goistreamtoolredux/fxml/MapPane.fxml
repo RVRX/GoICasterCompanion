@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.image.ImageView?>
@@ -12,7 +11,7 @@
          <children>
             <VBox prefHeight="200.0" prefWidth="300.0">
                <children>
-                  <JFXComboBox fx:id="mapComboBox" onAction="#selectMap" prefHeight="27.0" prefWidth="201.0">
+                  <JFXComboBox fx:id="mapComboBox" onAction="#selectMap" prefHeight="27.0" prefWidth="201.0" promptText="Current Map">
                      <opaqueInsets>
                         <Insets />
                      </opaqueInsets>
