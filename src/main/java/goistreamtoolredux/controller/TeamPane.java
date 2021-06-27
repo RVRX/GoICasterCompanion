@@ -21,6 +21,7 @@ import javafx.util.StringConverter;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.ResourceBundle;
 
@@ -253,9 +254,11 @@ public class TeamPane {
      * @throws IOException when IO error getting teams from disk
      */
     private void teamComboBoxInit(LinkedList<ComboBox<Team>> comboBoxLinkedList) throws IOException {
-        //get all teams from disk and add to observable list
-        ObservableList<Team> teamObservableList = FXCollections.observableArrayList(); //todo simplify, no need to convert
+        //get all teams from disk
         LinkedList<Team> teams = Team.getAllTeamsFromDisk();
+        Collections.sort(teams);
+        //add to observable list
+        ObservableList<Team> teamObservableList = FXCollections.observableArrayList();
         teamObservableList.addAll(teams);
 
         //for each combo box in input array
@@ -263,6 +266,12 @@ public class TeamPane {
                 comboBoxLinkedList) {
             comboBox.setItems(teamObservableList); //add team list to combobox
             teamComboBoxSetConverter(comboBox); //apply setConverter to combobox team elements
+        }
+    }
+
+    private void sortTeamList(LinkedList<Team> teamLinkedList) {
+        for (int i = 0; i < teamLinkedList.size(); i++) {
+
         }
     }
 

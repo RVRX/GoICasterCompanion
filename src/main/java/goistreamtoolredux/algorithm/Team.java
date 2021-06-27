@@ -9,7 +9,7 @@ import java.util.LinkedList;
 import java.util.Scanner;
 import java.util.stream.Stream;
 
-public class Team {
+public class Team implements Comparable<Team> {
     String teamName;
     String abbreviatedName;
     Path teamLogo;
@@ -77,6 +77,14 @@ public class Team {
         }
 
         return teamObservableList;
+    }
+
+    @Override
+    public int compareTo(Team u) {
+        if (getTeamName() == null || u.getTeamName() == null) {
+            return 0;
+        }
+        return getTeamName().compareTo(u.getTeamName());
     }
 
 }
