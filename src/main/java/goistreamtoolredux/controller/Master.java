@@ -1,19 +1,15 @@
 package goistreamtoolredux.controller;
 
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXSnackbar;
-import com.jfoenix.controls.JFXSnackbarLayout;
-import goistreamtoolredux.algorithm.FileManager;
-import goistreamtoolredux.algorithm.Team;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
-import javafx.util.Duration;
 
 import java.io.IOException;
 import java.net.URL;
@@ -54,11 +50,24 @@ public class Master {
 
     //---VARIABLES---
     private String currentPage;
+    /** References to controllers, set within {@link #setPage(String)}
+     * Just because a controller variable here is not null, does not mean it is valid.
+     * It is only valid while {@link #currentPage} is equal to the path to that controller's
+     * FXML loader.
+     *
+     * These variables allow for communication with controller objects. ie, calling non-static functions.
+     * */
+    private TeamPane teamPaneController;
+    private MapPane mapPaneController;
+    private TimerPane timerPaneController;
+    private TournamentPane tournamentPaneController;
+    private SettingsPane settingsPaneController;
 
 
     /**
-     *
-     * @param keyEvent
+     * Upon hearing a <code>META+S</code> keypress, throws a <code>save()</code> call to
+     * the currently active controller for the right side (main) content.
+     * @param keyEvent User's keypress
      */
     @FXML
     public void keyListener(KeyEvent keyEvent) {
@@ -66,51 +75,19 @@ public class Master {
             switch (currentPage) {
                 case "/goistreamtoolredux/fxml/TeamPane.fxml":
                     //save team content
-                    updateTeams();
-                    //snackBar popup, team infos saved
-                    JFXSnackbar bar = new JFXSnackbar(masterAnchorPane);
-                    bar.enqueue(new JFXSnackbar.SnackbarEvent(new JFXSnackbarLayout("Updating Teams...",null,null),new Duration(1000)));
+                    teamPaneController.save();
                     break;
                 case "/goistreamtoolredux/fxml/MapPane.fxml":
-                    //todo save map content
+                    mapPaneController.save();
                     break;
                 case "/goistreamtoolredux/fxml/TournamentPane.fxml":
-                    //todo save tourney content
+                    tournamentPaneController.saveChanges(null);
                     break;
                 case "/goistreamtoolredux/fxml/SettingsPane.fxml":
                     //todo save settings content
                     break;
             }
         }
-    }
-
-    /**
-     *
-     */
-    private void updateTeams() {
-        Team teamNameA = TeamPane.getSelectedATeam();
-        Team teamNameB = TeamPane.getSelectedBTeam();
-        Team teamNameC = TeamPane.getSelectedCTeam();
-        Team teamNameD = TeamPane.getSelectedDTeam();
-        setTeamIfNotNull(teamNameA, "A");
-        setTeamIfNotNull(teamNameB, "B");
-        setTeamIfNotNull(teamNameC, "C");
-        setTeamIfNotNull(teamNameD, "D");
-    }
-
-    /**
-     * Helper for {@link #updateTeams()}
-     */
-    private void setTeamIfNotNull(Team aTeam, String letter) {
-        if (aTeam != null) {
-            try {
-                FileManager.setTeam(aTeam.getTeamName(), "A");
-            } catch (IOException exception) {
-                exception.printStackTrace();
-                //todo, handle
-            }
-        } else System.out.println("null team");
-
     }
 
     @FXML
@@ -163,9 +140,28 @@ public class Master {
 
         try {
             //set page
-            page = FXMLLoader.load(getClass().getResource(pathToPage));
-            rightVBox.getChildren().set(0, page);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(pathToPage));
+            Parent root = loader.load();
+            rightVBox.getChildren().set(0, root);
+
+            //save currentPage string, for purposes of finding
+            // current controller variable, as set in below switch.
             currentPage = pathToPage;
+
+            switch (pathToPage) { //save reference to correct controller variable
+                case "/goistreamtoolredux/fxml/TeamPane.fxml":
+                    teamPaneController = (TeamPane) loader.getController();
+                    break;
+                case "/goistreamtoolredux/fxml/MapPane.fxml":
+                    mapPaneController = (MapPane) loader.getController();
+                    break;
+                case "/goistreamtoolredux/fxml/TournamentPane.fxml":
+                    tournamentPaneController = (TournamentPane) loader.getController();
+                    break;
+                case "/goistreamtoolredux/fxml/SettingsPane.fxml":
+                    settingsPaneController = (SettingsPane) loader.getController();
+                    break;
+            }
         } catch (IOException e) {
             e.printStackTrace();
             //todo handle

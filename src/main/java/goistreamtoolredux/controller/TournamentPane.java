@@ -33,8 +33,9 @@ public class TournamentPane {
     @FXML
     void saveChanges(ActionEvent event) {
         JFXSnackbar bar = new JFXSnackbar(anchorPane);
-        bar.enqueue(new JFXSnackbar.SnackbarEvent(new JFXSnackbarLayout("Updating Teams...",null,null),new Duration(1000)));
+        bar.enqueue(new JFXSnackbar.SnackbarEvent(new JFXSnackbarLayout("Updating Tournament Info...",null,null),new Duration(500)));
         FileManager.setTourneyNumber(tournamentNumberSpinner.getValue().toString());
+        bar.enqueue(new JFXSnackbar.SnackbarEvent(new JFXSnackbarLayout("Updated",null,null),new Duration(1000)));
     }
 
     @FXML // This method is called by the FXMLLoader when initialization is complete

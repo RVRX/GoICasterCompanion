@@ -1,6 +1,8 @@
 package goistreamtoolredux.controller;
 
 import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXSnackbar;
+import com.jfoenix.controls.JFXSnackbarLayout;
 import goistreamtoolredux.algorithm.FileManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -8,11 +10,15 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.URL;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.ResourceBundle;
 
@@ -23,6 +29,9 @@ public class MapPane {
 
     @FXML // URL location of the FXML file that was given to the FXMLLoader
     private URL location;
+
+    @FXML
+    public AnchorPane anchorPane;
 
     @FXML // fx:id="mapComboBox"
     private JFXComboBox<String> mapComboBox; // Value injected by FXMLLoader
@@ -55,10 +64,26 @@ public class MapPane {
             //init map combo box
             ObservableList<String> mapObsList = FXCollections.observableArrayList();
             LinkedList<String> mapLL = FileManager.getAllMapsFromDisk();
+            Collections.sort(mapLL);
             mapObsList.addAll(mapLL);
             mapComboBox.setItems(mapObsList);
         } catch (FileNotFoundException exception) {
             exception.printStackTrace();
+        }
+    }
+
+    public void save() {
+        //save map
+        if (selectedMap != null) {
+            try {
+                FileManager.setMap(selectedMap);
+                //snackBar popup, team infos saved
+                JFXSnackbar bar = new JFXSnackbar(anchorPane);
+                bar.enqueue(new JFXSnackbar.SnackbarEvent(new JFXSnackbarLayout("Updating Map...",null,null),new Duration(1000)));
+            } catch (IOException exception) {
+                exception.printStackTrace();
+                //todo, error popup
+            }
         }
     }
 }
