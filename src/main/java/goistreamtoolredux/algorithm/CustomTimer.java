@@ -1,5 +1,8 @@
 package goistreamtoolredux.algorithm;
 
+import goistreamtoolredux.App;
+import goistreamtoolredux.controller.TimerPane;
+
 import java.io.*;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
@@ -206,6 +209,8 @@ class CountdownTimer extends TimerTask {
                 timer.getCurrentTimer().cancel();
             } else {
                 timer.set(currentTime - 1);
+                TimerPane timerPaneController = (TimerPane) App.getMasterController().getTimerPaneController();
+                timerPaneController.setLobbyTimerText(String.valueOf(currentTime - 1));
             }
         } catch (FileNotFoundException exception) {
             exception.printStackTrace();

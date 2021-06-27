@@ -4,6 +4,7 @@ import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
 import goistreamtoolredux.algorithm.CustomTimer;
 import goistreamtoolredux.algorithm.FileManager;
 import goistreamtoolredux.algorithm.InvalidDataException;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
@@ -114,6 +115,15 @@ public class TimerPane {
         }
     }
 
+    public void setLobbyTimerText(String value) {
+        Platform.runLater(new Runnable(){
+            @Override
+            public void run() {
+                lobbyTimerText.setText(value);
+            }
+        });
+    }
+
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
         assert lobbyPlay != null : "fx:id=\"lobbyPlay\" was not injected: check your FXML file 'TimerPane.fxml'.";
@@ -152,7 +162,6 @@ public class TimerPane {
 
         //todo, figure out a method for updating timer value,
         //  for now, however, they will be hidden
-        lobbyTimerText.setVisible(false);
         customTimerText.setVisible(false);
 
     }

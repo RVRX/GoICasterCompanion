@@ -63,6 +63,10 @@ public class Master {
     private TournamentPane tournamentPaneController;
     private SettingsPane settingsPaneController;
 
+    public TimerPane getTimerPaneController() {
+        return timerPaneController;
+    }
+
 
     /**
      * Upon hearing a <code>META+S</code> keypress, throws a <code>save()</code> call to
@@ -154,6 +158,9 @@ public class Master {
                     break;
                 case "/goistreamtoolredux/fxml/MapPane.fxml":
                     mapPaneController = (MapPane) loader.getController();
+                    break;
+                case "/goistreamtoolredux/fxml/TimerPane.fxml":
+                    timerPaneController = (TimerPane) loader.getController();
                     break;
                 case "/goistreamtoolredux/fxml/TournamentPane.fxml":
                     tournamentPaneController = (TournamentPane) loader.getController();
