@@ -3,6 +3,9 @@ package goistreamtoolredux.algorithm;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.net.URL;
+import java.nio.channels.Channels;
+import java.nio.channels.ReadableByteChannel;
 import java.nio.file.*;
 import java.util.*;
 import java.util.stream.Stream;
@@ -620,5 +623,19 @@ public class FileManager {
             if (!line.equals("")) { mapList.add(line); }
         }
         return mapList;
+    }
+
+    public static void getScsBracket(int number) { //todo, can be replaced by commonsIO
+        try {
+            URL website = new URL("https://challonge.com/SCS" + number + ".svg");
+            ReadableByteChannel rbc = Channels.newChannel(website.openStream());
+            new File(outputPath + "SCSBracket.svg").createNewFile();
+            FileOutputStream fos = new FileOutputStream(outputPath + "SCSBracket.svg");
+            fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
+        } catch (FileNotFoundException exception) {
+            exception.printStackTrace();
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
     }
 }

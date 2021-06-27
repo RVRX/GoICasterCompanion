@@ -1,6 +1,7 @@
 package goistreamtoolredux;
 
 import goistreamtoolredux.algorithm.CustomTimer;
+import goistreamtoolredux.algorithm.FileManager;
 import goistreamtoolredux.algorithm.InvalidDataException;
 import goistreamtoolredux.algorithm.Team;
 import javafx.collections.FXCollections;
@@ -85,6 +86,11 @@ public class AlgorithmTest {
         assertEquals(200,CustomTimer.convertFromMinuteFormat("3:20"));
         assertEquals(0,CustomTimer.convertFromMinuteFormat("00:00"));
         assertEquals(0,CustomTimer.convertFromMinuteFormat("0:00"));
+    }
+
+    @Test
+    public void getSCSBracketsTest() {
+        FileManager.getScsBracket(353);
     }
 
 }
