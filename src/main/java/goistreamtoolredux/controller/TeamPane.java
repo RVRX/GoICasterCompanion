@@ -2,6 +2,9 @@ package goistreamtoolredux.controller;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXSnackbar;
+import com.jfoenix.controls.JFXSnackbarLayout;
+import goistreamtoolredux.algorithm.FileManager;
 import goistreamtoolredux.algorithm.Team;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -11,7 +14,9 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.util.Duration;
 import javafx.util.StringConverter;
 
 import java.io.IOException;
@@ -26,6 +31,9 @@ public class TeamPane {
 
     @FXML // URL location of the FXML file that was given to the FXMLLoader
     private URL location;
+
+    @FXML
+    public AnchorPane anchorPane;
 
     @FXML // fx:id="leftVBox"
     private VBox leftVBox; // Value injected by FXMLLoader
@@ -80,20 +88,32 @@ public class TeamPane {
     private static Team selectedCTeam;
     private static Team selectedDTeam;
 
-    public static Team getSelectedATeam() {
-        return selectedATeam;
+
+    public void save() {
+        // save team selections
+        setTeamIfNotNull(selectedATeam, "A");
+        setTeamIfNotNull(selectedBTeam, "B");
+        setTeamIfNotNull(selectedCTeam, "C");
+        setTeamIfNotNull(selectedDTeam, "D");
+
+        //snackBar popup, team infos saved
+        JFXSnackbar bar = new JFXSnackbar(anchorPane);
+        bar.enqueue(new JFXSnackbar.SnackbarEvent(new JFXSnackbarLayout("Updating Teams...",null,null),new Duration(1000)));
     }
 
-    public static Team getSelectedBTeam() {
-        return selectedBTeam;
-    }
+    /**
+     * Helper for {@link #save()}
+     */
+    private void setTeamIfNotNull(Team aTeam, String letter) {
+        if (aTeam != null) {
+            try {
+                FileManager.setTeam(aTeam.getTeamName(), "A");
+            } catch (IOException exception) {
+                exception.printStackTrace();
+                //todo, handle
+            }
+        } else System.out.println("null team");
 
-    public static Team getSelectedCTeam() {
-        return selectedCTeam;
-    }
-
-    public static Team getSelectedDTeam() {
-        return selectedDTeam;
     }
 
     @FXML

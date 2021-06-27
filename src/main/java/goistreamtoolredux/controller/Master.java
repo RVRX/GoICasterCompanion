@@ -1,10 +1,6 @@
 package goistreamtoolredux.controller;
 
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXSnackbar;
-import com.jfoenix.controls.JFXSnackbarLayout;
-import goistreamtoolredux.algorithm.FileManager;
-import goistreamtoolredux.algorithm.Team;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,7 +10,6 @@ import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
-import javafx.util.Duration;
 
 import java.io.IOException;
 import java.net.URL;
@@ -79,10 +74,7 @@ public class Master {
             switch (currentPage) {
                 case "/goistreamtoolredux/fxml/TeamPane.fxml":
                     //save team content
-                    updateTeams();
-                    //snackBar popup, team infos saved
-                    JFXSnackbar bar = new JFXSnackbar(masterAnchorPane);
-                    bar.enqueue(new JFXSnackbar.SnackbarEvent(new JFXSnackbarLayout("Updating Teams...",null,null),new Duration(1000)));
+                    teamPaneController.save();
                     break;
                 case "/goistreamtoolredux/fxml/MapPane.fxml":
                     //todo save map content
@@ -95,35 +87,6 @@ public class Master {
                     break;
             }
         }
-    }
-
-    /**
-     *
-     */
-    private void updateTeams() {
-        Team teamNameA = TeamPane.getSelectedATeam();
-        Team teamNameB = TeamPane.getSelectedBTeam();
-        Team teamNameC = TeamPane.getSelectedCTeam();
-        Team teamNameD = TeamPane.getSelectedDTeam();
-        setTeamIfNotNull(teamNameA, "A");
-        setTeamIfNotNull(teamNameB, "B");
-        setTeamIfNotNull(teamNameC, "C");
-        setTeamIfNotNull(teamNameD, "D");
-    }
-
-    /**
-     * Helper for {@link #updateTeams()}
-     */
-    private void setTeamIfNotNull(Team aTeam, String letter) {
-        if (aTeam != null) {
-            try {
-                FileManager.setTeam(aTeam.getTeamName(), "A");
-            } catch (IOException exception) {
-                exception.printStackTrace();
-                //todo, handle
-            }
-        } else System.out.println("null team");
-
     }
 
     @FXML
