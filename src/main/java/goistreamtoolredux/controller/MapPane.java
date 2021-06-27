@@ -18,6 +18,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.ResourceBundle;
 
@@ -63,6 +64,7 @@ public class MapPane {
             //init map combo box
             ObservableList<String> mapObsList = FXCollections.observableArrayList();
             LinkedList<String> mapLL = FileManager.getAllMapsFromDisk();
+            Collections.sort(mapLL);
             mapObsList.addAll(mapLL);
             mapComboBox.setItems(mapObsList);
         } catch (FileNotFoundException exception) {
