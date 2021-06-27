@@ -1,10 +1,14 @@
 package goistreamtoolredux.controller;
 
 import goistreamtoolredux.algorithm.FileManager;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -34,6 +38,32 @@ public class SettingsPane {
     @FXML // fx:id="osVersionText"
     private Text osVersionText; // Value injected by FXMLLoader
 
+
+    @FXML
+    void openInputFolder(ActionEvent event) {
+        if (Desktop.isDesktopSupported()) {
+            try {
+                Desktop.getDesktop().open(new File(FileManager.inputPath));
+            } catch (IOException exception) {
+                //todo, handle
+                exception.printStackTrace();
+            }
+        }
+    }
+
+    @FXML
+    void openOutputFolder(ActionEvent event) {
+        if (Desktop.isDesktopSupported()) {
+            try {
+                Desktop.getDesktop().open(new File(FileManager.outputPath));
+            } catch (IOException exception) {
+                //todo, handle
+                exception.printStackTrace();
+            }
+        }
+    }
+
+
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
         assert anchorPane != null : "fx:id=\"anchorPane\" was not injected: check your FXML file 'SettingsPane.fxml'.";
@@ -51,17 +81,3 @@ public class SettingsPane {
 
     }
 }
-
-//
-//    @FXML // This method is called by the FXMLLoader when initialization is complete
-//    void initialize() {
-//        assert anchorPane != null : "fx:id=\"anchorPane\" was not injected: check your FXML file 'SettingsPane.fxml'.";
-//        assert inputPathText != null : "fx:id=\"inputPathText\" was not injected: check your FXML file 'SettingsPane.fxml'.";
-//        assert outputPathText != null : "fx:id=\"outputPathText\" was not injected: check your FXML file 'SettingsPane.fxml'.";
-//        assert systemPropertiesText != null : "fx:id=\"systemPropertiesText\" was not injected: check your FXML file 'SettingsPane.fxml'.";
-//
-//        inputPathText.setText(FileManager.getInputPath());
-//        outputPathText.setText(FileManager.getOutputPath());
-//        systemPropertiesText.setText(System.getProperty("os.name"));
-//    }
-//}
