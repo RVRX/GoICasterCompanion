@@ -9,6 +9,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
@@ -54,6 +55,18 @@ public class Master {
 
     //---VARIABLES---
     private String currentPage;
+    /** References to controllers, set within {@link #setPage(String)}
+     * Just because a controller variable here is not null, does not mean it is valid.
+     * It is only valid while {@link #currentPage} is equal to the path to that controller's
+     * FXML loader.
+     *
+     * These variables allow for communication with controller objects. ie, calling non-static functions.
+     * */
+    private TeamPane teamPaneController;
+    private MapPane mapPaneController;
+    private TimerPane timerPaneController;
+    private TournamentPane tournamentPaneController;
+    private SettingsPane settingsPaneController;
 
 
     /**
@@ -163,9 +176,28 @@ public class Master {
 
         try {
             //set page
-            page = FXMLLoader.load(getClass().getResource(pathToPage));
-            rightVBox.getChildren().set(0, page);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(pathToPage));
+            Parent root = loader.load();
+            rightVBox.getChildren().set(0, root);
+
+            //save currentPage string, for purposes of finding
+            // current controller variable, as set in below switch.
             currentPage = pathToPage;
+
+            switch (pathToPage) { //save reference to correct controller variable
+                case "/goistreamtoolredux/fxml/TeamPane.fxml":
+                    teamPaneController = (TeamPane) loader.getController();
+                    break;
+                case "/goistreamtoolredux/fxml/MapPane.fxml":
+                    mapPaneController = (MapPane) loader.getController();
+                    break;
+                case "/goistreamtoolredux/fxml/TournamentPane.fxml":
+                    tournamentPaneController = (TournamentPane) loader.getController();
+                    break;
+                case "/goistreamtoolredux/fxml/SettingsPane.fxml":
+                    settingsPaneController = (SettingsPane) loader.getController();
+                    break;
+            }
         } catch (IOException e) {
             e.printStackTrace();
             //todo handle
