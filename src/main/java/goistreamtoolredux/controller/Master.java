@@ -129,8 +129,8 @@ public class Master {
         //update child 0 to Default Page (Teams)
         setPage("/goistreamtoolredux/fxml/TeamPane.fxml");
 
-        //set theme
-        setTheme("light");
+        //set default theme
+        setTheme("skyborne light (default)");
     }
 
     /**
