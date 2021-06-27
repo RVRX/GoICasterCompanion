@@ -69,4 +69,22 @@ public class AlgorithmTest {
         }
     }
 
+    @Test
+    public void convertToMinTest() {
+        assertEquals("3:20",CustomTimer.convertToMinuteFormat(200));
+        assertEquals("0:59",CustomTimer.convertToMinuteFormat(59));
+        assertEquals("1:00",CustomTimer.convertToMinuteFormat(60));
+        assertEquals("34:12",CustomTimer.convertToMinuteFormat(2052));
+    }
+
+    @Test
+    public void convertFromMinTest() {
+        assertEquals(60,CustomTimer.convertFromMinuteFormat("01:00"));
+        assertEquals(60,CustomTimer.convertFromMinuteFormat("1:00"));
+        assertEquals(200,CustomTimer.convertFromMinuteFormat("03:20"));
+        assertEquals(200,CustomTimer.convertFromMinuteFormat("3:20"));
+        assertEquals(0,CustomTimer.convertFromMinuteFormat("00:00"));
+        assertEquals(0,CustomTimer.convertFromMinuteFormat("0:00"));
+    }
+
 }

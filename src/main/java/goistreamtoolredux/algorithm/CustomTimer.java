@@ -185,6 +185,48 @@ public class CustomTimer {
         }
         return 240;
     }
+
+    /**
+     * Converts from seconds to <code>MM:SS</code> format
+     * @param totalSecs
+     * @return <code>M:SS</code> if <code>totalSecs < 60</code>, else <code>MM:SS</code>
+     */
+    public static String convertToMinuteFormat(int totalSecs) {
+
+        int minutes = (totalSecs % 3600) / 60;
+        int seconds = totalSecs % 60;
+
+        String timeString;
+
+        if (minutes < 10) {
+            timeString = String.format("%01d:%02d", minutes, seconds);
+        } else {
+            timeString = String.format("%02d:%02d", minutes, seconds);
+        }
+
+        return timeString;
+    }
+
+    /**
+     * Converts from <code>MM:SS</code> or <code>M:SS</code> to seconds
+     * @param value
+     * @return
+     */
+    public static int convertFromMinuteFormat(String value) throws IllegalArgumentException {
+
+        int minutesSection;
+        int seconds;
+
+        if (value.length() == 5) { // MM:SS
+            minutesSection = Integer.parseInt(value.substring(0,2)) * 60;
+            seconds = Integer.parseInt(value.substring(3));
+        } else { // M:SS
+            minutesSection = Integer.parseInt(value.substring(0,1)) * 60;
+            seconds = Integer.parseInt(value.substring(2));
+        }
+
+        return minutesSection + seconds;
+    }
 }
 
 /**
