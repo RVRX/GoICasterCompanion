@@ -65,8 +65,9 @@ public class Master {
 
 
     /**
-     *
-     * @param keyEvent
+     * Upon hearing a <code>META+S</code> keypress, throws a <code>save()</code> call to
+     * the currently active controller for the right side (main) content.
+     * @param keyEvent User's keypress
      */
     @FXML
     public void keyListener(KeyEvent keyEvent) {
@@ -77,6 +78,7 @@ public class Master {
                     teamPaneController.save();
                     break;
                 case "/goistreamtoolredux/fxml/MapPane.fxml":
+                    mapPaneController.save();
                     //todo save map content
                     break;
                 case "/goistreamtoolredux/fxml/TournamentPane.fxml":
