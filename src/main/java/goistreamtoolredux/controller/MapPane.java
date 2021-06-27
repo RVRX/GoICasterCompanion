@@ -77,7 +77,7 @@ public class MapPane {
                 FileManager.setMap(selectedMap);
                 //snackBar popup, team infos saved
                 JFXSnackbar bar = new JFXSnackbar(anchorPane);
-                bar.enqueue(new JFXSnackbar.SnackbarEvent(new JFXSnackbarLayout("Updating Teams...",null,null),new Duration(1000)));
+                bar.enqueue(new JFXSnackbar.SnackbarEvent(new JFXSnackbarLayout("Updating Map...",null,null),new Duration(1000)));
             } catch (IOException exception) {
                 exception.printStackTrace();
                 //todo, error popup
