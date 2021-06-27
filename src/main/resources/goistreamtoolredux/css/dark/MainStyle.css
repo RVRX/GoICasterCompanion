@@ -82,7 +82,7 @@ JFXTextField:hover, JFXTextArea:hover, JFXComboBox:hover, JFXPasswordField:hover
 }
 
 AnchorPane {
-    -fx-background-color: #35344b;
+    -fx-background-color: -fx--primary;
 }
 
 MaterialDesignIconView {
