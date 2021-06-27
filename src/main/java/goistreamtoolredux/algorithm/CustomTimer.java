@@ -158,7 +158,7 @@ public class CustomTimer {
             throw new IllegalArgumentException("Cannot set a timer for negative seconds!");
         }
         Writer fileWriter = new FileWriter(timerTXT);
-        fileWriter.write(String.valueOf(seconds));
+        fileWriter.write(convertToMinuteFormat(seconds));
         fileWriter.close();
     }
 
@@ -175,12 +175,12 @@ public class CustomTimer {
         File timerSettings = new File(timerTXT);
         Scanner scanner = new Scanner(timerSettings);
         try {
-            return scanner.nextInt();
+            return convertFromMinuteFormat(scanner.nextLine());
         } catch (NoSuchElementException e) {
             //timer file is empty or invalid.
             //write value of "TimerLength.txt" to "Timer.txt", and return such
             Writer fileWriter = new FileWriter(timerTXT);
-            fileWriter.write(getInitialTimerLength());
+            fileWriter.write(convertToMinuteFormat(getInitialTimerLength()));
             fileWriter.close();
         }
         return 240;
@@ -212,7 +212,7 @@ public class CustomTimer {
      * @param value
      * @return
      */
-    public static int convertFromMinuteFormat(String value) throws IllegalArgumentException {
+    public static int convertFromMinuteFormat(String value) {
 
         int minutesSection;
         int seconds;
