@@ -13,7 +13,7 @@
 }
 
 JFXButton, JFXButton > MaterialDesignIconView {
-    -fx-background-color: #313045;
+    -fx-background-color: -fx--primary-dark;
     /*-fx-border-color: #5e5e87;*/
     -fx-text-fill: #5e5e87;
     -fx-border-width: 2px;
