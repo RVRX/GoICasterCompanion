@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.*?>
+<?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.ImageView?>
@@ -9,7 +10,7 @@
    <children>
       <HBox prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <VBox fx:id="leftVBox" prefHeight="200.0" prefWidth="300.0">
+            <VBox fx:id="leftVBox" prefHeight="200.0" prefWidth="275.0">
                <children>
                   <VBox minHeight="200.0">
                      <children>
@@ -73,7 +74,25 @@
                   </VBox>
                </children>
             </VBox>
-            <VBox fx:id="rightVBox" prefHeight="200.0" prefWidth="300.0">
+            <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <JFXButton fx:id="swapABButton" onAction="#swapAB" text="">
+                     <VBox.margin>
+                        <Insets top="15.0" />
+                     </VBox.margin>
+                     <graphic>
+                        <MaterialDesignIconView glyphName="SWAP_HORIZONTAL" />
+                     </graphic>
+                  </JFXButton>
+                  <VBox prefHeight="174.0" prefWidth="100.0" />
+                  <JFXButton fx:id="swapCDButton" onAction="#swapCD" text="">
+                     <graphic>
+                        <MaterialDesignIconView glyphName="SWAP_HORIZONTAL" />
+                     </graphic>
+                  </JFXButton>
+               </children>
+            </VBox>
+            <VBox fx:id="rightVBox" prefHeight="200.0" prefWidth="275.0">
                <children>
                   <VBox minHeight="200.0">
                      <children>

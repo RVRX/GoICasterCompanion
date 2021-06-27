@@ -1,5 +1,6 @@
 package goistreamtoolredux.controller;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import goistreamtoolredux.algorithm.Team;
 import javafx.collections.FXCollections;
@@ -46,6 +47,12 @@ public class TeamPane {
 
     @FXML // fx:id="teamCImage"
     private ImageView teamCImage; // Value injected by FXMLLoader
+
+    @FXML // fx:id="swapABButton"
+    private JFXButton swapABButton; // Value injected by FXMLLoader
+
+    @FXML // fx:id="swapCDButton"
+    private JFXButton swapCDButton; // Value injected by FXMLLoader
 
     @FXML // fx:id="rightVBox"
     private VBox rightVBox; // Value injected by FXMLLoader
@@ -151,6 +158,40 @@ public class TeamPane {
 
         //update label
         teamDLabel.setText(selectedDTeam.getAbbreviatedName());
+    }
+
+    @FXML
+    void swapAB(ActionEvent event) {
+        if (!(teamBComboBox.getSelectionModel().isEmpty() || teamAComboBox.getSelectionModel().isEmpty())) { //neither are empty
+
+            //Temp B
+            Team tempB = selectedBTeam;
+
+            //A -> B
+            teamBComboBox.getSelectionModel().select(selectedATeam);
+
+            //B -> A
+            teamAComboBox.getSelectionModel().select(tempB);
+
+            //Full Update
+            selectTeamA(null);
+            selectTeamB(null);
+        }
+    }
+
+    @FXML
+    void swapCD(ActionEvent event) {
+        if (!(teamCComboBox.getSelectionModel().isEmpty() || teamDComboBox.getSelectionModel().isEmpty())) { //neither are empty
+
+            //Temp D
+            Team tempD = selectedDTeam;
+
+            //C -> D
+            teamDComboBox.getSelectionModel().select(selectedCTeam);
+
+            //D -> C
+            teamCComboBox.getSelectionModel().select(tempD);
+        }
     }
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
