@@ -25,7 +25,7 @@ public class TournamentPane {
     private AnchorPane anchorPane; // Value injected by FXMLLoader
 
     @FXML // fx:id="tournamentNumberSpinner"
-    private Spinner<?> tournamentNumberSpinner; // Value injected by FXMLLoader
+    private Spinner<Integer> tournamentNumberSpinner; // Value injected by FXMLLoader
 
     @FXML // fx:id="saveButton"
     private JFXButton saveButton; // Value injected by FXMLLoader
