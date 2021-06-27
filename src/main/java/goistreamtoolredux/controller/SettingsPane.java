@@ -128,6 +128,7 @@ public class SettingsPane {
         ObservableList<String> themeList = FXCollections.observableArrayList();
         themeList.add("Light");
         themeList.add("Dark");
+        themeList.add("Monochrome");
         themeComboBox.setItems(themeList);
 
     }

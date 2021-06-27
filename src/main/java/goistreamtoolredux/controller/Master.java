@@ -191,6 +191,9 @@ public class Master {
          else if (name.equalsIgnoreCase("light")) {
              masterAnchorPane.getStylesheets().setAll("/goistreamtoolredux/css/light/MainStyle.css");
              navigationSidebarVBox.getStylesheets().setAll("/goistreamtoolredux/css/light/Navigation.css");
-         }
+         } else if (name.equalsIgnoreCase("monochrome")) {
+             masterAnchorPane.getStylesheets().setAll("/goistreamtoolredux/css/monochrome/MainStyle.css");
+             navigationSidebarVBox.getStylesheets().clear();
+        }
     }
 }
