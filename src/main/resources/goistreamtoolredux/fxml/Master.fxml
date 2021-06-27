@@ -7,7 +7,7 @@
    <children>
       <HBox prefHeight="500.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <VBox fx:id="navigationSidebarVBox" minWidth="-Infinity" prefHeight="500.0" prefWidth="100.0">
+            <VBox fx:id="navigationSidebarVBox" minWidth="-Infinity" prefHeight="500.0" prefWidth="100.0" stylesheets="@../css/Navigation.css">
                <children>
                   <JFXButton fx:id="teamButton" onAction="#teamButtonAction" prefHeight="200.0" prefWidth="100.0" text="Teams">
                      <graphic>
