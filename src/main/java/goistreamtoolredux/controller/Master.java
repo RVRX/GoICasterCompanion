@@ -79,10 +79,9 @@ public class Master {
                     break;
                 case "/goistreamtoolredux/fxml/MapPane.fxml":
                     mapPaneController.save();
-                    //todo save map content
                     break;
                 case "/goistreamtoolredux/fxml/TournamentPane.fxml":
-                    //todo save tourney content
+                    tournamentPaneController.saveChanges(null);
                     break;
                 case "/goistreamtoolredux/fxml/SettingsPane.fxml":
                     //todo save settings content
