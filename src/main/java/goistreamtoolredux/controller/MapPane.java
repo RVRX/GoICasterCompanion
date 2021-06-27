@@ -51,7 +51,8 @@ public class MapPane {
         File mapFile = new File(FileManager.inputPath + "map_images" + File.separator + selectedMap + ".png");
         mapImage.setImage(new Image(mapFile.toURI().toString()));
         //todo update text, current is concept filler
-        mapDetailText.setText("Selected Map is " + selectedMap);
+//        mapDetailText.setText("Selected Map is " + selectedMap);
+        mapDetailText.setText("Map details, and spawn locations for " + selectedMap + " coming in future release.");
     }
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
