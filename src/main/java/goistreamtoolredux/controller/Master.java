@@ -178,20 +178,21 @@ public class Master {
         }
     }
 
+
     /**
-     *
-//     * @param type
+     * Sets the current application theme
+     * @param name one of the theme names
      */
     public void setTheme(String name) {
         System.out.println("name: " + name);
-        if (name.equalsIgnoreCase("dark")) {
+        if (name.equalsIgnoreCase("skyborne dark")) {
              masterAnchorPane.getStylesheets().setAll("/goistreamtoolredux/css/dark/MainStyle.css");
              navigationSidebarVBox.getStylesheets().setAll("/goistreamtoolredux/css/dark/Navigation.css");
          }
-         else if (name.equalsIgnoreCase("light")) {
+         else if (name.equalsIgnoreCase("Skyborne Light (Default)")) {
              masterAnchorPane.getStylesheets().setAll("/goistreamtoolredux/css/light/MainStyle.css");
              navigationSidebarVBox.getStylesheets().setAll("/goistreamtoolredux/css/light/Navigation.css");
-         } else if (name.equalsIgnoreCase("monochrome")) {
+         } else if (name.equalsIgnoreCase("monochrome ocean")) {
              masterAnchorPane.getStylesheets().setAll("/goistreamtoolredux/css/monochrome/MainStyle.css");
              navigationSidebarVBox.getStylesheets().clear();
         }

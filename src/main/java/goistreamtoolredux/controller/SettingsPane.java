@@ -126,9 +126,9 @@ public class SettingsPane {
         }
 
         ObservableList<String> themeList = FXCollections.observableArrayList();
-        themeList.add("Light");
-        themeList.add("Dark");
-        themeList.add("Monochrome");
+        themeList.add("Skyborne Light (Default)");
+        themeList.add("Skyborne Dark");
+        themeList.add("Monochrome Ocean");
         themeComboBox.setItems(themeList);
 
     }
