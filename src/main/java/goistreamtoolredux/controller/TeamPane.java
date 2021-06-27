@@ -107,7 +107,7 @@ public class TeamPane {
     private void setTeamIfNotNull(Team aTeam, String letter) {
         if (aTeam != null) {
             try {
-                FileManager.setTeam(aTeam.getTeamName(), "A");
+                FileManager.setTeam(aTeam.getTeamName(), letter);
             } catch (IOException exception) {
                 exception.printStackTrace();
                 //todo, handle
