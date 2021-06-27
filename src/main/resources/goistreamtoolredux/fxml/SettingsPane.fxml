@@ -69,12 +69,26 @@
                   </ScrollPane>
                </children>
             </HBox>
-            <HBox prefHeight="513.0" prefWidth="600.0">
+            <VBox>
                <children>
-                  <JFXButton onAction="#openOutputFolder" text="Open Output Folder" />
-                  <JFXButton onAction="#openInputFolder" text="Open Input Folder" />
+                  <HBox prefHeight="175.0" prefWidth="600.0">
+                     <children>
+                        <JFXButton onAction="#openOutputFolder" text="Open Output Folder" />
+                        <JFXButton onAction="#openInputFolder" text="Open Input Folder" />
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="353.0" prefWidth="600.0">
+                     <children>
+                        <Label text="Lobby Timer: ">
+                           <HBox.margin>
+                              <Insets top="5.0" />
+                           </HBox.margin>
+                        </Label>
+                        <Spinner fx:id="lobbyTimerSpinner" />
+                     </children>
+                  </HBox>
                </children>
-            </HBox>
+            </VBox>
          </children>
       </VBox>
    </children>

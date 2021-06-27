@@ -84,7 +84,7 @@ public class Master {
                     tournamentPaneController.saveChanges(null);
                     break;
                 case "/goistreamtoolredux/fxml/SettingsPane.fxml":
-                    //todo save settings content
+                    settingsPaneController.save();
                     break;
             }
         }

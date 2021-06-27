@@ -1,10 +1,17 @@
 package goistreamtoolredux.controller;
 
+import com.jfoenix.controls.JFXSnackbar;
+import com.jfoenix.controls.JFXSnackbarLayout;
+import goistreamtoolredux.algorithm.CustomTimer;
 import goistreamtoolredux.algorithm.FileManager;
+import goistreamtoolredux.algorithm.InvalidDataException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 
 import java.awt.*;
 import java.io.File;
@@ -37,6 +44,23 @@ public class SettingsPane {
 
     @FXML // fx:id="osVersionText"
     private Text osVersionText; // Value injected by FXMLLoader
+
+    @FXML // fx:id="lobbyTimerSpinner"
+    private Spinner<Integer> lobbyTimerSpinner; // Value injected by FXMLLoader
+
+
+    void save() {
+        JFXSnackbar bar = new JFXSnackbar(anchorPane);
+        bar.enqueue(new JFXSnackbar.SnackbarEvent(new JFXSnackbarLayout("Saving..."),new Duration(350)));
+        try {
+            CustomTimer.getInstance().setInitialTimerLength(lobbyTimerSpinner.getValue());
+            bar.enqueue(new JFXSnackbar.SnackbarEvent(new JFXSnackbarLayout("Saved."),new Duration(1000)));
+
+        } catch (IOException exception) {
+            bar.enqueue(new JFXSnackbar.SnackbarEvent(new JFXSnackbarLayout("Could Not Save","CLOSE",action -> bar.close()), Duration.INDEFINITE, null));
+            exception.printStackTrace();
+        }
+    }
 
 
     @FXML
@@ -78,6 +102,15 @@ public class SettingsPane {
         osNameText.setText(System.getProperty("os.name"));
         osArchText.setText(System.getProperty("os.arch"));
         osVersionText.setText(System.getProperty("os.version"));
+
+        try {
+            SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory
+                    (1, Integer.MAX_VALUE, CustomTimer.getInstance().getInitialTimerLength());
+            lobbyTimerSpinner.setValueFactory(valueFactory);
+        } catch (IOException | InvalidDataException exception) {
+            exception.printStackTrace();
+            //todo, handle
+        }
 
     }
 }
