@@ -72,7 +72,7 @@ JFXTextField:hover, JFXTextArea:hover, JFXComboBox:hover, JFXPasswordField:hover
 --------------------------*/
 
 .jfx-snackbar-content {
-    -fx-background-color: #323232;
+    -fx-background-color: -fx--primary-dark;
 }
 .jfx-snackbar-toast {
     -fx-text-fill: WHITE;
@@ -87,4 +87,9 @@ AnchorPane {
 
 MaterialDesignIconView {
     -fx-fill: -fx--secondary; /*text color of material design icons*/
+}
+
+JFXButton {
+    -fx-text-fill: WHITE;
+    -fx-background-color: -fx--primary-light;
 }

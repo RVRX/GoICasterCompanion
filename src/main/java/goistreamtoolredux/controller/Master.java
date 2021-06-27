@@ -128,6 +128,9 @@ public class Master {
 
         //update child 0 to Default Page (Teams)
         setPage("/goistreamtoolredux/fxml/TeamPane.fxml");
+
+        //set theme
+        setTheme("light");
     }
 
     /**
@@ -186,8 +189,8 @@ public class Master {
              navigationSidebarVBox.getStylesheets().setAll("/goistreamtoolredux/css/dark/Navigation.css");
          }
          else if (name.equalsIgnoreCase("light")) {
-             masterAnchorPane.getStylesheets().setAll("/goistreamtoolredux/css/MainStyle.css");
-             navigationSidebarVBox.getStylesheets().setAll("/goistreamtoolredux/css/Navigation.css");
+             masterAnchorPane.getStylesheets().setAll("/goistreamtoolredux/css/light/MainStyle.css");
+             navigationSidebarVBox.getStylesheets().setAll("/goistreamtoolredux/css/light/Navigation.css");
          }
     }
 }

@@ -88,3 +88,9 @@ AnchorPane {
 MaterialDesignIconView {
     -fx-fill: -fx--primary-dark; /*text color of material design icons*/
 }
+
+JFXButton, JFXButton MaterialDesignIconView {
+    -fx-fill: white;
+    -fx-text-fill: WHITE;
+    -fx-background-color: -fx--primary-light;
+}
