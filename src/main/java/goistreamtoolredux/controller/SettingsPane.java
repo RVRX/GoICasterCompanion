@@ -1,10 +1,14 @@
 package goistreamtoolredux.controller;
 
+import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXSnackbar;
 import com.jfoenix.controls.JFXSnackbarLayout;
+import goistreamtoolredux.App;
 import goistreamtoolredux.algorithm.CustomTimer;
 import goistreamtoolredux.algorithm.FileManager;
 import goistreamtoolredux.algorithm.InvalidDataException;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Spinner;
@@ -48,6 +52,9 @@ public class SettingsPane {
     @FXML // fx:id="lobbyTimerSpinner"
     private Spinner<Integer> lobbyTimerSpinner; // Value injected by FXMLLoader
 
+    @FXML // fx:id="themeComboBox"
+    private JFXComboBox<String> themeComboBox; // Value injected by FXMLLoader
+
 
     void save() {
         JFXSnackbar bar = new JFXSnackbar(anchorPane);
@@ -87,6 +94,12 @@ public class SettingsPane {
         }
     }
 
+    @FXML
+    void themeComboBoxHandler(ActionEvent event) {
+        String item = themeComboBox.getSelectionModel().getSelectedItem();
+        App.getMasterController().setTheme(item);
+    }
+
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
@@ -111,6 +124,11 @@ public class SettingsPane {
             exception.printStackTrace();
             //todo, handle
         }
+
+        ObservableList<String> themeList = FXCollections.observableArrayList();
+        themeList.add("Light");
+        themeList.add("Dark");
+        themeComboBox.setItems(themeList);
 
     }
 }

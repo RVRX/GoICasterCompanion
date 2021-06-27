@@ -22,6 +22,11 @@ JFXButton, JFXButton > MaterialDesignIconView {
     -fx-fill: #5e5e87;
 }
 
+Text, .text {
+    -fx-text-fill: -fx--primary-light;
+    -fx-fill: -fx--primary-light;
+}
+
 /*MaterialDesignIconView {*/
 /*    -fx-fill: -fx--primary;*/
 /*}*/

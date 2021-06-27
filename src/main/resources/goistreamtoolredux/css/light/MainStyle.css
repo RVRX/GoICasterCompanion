@@ -13,8 +13,8 @@
 }
 
 Label, Text {
-    -fx-text-fill: -fx--secondary;
-    -fx-fill: -fx--secondary;
+    -fx-text-fill: -fx--primary-dark;
+    -fx-fill: -fx--primary-dark;
 }
 
 ScrollPane {
@@ -22,7 +22,7 @@ ScrollPane {
 }
 
 .scroll-pane > .viewport {
-    -fx-background-color: -fx--primary;
+    -fx-background-color: -fx--secondary;
 }
 
 JFXTextField, JFXTextArea, JFXComboBox, JFXPasswordField {
@@ -30,17 +30,17 @@ JFXTextField, JFXTextArea, JFXComboBox, JFXPasswordField {
     -jfx-unfocus-color: rgba(0,0,0,.42); /*bottom line unfocused*/
     -jfx-focus-color: -fx--primary-dark; /*bottom line focused*/
     -jfx-label-float: true; /*label will float above when field is selected*/
-    -fx-prompt-text-fill: white; /*prompt text before entry*/
+    -fx-prompt-text-fill: -fx--primary; /*prompt text before entry*/
 }
 
 JFXTextField:hover, JFXTextArea:hover, JFXComboBox:hover, JFXPasswordField:hover {
     -fx-background-color: rgba(0,0,0,.1); /*form bounding box color*/
     -jfx-unfocus-color: rgba(0,0,0,.87); /*bottom line unfocused*/
-    -jfx-focus-color: white; /*bottom line focused, and combobox name focused color*/
+    -jfx-focus-color: -fx--primary-light; /*bottom line focused, and combobox name focused color*/
 }
 
 .combo-box .cell:selected, .text:focused {
-    -fx-text-fill: white; /*text within combobox after selection*/
+    -fx-text-fill: -fx--primary; /*text within combobox after selection*/
 }
 
 .combo-box .cell {
@@ -82,9 +82,9 @@ JFXTextField:hover, JFXTextArea:hover, JFXComboBox:hover, JFXPasswordField:hover
 }
 
 AnchorPane {
-    -fx-background-color: -fx--primary;
+    -fx-background-color: -fx--secondary;
 }
 
 MaterialDesignIconView {
-    -fx-fill: -fx--secondary; /*text color of material design icons*/
+    -fx-fill: -fx--primary-dark; /*text color of material design icons*/
 }

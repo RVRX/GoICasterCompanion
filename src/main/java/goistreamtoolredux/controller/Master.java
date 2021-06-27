@@ -174,4 +174,20 @@ public class Master {
             //todo handle
         }
     }
+
+    /**
+     *
+//     * @param type
+     */
+    public void setTheme(String name) {
+        System.out.println("name: " + name);
+        if (name.equalsIgnoreCase("dark")) {
+             masterAnchorPane.getStylesheets().setAll("/goistreamtoolredux/css/dark/MainStyle.css");
+             navigationSidebarVBox.getStylesheets().setAll("/goistreamtoolredux/css/dark/Navigation.css");
+         }
+         else if (name.equalsIgnoreCase("light")) {
+             masterAnchorPane.getStylesheets().setAll("/goistreamtoolredux/css/MainStyle.css");
+             navigationSidebarVBox.getStylesheets().setAll("/goistreamtoolredux/css/Navigation.css");
+         }
+    }
 }
