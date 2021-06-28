@@ -25,9 +25,13 @@
 <h1 id="usage">Usage</h1>
 <h3 id="usage-overview">Overview</h3>
 <h3 id="input">Input</h3>
-<h4>map_images</h4>
+Any files marked with an (*), are reccomended to be left alone.
+<h4>map_images directory</h4>
+The map images folder contains an image of each map. Each file is named specifically with the same name as found in the maps.txt, along with the file's extension. Any inconsistencies between the map image name and the name as found in maps.txt will result in undefinded behaviour.
 <h4>maps.txt</h4>
+The maps text file contains the exact name of each map. See map_images for more details.
 <h4>team_logos directory</h4>
+The team logos folder contains an image for each team. Each file is named specifically with the same name as found in the teams.txt (the section before the "|" on each line). Any inconsistencies between a team's logo name and the name as found in teams.txt will result in no image being displayed for that team.
 <h4>teams.txt</h4>
 <h3 id="output">Output</h3>
 
