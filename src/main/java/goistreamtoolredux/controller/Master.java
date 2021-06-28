@@ -128,6 +128,9 @@ public class Master {
 
         //update child 0 to Default Page (Teams)
         setPage("/goistreamtoolredux/fxml/TeamPane.fxml");
+
+        //set default theme
+        setTheme("skyborne light (default)");
     }
 
     /**
@@ -172,6 +175,26 @@ public class Master {
         } catch (IOException e) {
             e.printStackTrace();
             //todo handle
+        }
+    }
+
+
+    /**
+     * Sets the current application theme
+     * @param name one of the theme names
+     */
+    public void setTheme(String name) {
+        System.out.println("name: " + name);
+        if (name.equalsIgnoreCase("skyborne dark")) {
+             masterAnchorPane.getStylesheets().setAll("/goistreamtoolredux/css/dark/MainStyle.css");
+             navigationSidebarVBox.getStylesheets().setAll("/goistreamtoolredux/css/dark/Navigation.css");
+         }
+         else if (name.equalsIgnoreCase("Skyborne Light (Default)")) {
+             masterAnchorPane.getStylesheets().setAll("/goistreamtoolredux/css/light/MainStyle.css");
+             navigationSidebarVBox.getStylesheets().setAll("/goistreamtoolredux/css/light/Navigation.css");
+         } else if (name.equalsIgnoreCase("monochrome ocean")) {
+             masterAnchorPane.getStylesheets().setAll("/goistreamtoolredux/css/monochrome/MainStyle.css");
+             navigationSidebarVBox.getStylesheets().clear();
         }
     }
 }
