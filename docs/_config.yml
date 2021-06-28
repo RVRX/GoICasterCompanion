@@ -55,7 +55,7 @@ plugins:
 #   - vendor/ruby/
 
 # GitHub suggested
-domain: goistreamtoolredux.github.io       # if you want to force HTTPS, specify the domain without the http at the start, e.g. example.com
-url: https://goistreamtoolredux.github.io  # the base hostname and protocol for your site, e.g. http://example.com
+domain: rvrx.github.io/goistreamtoolredux       # if you want to force HTTPS, specify the domain without the http at the start, e.g. example.com
+url: https://rvrx.github.io/goistreamtoolredux  # the base hostname and protocol for your site, e.g. http://example.com
 baseurl: /goistreamtoolredux/docs/      # place folder name if the site is served in a subfolder
 
