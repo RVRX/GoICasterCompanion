@@ -75,7 +75,7 @@ public class Master {
      */
     @FXML
     public void keyListener(KeyEvent keyEvent) {
-        if (keyEvent.isMetaDown() && keyEvent.getText().equalsIgnoreCase("s")) {
+        if ((keyEvent.isMetaDown() && keyEvent.getText().equalsIgnoreCase("s")) || (keyEvent.isControlDown() && keyEvent.getText().equalsIgnoreCase("s"))) {
             switch (currentPage) {
                 case "/goistreamtoolredux/fxml/TeamPane.fxml":
                     //save team content
