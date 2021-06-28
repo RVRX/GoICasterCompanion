@@ -7,6 +7,7 @@
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 
     <title>GoI Stream Tool Redux</title>
 
@@ -14,10 +15,56 @@
         .text-info {
             color: #5e5e87 !important;
         }
+
+        .footer-header {
+            color: #313045;
+        }
+
+        .hero {
+            width: 100%;
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+            color: #FFF;
+            text-align: center;
+        }
+
+        .hero-center {
+            width: 100%;
+            position: absolute;
+            top: 45%;
+            left: 0;
+            -webkit-transform: translate(0, -50%);
+            -ms-transform: translate(0, -50%);
+            transform: translate(0, -50%);
+        }
+
+        .hero-bottom {
+            width: 100%;
+            position: absolute;
+            bottom: 5%; /*distance from bottom*/
+            cursor: pointer;
+            left: 0; /*not sure why, but doesnt work without this, MDN ex's have a left!right as well*/
+            padding: 10% 10% 0;
+        }
     </style>
 
 </head>
-<nav class="navbar navbar-dark bg-dark fixed-top shadow navbar-expand" style="background-color: #313045 !important;">
+<body>
+
+<header class="splash text-center" style="height: 100vh; background-color: #313045">
+    <a href="#navigation">
+        <img src="splash-halfsize.png" height="100%" alt="Caster Companion Logo">
+        <div class="hero-bottom animate__animated  animate__backInUp">
+            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-double-down" fill="WHITE" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M1.646 6.646a.5.5 0 0 1 .708 0L8 12.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"></path>
+                <path fill-rule="evenodd" d="M1.646 2.646a.5.5 0 0 1 .708 0L8 8.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"></path>
+            </svg>
+        </div>
+    </a>
+</header>
+
+<nav class="navbar navbar-dark bg-dark sticky-top shadow navbar-expand" style="background-color: #313045 !important;" id="navigation">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">
             <img src="logo.png" alt="" width="30" height="24" class="d-inline-block align-text-top">
@@ -39,7 +86,7 @@
         </div>
     </div>
 </nav>
-<body style="padding-top: 5em">
+
 <div class="container" id="main-container">
     <div class="row" id="main-row">
         <div class="col">
@@ -72,6 +119,9 @@
             <p>
                 The most important thing to know is that <kbd>Cmd+S</kbd> will save data on the current page. Upon editing a value, nothing is changed until the save keystroke is pressed.
             This is to allow casters to queue up content before saving it.
+            </p>
+            <p>
+                The following sections will detail the contents of the <code>input</code> and <code>output</code> folders, and provide suggestions for their use.
             </p>
 
             <h2 id="input">Input</h2>
@@ -124,6 +174,46 @@
     </div>
 </div>
 
+<br><br>
+<footer class="footer mt-auto py-3 bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <p class="footer-header">Downloads</p>
+                <ul class="list-unstyled">
+                    <li><a href="https://github.com/RVRX/GoIStreamToolRedux/releases/download/0.3.0/GoIStreamToolRedux-MacApp.zip">Mac</a></li>
+                    <li><a href="https://github.com/RVRX/GoIStreamToolRedux/releases/download/0.3.0/GoIStreamToolRedux.exe">Windows</a></li>
+                    <li><a href="https://github.com/RVRX/GoIStreamToolRedux/releases/download/0.3.0/GoIStreamToolRedux.jar">Linux</a></li>
+                </ul>
+            </div>
+            <div class="col">
+                <p class="footer-header">Explore</p>
+                <ul class="list-unstyled">
+                    <li><a href="#application-overview">Overview</a></li>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#usage">Usage</a></li>
+                </ul>
+            </div>
+            <div class="col">
+                <p class="footer-header">GitHub Links</p>
+                <ul class="list-unstyled">
+                    <li><a href="https://github.com/RVRX/GoIStreamToolRedux">Main GitHub Page</a></li>
+                    <li><a href="https://github.com/RVRX/GoIStreamToolRedux/projects/2">Task Board</a></li>
+                    <li><a href="https://github.com/RVRX/GoIStreamToolRedux/issues">Issue Listings</a></li>
+                </ul>
+            </div>
+            <div class="col">
+                <p class="footer-header">By RVRX</p>
+                <ul class="list-unstyled">
+                    <li><a href="https://colermanning.com">colermanning.com</a></li>
+                    <li><a href="https://skyborne.net">skyborne.net</a></li>
+                    <li><a href="https://rvrx.github.io/ParkerProjects">parker projects</a></li>
+                </ul>
+            </div>
+        </div>
+<!--        <span class="text-muted">Place sticky footer content here.</span>-->
+    </div>
+</footer>
 
 <!-- Optional JavaScript; choose one of the two! -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
