@@ -21,9 +21,14 @@
 <p>Set the current tournament number. <em>More tournament features are planned for future.</em></p>
 <img width="812" alt="image" src="https://user-images.githubusercontent.com/45409688/123658789-09be5400-d800-11eb-9591-3e6c2b1f5b0d.png">
 
+
 <h1 id="usage">Usage</h1>
 <h3 id="usage-overview">Overview</h3>
 <h3 id="input">Input</h3>
+<h4>map_images</h4>
+<h4>maps.txt</h4>
+<h4>team_logos directory</h4>
+<h4>teams.txt</h4>
 <h3 id="output">Output</h3>
 
 <h1>Contributing</h1>
