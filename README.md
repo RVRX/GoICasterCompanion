@@ -1,7 +1,3 @@
 # GoIStreamToolRedux
-A tool built to help Guns of Icarus tournament broadcasters easily manage team names, logos, maps, and timers in their overlay. 
-
-This project aims to be a complete recreation of Urz's [original GoiStreamTool](https://urzlab.com/goistreamtool/). Note that none of GoIStreamTool**Redux**'s source comes from - nor was access ever gained to - the origional source code written by Urz.
-
-## Input Example Files
-All GoISTR releases so far require input files to base thier output off of, or the appliction will not work (often crash). Download an example input folder [here](http://skyborne.net/input.zip), or use the one that comes zipped with [Urz's download](https://urzlab.com/goistreamtool/GoiStreamTool_1.0.zip). This folder should be in the same directory as the GoISTR executable.
+<p>GoIStreamToolRedux (GoISTR) is a cross-platform application designed to assist <a href="https://gunsoficarus.com/" target="_blank">Guns of Icarus</a> tournament broadcasters with their interfaces and overlays. It includes UI management for teams, maps, timers, and tournament info that all ties into an output folder, providing OBS (or other casting tool) with static file paths to read from. The GoISTR project started as an adaptation of the original closed-course Windows application <a href="https://urzlab.com/goistreamtool/">GoiStreamTool</a> by GoIO player and caster Urz.</p>
+<p>GoISTR is a free and open-source software. As such, community contributions to the source or supporting material are welcome, and feedback is appreciated to help grow the application.</p>
