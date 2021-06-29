@@ -19,7 +19,6 @@ public class SplashScreenLoader extends Preloader {
         splashScreen.initStyle(StageStyle.UNDECORATED); //no top bar
         stage.initStyle(StageStyle.TRANSPARENT); //allow image to be seen through
         splashScreen.setScene(createScene());
-        splashScreen.setOpacity(.5); //slightly transparent
         splashScreen.show();
     }
 
