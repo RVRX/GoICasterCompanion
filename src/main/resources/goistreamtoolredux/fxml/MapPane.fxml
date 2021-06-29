@@ -22,7 +22,7 @@
                               <Insets />
                            </HBox.margin>
                         </JFXComboBox>
-                        <JFXCheckBox fx:id="showSpawnsCheckBox" onAction="#setSpawnStatus" text="Show Spawns">
+                        <JFXCheckBox fx:id="showSpawnsCheckBox" onAction="#spawnStatusChanged" text="Show Spawns">
                            <HBox.margin>
                               <Insets left="5.0" top="5.0" />
                            </HBox.margin>
