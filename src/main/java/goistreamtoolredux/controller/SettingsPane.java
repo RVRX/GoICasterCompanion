@@ -21,6 +21,7 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.NoSuchElementException;
 import java.util.ResourceBundle;
 
 public class SettingsPane {
@@ -123,6 +124,11 @@ public class SettingsPane {
         } catch (IOException | InvalidDataException exception) {
             exception.printStackTrace();
             //todo, handle
+        } catch (NoSuchElementException exception) {
+            //set initial value to 240, if getInitialTimerLength() throws error
+            SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory
+                    (1, Integer.MAX_VALUE, 240);
+            lobbyTimerSpinner.setValueFactory(valueFactory);
         }
 
         ObservableList<String> themeList = FXCollections.observableArrayList();
