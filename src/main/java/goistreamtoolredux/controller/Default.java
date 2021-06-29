@@ -2,9 +2,9 @@ package goistreamtoolredux.controller;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
-import goistreamtoolredux.algorithm.CustomTimer;
 import goistreamtoolredux.algorithm.FileManager;
 import goistreamtoolredux.algorithm.InvalidDataException;
+import goistreamtoolredux.algorithm.LobbyTimer;
 import goistreamtoolredux.algorithm.Team;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -75,7 +75,7 @@ public class Default {
             isTimerOn = true;
             lobbyTimerButton.setText("Stop Timer");
             try {
-                CustomTimer.getInstance().restart();
+                LobbyTimer.getInstance().restart();
             } catch (IOException | InvalidDataException exception) {
                 exception.printStackTrace();
                 //todo handle
@@ -86,7 +86,7 @@ public class Default {
             lobbyTimerButton.setText("Lobby Timer");
 
             try {
-                CustomTimer.getInstance().stop();
+                LobbyTimer.getInstance().stop();
             } catch (IOException exception) {
                 exception.printStackTrace();
                 //todo handle

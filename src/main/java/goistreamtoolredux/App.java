@@ -1,7 +1,7 @@
 package goistreamtoolredux;
 
-import goistreamtoolredux.algorithm.CustomTimer;
 import goistreamtoolredux.algorithm.FileManager;
+import goistreamtoolredux.algorithm.LobbyTimer;
 import goistreamtoolredux.controller.Master;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -51,8 +51,8 @@ public class App extends Application {
     public void stop() {
         System.out.println("Shutting Down");
         //cancel the current TimerTask so the app doesn't hang on quit
-        if (CustomTimer.getInstance().getCurrentTimer() != null) {
-            CustomTimer.getInstance().getCurrentTimer().cancel();
+        if (LobbyTimer.getInstance().getCurrentTimer() != null) {
+            LobbyTimer.getInstance().getCurrentTimer().cancel();
         }
     }
 }

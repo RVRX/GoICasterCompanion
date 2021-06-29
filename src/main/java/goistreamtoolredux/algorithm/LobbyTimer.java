@@ -13,9 +13,9 @@ import java.util.TimerTask;
  * Singleton timer class.
  * Warning: gets confusing with all the uses of timer as a word, vs the actual JDK Timer class.
  */
-public class CustomTimer {
+public class LobbyTimer {
 
-    private static CustomTimer singleton = new CustomTimer();
+    private static LobbyTimer singleton = new LobbyTimer();
     private Timer currentTimer;
     protected boolean isTimerRunning = false;
 
@@ -23,10 +23,10 @@ public class CustomTimer {
         return currentTimer;
     }
 
-    private CustomTimer() {}
+    private LobbyTimer() {}
 
     /* Static 'instance' method */
-    public static CustomTimer getInstance() {
+    public static LobbyTimer getInstance() {
         return singleton;
     }
 
@@ -241,13 +241,13 @@ class CountdownTimer extends TimerTask {
 
         /*todo, implement lock*/
 
-        CustomTimer timer = CustomTimer.getInstance();
+        LobbyTimer timer = LobbyTimer.getInstance();
 
         try {
             int currentTime = timer.get();
             if (currentTime <= 0) {
                 System.out.println("Timer Finished!\n>");
-                CustomTimer.getInstance().isTimerRunning = false;
+                LobbyTimer.getInstance().isTimerRunning = false;
                 timer.getCurrentTimer().cancel();
             } else {
                 timer.set(currentTime - 1);
