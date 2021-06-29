@@ -1,5 +1,7 @@
 package goistreamtoolredux.algorithm;
 
+import goistreamtoolredux.controller.Master;
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
@@ -262,6 +264,7 @@ public class FileManager {
         Path inputPathObject = Paths.get(inputPath);
         if (!Files.exists(inputPathObject)) {
             System.out.println("Input folder cannot be found... recreating");
+            Master.newWarning("File Verification","Input Folder Cannot be Found","During verification, the input folder could not be found in: '" + inputPath + "'. Download a pre-made input folder from the website (goicc.skyborne.net), and put it in the aforementioned directory.");
             if (inputPathObject.toFile().mkdirs()) {
                 System.out.println("Input folder created successfully");
             } else {

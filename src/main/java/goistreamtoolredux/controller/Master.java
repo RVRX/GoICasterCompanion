@@ -1,11 +1,13 @@
 package goistreamtoolredux.controller;
 
 import com.jfoenix.controls.JFXButton;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
@@ -196,5 +198,18 @@ public class Master {
              masterAnchorPane.getStylesheets().setAll("/goistreamtoolredux/css/monochrome/MainStyle.css");
              navigationSidebarVBox.getStylesheets().clear();
         }
+    }
+
+    public static void newWarning(String title, String header, String content) {
+        Platform.runLater(new Runnable(){
+            @Override
+            public void run() {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle(title);
+                alert.setHeaderText(header);
+                alert.setContentText(content);
+                alert.showAndWait();
+            }
+        });
     }
 }
