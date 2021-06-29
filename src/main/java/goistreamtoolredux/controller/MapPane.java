@@ -59,11 +59,8 @@ public class MapPane {
         mapDetailText.setText("Map details, and spawn locations for " + selectedMap + " coming in future release.");
     }
 
-    @FXML
+    @FXML //todo, remove?
     void setSpawnStatus(ActionEvent event) {
-        if (showSpawnsCheckBox.isSelected()) {
-
-        }
     }
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
@@ -88,6 +85,8 @@ public class MapPane {
         //save map
         if (selectedMap != null) {
             try {
+                System.out.println("selected map: " + selectedMap);
+                System.out.println("checkbox: " + showSpawnsCheckBox.isSelected());
                 FileManager.setMap(selectedMap, showSpawnsCheckBox.isSelected());
                 //snackBar popup, team infos saved
                 JFXSnackbar bar = new JFXSnackbar(anchorPane);

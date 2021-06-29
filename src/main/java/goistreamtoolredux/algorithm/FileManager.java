@@ -403,11 +403,14 @@ public class FileManager {
         //copy map from map_images
         if (isSpawn) {
             try {
-                //tyr to get spawn file
-                Files.copy(Paths.get(inputPath + "map_images" + File.separator + mapName + "-spawn.png"), Paths.get(outputPath + "Map.png"), StandardCopyOption.REPLACE_EXISTING);
+                //try to get spawn file
+                Files.copy(Paths.get(inputPath + "map_images" + File.separator + mapName + " Spawn.png"), Paths.get(outputPath + "Map.png"), StandardCopyOption.REPLACE_EXISTING);
             } catch (IOException exception) {
+                exception.printStackTrace();
                 //fallback for if spawn image doesn't exist
                 Files.copy(Paths.get(inputPath + "map_images" + File.separator + mapName + ".png"), Paths.get(outputPath + "Map.png"), StandardCopyOption.REPLACE_EXISTING);
+                //alert user of fallback
+                Master.newWarning("File Error", "Map Not Found", "Spawn map not found, falling back to non-spawn map");
             }
         } else {
             //get file
