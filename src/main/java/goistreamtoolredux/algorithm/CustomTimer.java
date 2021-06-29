@@ -9,13 +9,9 @@ import java.util.NoSuchElementException;
 import java.util.Timer;
 import java.util.TimerTask;
 
-/**
- * Singleton timer class.
- * Warning: gets confusing with all the uses of timer as a word, vs the actual JDK Timer class.
- */
-public class LobbyTimer extends Timers {
+public class CustomTimer extends Timers {
 
-    private static LobbyTimer singleton = new LobbyTimer();
+    private static CustomTimer singleton = new CustomTimer();
     private Timer currentTimer;
     protected boolean isTimerRunning = false;
 
@@ -23,13 +19,19 @@ public class LobbyTimer extends Timers {
         return currentTimer;
     }
 
-    private LobbyTimer() {}
+    private CustomTimer() {}
 
     /* Static 'instance' method */
-    public static LobbyTimer getInstance() {
+    public static CustomTimer getInstance() {
         return singleton;
     }
 
+    //File paths
+//    String timerLength = FileManager.inputPath + "TimerLength.txt";
+//    String timerTXT = FileManager.outputPath + "Timer.txt";
+
+
+    /*--- Methods ---*/
 
     /**
      * Start the timer (initial or after a pause)
@@ -46,7 +48,7 @@ public class LobbyTimer extends Timers {
             } else { //otherwise, resume from last position by starting goistreamtoolredux.algorithm.CountdownTimer task
                 isTimerRunning = true;
                 currentTimer = new Timer();
-                TimerTask task = new CountdownTimer();
+                TimerTask task = new CountdownTimerCustom();
                 currentTimer.schedule(task,0, 1000);
             }
         } else System.err.println("Timer already running!");
@@ -108,7 +110,6 @@ public class LobbyTimer extends Timers {
         //start
         start();
     }
-
 }
 
 /**
@@ -117,7 +118,7 @@ public class LobbyTimer extends Timers {
  * file locks and is not atomic as of the current version.
  * @implNote Does not use system clock (or at least efficiently. Timer will start to lag behind if more system resources are used or application is active with other tasks
  */
-class CountdownTimer extends TimerTask {
+class CountdownTimerCustom extends TimerTask {
 
     public void run() {
 
@@ -145,3 +146,4 @@ class CountdownTimer extends TimerTask {
         }
     }
 }
+
