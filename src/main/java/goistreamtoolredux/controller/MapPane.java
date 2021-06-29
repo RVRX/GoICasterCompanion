@@ -1,5 +1,6 @@
 package goistreamtoolredux.controller;
 
+import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXSnackbar;
 import com.jfoenix.controls.JFXSnackbarLayout;
@@ -36,6 +37,9 @@ public class MapPane {
     @FXML // fx:id="mapComboBox"
     private JFXComboBox<String> mapComboBox; // Value injected by FXMLLoader
 
+    @FXML // fx:id="showSpawnsCheckBox"
+    private JFXCheckBox showSpawnsCheckBox; // Value injected by FXMLLoader
+
     @FXML // fx:id="mapImage"
     private ImageView mapImage; // Value injected by FXMLLoader
 
@@ -53,6 +57,13 @@ public class MapPane {
         //todo update text, current is concept filler
 //        mapDetailText.setText("Selected Map is " + selectedMap);
         mapDetailText.setText("Map details, and spawn locations for " + selectedMap + " coming in future release.");
+    }
+
+    @FXML
+    void setSpawnStatus(ActionEvent event) {
+        if (showSpawnsCheckBox.isSelected()) {
+
+        }
     }
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
@@ -77,7 +88,7 @@ public class MapPane {
         //save map
         if (selectedMap != null) {
             try {
-                FileManager.setMap(selectedMap);
+                FileManager.setMap(selectedMap, showSpawnsCheckBox.isSelected());
                 //snackBar popup, team infos saved
                 JFXSnackbar bar = new JFXSnackbar(anchorPane);
                 bar.enqueue(new JFXSnackbar.SnackbarEvent(new JFXSnackbarLayout("Updating Map...",null,null),new Duration(1000)));
