@@ -5,6 +5,7 @@ import goistreamtoolredux.algorithm.LobbyTimer;
 import goistreamtoolredux.controller.Master;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.application.Preloader;
 import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.EventHandler;
@@ -48,7 +49,7 @@ public class App extends Application {
         primaryStage.setTitle("GoIStreamToolRedux");
         primaryStage.setScene(new Scene(root, 700, 400)); // 600 (page) + 100 (sidebar) by 400
 
-        //manual application delay setup (allow user to disable)
+        //manual application delay for setup (allow user to disable), and preloader calls
         Task<Void> sleeper = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
@@ -62,6 +63,9 @@ public class App extends Application {
         sleeper.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
             @Override
             public void handle(WorkerStateEvent event) {
+                //notify preloader, so that it may close
+                notifyPreloader(new Preloader.ProgressNotification(1));
+                //show application stage
                 primaryStage.show();
             }
         });

@@ -69,8 +69,12 @@ public class SplashScreenLoader extends Preloader {
 
     @Override
     public void handleApplicationNotification(PreloaderNotification notification) {
-        if (notification instanceof StateChangeNotification) {
-            splashScreen.hide();
+        if (notification instanceof ProgressNotification) {
+            if (((ProgressNotification) notification).getProgress() == 1) {
+                System.out.println("Closing Preloader");
+                splashScreen.hide();
+//                splashScreen.toFront();
+            }
         }
     }
 
