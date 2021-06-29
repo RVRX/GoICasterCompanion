@@ -9,10 +9,6 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-
 public class SplashScreenLoader extends Preloader {
 
     private Stage splashScreen;
@@ -20,27 +16,21 @@ public class SplashScreenLoader extends Preloader {
     @Override
     public void start(Stage stage) throws Exception {
         splashScreen = stage;
-        splashScreen.initStyle(StageStyle.UNDECORATED);
-        stage.initStyle(StageStyle.TRANSPARENT);
+        splashScreen.initStyle(StageStyle.UNDECORATED); //no top bar
+        stage.initStyle(StageStyle.TRANSPARENT); //allow image to be seen through
         splashScreen.setScene(createScene());
+        splashScreen.setOpacity(.5); //slightly transparent
         splashScreen.show();
     }
 
     public Scene createScene() {
-//        StackPane root = new StackPane();
-        File mapFile = new File("/goistreamtoolredux/splash-halfsize.png");
-//            mapImage.setImage(new Image(mapFile.toURI().toString()));
-//        Image image = new Image(mapFile.toURI().toString());
-//        ImageView imageView = new ImageView(image);
 
-
-        //Creating an image
+        //Creating an image object
         Image image = null;
         try {
-            // TODO: 6/29/21 MODIFY PATH TO NOT BE ABSOLUTE
-            image = new Image(new FileInputStream(new File("/Users/rvrx/IdeaProjects/GoIStreamToolRedux/src/main/resources/goistreamtoolredux/splash-halfsize.png")));
-        } catch (FileNotFoundException exception) {
-            exception.printStackTrace();
+            image = new Image("/goistreamtoolredux/images/splash-halfsize.png");
+        } catch (NullPointerException | IllegalArgumentException exception) {
+            exception.printStackTrace(); //should never happen unless app is corrupted
         }
 
         //Setting the image view
@@ -73,7 +63,6 @@ public class SplashScreenLoader extends Preloader {
             if (((ProgressNotification) notification).getProgress() == 1) {
                 System.out.println("Closing Preloader");
                 splashScreen.hide();
-//                splashScreen.toFront();
             }
         }
     }
