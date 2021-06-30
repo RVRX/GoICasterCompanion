@@ -81,6 +81,15 @@ JFXTextField:hover, JFXTextArea:hover, JFXComboBox:hover, JFXPasswordField:hover
     -fx-text-fill: #ff4081;
 }
 
+/*--------------------------*/
+
+.jfx-check-box{
+    -jfx-checked-color: -fx--primary-dark;
+    -jfx-unchecked-color: -fx--primary-light;
+    -fx-text-fill: white;
+
+}
+
 AnchorPane {
     -fx-background-color: -fx--primary;
 }
