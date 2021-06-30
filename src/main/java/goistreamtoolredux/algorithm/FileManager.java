@@ -252,6 +252,21 @@ public class FileManager {
         return true;
     }
 
+
+    /**
+     * Gets the current tournament number from file
+     * @return current tournament number, or 1 if IO error encountered
+     * @throws NumberFormatException if tournament file does not contain valid content
+     * @throws FileNotFoundException TournamentNumber.txt could not be found
+     */
+    public static int getTourneyNumber() throws NumberFormatException, FileNotFoundException {
+        Scanner tourneyScanner = new Scanner(new File(outputPath + "TournamentNumber.txt"));
+        String firstLine = tourneyScanner.nextLine();
+        int foo = Integer.parseInt(firstLine);
+        tourneyScanner.close();
+        return foo;
+    }
+
     /**
      * Checks for <code>input</code> and <code>output</code> folders, creates them if necessary.
      *
