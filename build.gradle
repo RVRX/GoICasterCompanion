@@ -5,6 +5,7 @@ plugins {
     id 'edu.sc.seis.launch4j' version '2.5.0'
 }
 mainClassName = 'goistreamtoolredux.Main'
+project.version = 0.5
 
 repositories {
     mavenCentral()
@@ -39,7 +40,9 @@ macAppBundle {
 }
 
 launch4j {
+    outfile = 'GoICasterCompanion.exe'
     mainClassName = 'goistreamtoolredux.Main'
+    icon = "${projectDir}/app-icon.png" //todo verify this on windows
 }
 
 
