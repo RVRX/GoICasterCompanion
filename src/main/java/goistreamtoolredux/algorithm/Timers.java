@@ -82,7 +82,14 @@ public class Timers {
             //timer file is empty or invalid.
             //write value of "TimerLength.txt" to "Timer.txt", and return such
             Writer fileWriter = new FileWriter(timerTXT);
-            fileWriter.write(convertToMinuteFormat(getInitialTimerLength()));
+            try {
+                fileWriter.write(convertToMinuteFormat(getInitialTimerLength()));
+            } catch (NoSuchElementException | InvalidDataException exception) {
+                //getInitial error, so write new value to getInitial
+                Writer fileWriterInitial = new FileWriter(FileManager.inputPath + "TimerLength.txt");
+                fileWriterInitial.write(240);
+                fileWriterInitial.close();
+            }
             fileWriter.close();
         }
         return 240;
