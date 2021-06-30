@@ -46,7 +46,7 @@ public class App extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/Master.fxml"));
         Parent root = loader.load();
         masterController = (Master) loader.getController();
-        primaryStage.setTitle("GoIStreamToolRedux");
+        primaryStage.setTitle("GoICasterCompanion");
         primaryStage.setScene(new Scene(root, 700, 400)); // 600 (page) + 100 (sidebar) by 400
 
         //manual application delay for setup (allow user to disable), and preloader calls
