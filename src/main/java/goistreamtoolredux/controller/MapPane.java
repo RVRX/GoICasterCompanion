@@ -51,16 +51,28 @@ public class MapPane {
     @FXML
     void selectMap(ActionEvent event) {
         selectedMap = mapComboBox.getSelectionModel().getSelectedItem();
-        //update UI image
-        File mapFile = new File(FileManager.inputPath + "map_images" + File.separator + selectedMap + ".png");
-        mapImage.setImage(new Image(mapFile.toURI().toString()));
-        //todo update text, current is concept filler
-//        mapDetailText.setText("Selected Map is " + selectedMap);
-        mapDetailText.setText("Map details, and spawn locations for " + selectedMap + " coming in future release.");
+        if (selectedMap != null) {
+            //update UI image
+            File mapFile;
+            if (showSpawnsCheckBox.isSelected()) {
+                //show spawn image
+                mapFile = new File(FileManager.inputPath + "map_images" + File.separator + selectedMap + " Spawn.png");
+                if (!mapFile.exists()) { //if spawn image can't be found, use non-spawn variant as fallback
+                    mapFile = new File(FileManager.inputPath + "map_images" + File.separator + selectedMap + ".png");
+                }
+            } else {
+                //show normal image
+                mapFile = new File(FileManager.inputPath + "map_images" + File.separator + selectedMap + ".png");
+            }
+            mapImage.setImage(new Image(mapFile.toURI().toString()));
+            //todo update text, current is concept filler
+            mapDetailText.setText("Map details for " + selectedMap + " coming in future release.");
+        }
     }
 
-    @FXML //todo, remove?
-    void setSpawnStatus(ActionEvent event) {
+    @FXML
+    void spawnStatusChanged(ActionEvent event) {
+        selectMap(event);
     }
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
