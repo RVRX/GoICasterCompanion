@@ -1,10 +1,14 @@
 package goistreamtoolredux;
 
-import goistreamtoolredux.algorithm.CustomTimer;
 import goistreamtoolredux.algorithm.FileManager;
+import goistreamtoolredux.algorithm.LobbyTimer;
 import goistreamtoolredux.controller.Master;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.application.Preloader;
+import javafx.concurrent.Task;
+import javafx.concurrent.WorkerStateEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -44,15 +48,36 @@ public class App extends Application {
         masterController = (Master) loader.getController();
         primaryStage.setTitle("GoIStreamToolRedux");
         primaryStage.setScene(new Scene(root, 700, 400)); // 600 (page) + 100 (sidebar) by 400
-        primaryStage.show();
+
+        //manual application delay for setup (allow user to disable), and preloader calls
+        Task<Void> sleeper = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                try {
+                    Thread.sleep(1500);
+                } catch (InterruptedException e) {
+                }
+                return null;
+            }
+        };
+        sleeper.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+            @Override
+            public void handle(WorkerStateEvent event) {
+                //notify preloader, so that it may close
+                notifyPreloader(new Preloader.ProgressNotification(1));
+                //show application stage
+                primaryStage.show();
+            }
+        });
+        new Thread(sleeper).start();
     }
 
     @Override
     public void stop() {
         System.out.println("Shutting Down");
         //cancel the current TimerTask so the app doesn't hang on quit
-        if (CustomTimer.getInstance().getCurrentTimer() != null) {
-            CustomTimer.getInstance().getCurrentTimer().cancel();
+        if (LobbyTimer.getInstance().getCurrentTimer() != null) {
+            LobbyTimer.getInstance().getCurrentTimer().cancel();
         }
     }
 }

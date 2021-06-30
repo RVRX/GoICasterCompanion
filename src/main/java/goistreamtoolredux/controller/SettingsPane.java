@@ -4,9 +4,9 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXSnackbar;
 import com.jfoenix.controls.JFXSnackbarLayout;
 import goistreamtoolredux.App;
-import goistreamtoolredux.algorithm.CustomTimer;
 import goistreamtoolredux.algorithm.FileManager;
 import goistreamtoolredux.algorithm.InvalidDataException;
+import goistreamtoolredux.algorithm.LobbyTimer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -21,6 +21,7 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.NoSuchElementException;
 import java.util.ResourceBundle;
 
 public class SettingsPane {
@@ -60,7 +61,7 @@ public class SettingsPane {
         JFXSnackbar bar = new JFXSnackbar(anchorPane);
         bar.enqueue(new JFXSnackbar.SnackbarEvent(new JFXSnackbarLayout("Saving..."),new Duration(350)));
         try {
-            CustomTimer.getInstance().setInitialTimerLength(lobbyTimerSpinner.getValue());
+            LobbyTimer.getInstance().setInitialTimerLength(lobbyTimerSpinner.getValue());
             bar.enqueue(new JFXSnackbar.SnackbarEvent(new JFXSnackbarLayout("Saved."),new Duration(1000)));
 
         } catch (IOException exception) {
@@ -118,11 +119,16 @@ public class SettingsPane {
 
         try {
             SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory
-                    (1, Integer.MAX_VALUE, CustomTimer.getInstance().getInitialTimerLength());
+                    (1, Integer.MAX_VALUE, LobbyTimer.getInstance().getInitialTimerLength());
             lobbyTimerSpinner.setValueFactory(valueFactory);
         } catch (IOException | InvalidDataException exception) {
             exception.printStackTrace();
             //todo, handle
+        } catch (NoSuchElementException exception) {
+            //set initial value to 240, if getInitialTimerLength() throws error
+            SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory
+                    (1, Integer.MAX_VALUE, 240);
+            lobbyTimerSpinner.setValueFactory(valueFactory);
         }
 
         ObservableList<String> themeList = FXCollections.observableArrayList();

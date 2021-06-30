@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXCheckBox?>
 <?import com.jfoenix.controls.JFXComboBox?>
-<?import javafx.geometry.Insets?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Text?>
@@ -11,14 +12,23 @@
          <children>
             <VBox prefHeight="200.0" prefWidth="300.0">
                <children>
-                  <JFXComboBox fx:id="mapComboBox" onAction="#selectMap" prefHeight="27.0" prefWidth="201.0" promptText="Current Map">
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets>
-                     <VBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="15.0" />
-                     </VBox.margin>
-                  </JFXComboBox>
+                  <HBox>
+                     <children>
+                        <JFXComboBox fx:id="mapComboBox" onAction="#selectMap" prefHeight="27.0" prefWidth="201.0" promptText="Current Map">
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                        </JFXComboBox>
+                        <JFXCheckBox fx:id="showSpawnsCheckBox" onAction="#spawnStatusChanged" text="Show Spawns">
+                           <HBox.margin>
+                              <Insets left="5.0" top="5.0" />
+                           </HBox.margin>
+                        </JFXCheckBox>
+                     </children>
+                  </HBox>
                   <HBox alignment="CENTER">
                      <children>
                         <ImageView fx:id="mapImage" fitHeight="250.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true">
@@ -29,6 +39,9 @@
                      </children>
                   </HBox>
                </children>
+               <HBox.margin>
+                  <Insets left="5.0" right="5.0" top="15.0" />
+               </HBox.margin>
             </VBox>
             <VBox prefHeight="200.0" prefWidth="300.0">
                <children>

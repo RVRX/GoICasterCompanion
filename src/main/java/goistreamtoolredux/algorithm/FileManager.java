@@ -175,7 +175,7 @@ public class FileManager {
                 break;
 
             case "timer set":
-                CustomTimer timer = CustomTimer.getInstance();
+                LobbyTimer timer = LobbyTimer.getInstance();
                 try {
                     System.out.println("How many seconds would you like to set the timer for");
                     int setTime = scanner.nextInt();
@@ -195,7 +195,7 @@ public class FileManager {
 
             case "timer start":
                 try {
-                    CustomTimer.getInstance().start();
+                    LobbyTimer.getInstance().start();
                 } catch (IOException exception) {
                     exception.printStackTrace();
                 } catch (NoSuchElementException exception) {
@@ -207,7 +207,7 @@ public class FileManager {
 
             case "timer stop":
                 try {
-                    CustomTimer.getInstance().stop();
+                    LobbyTimer.getInstance().stop();
                     System.out.println("Stopped!");
                 } catch (IOException exception) {
                     exception.printStackTrace();
@@ -215,12 +215,12 @@ public class FileManager {
                 break;
 
             case "timer pause":
-                CustomTimer.getInstance().pause();
+                LobbyTimer.getInstance().pause();
                 break;
 
             case "timer restart": case "timer reset":
                 try {
-                    CustomTimer.getInstance().restart();
+                    LobbyTimer.getInstance().restart();
                 } catch (IOException | InvalidDataException exception) {
                     exception.printStackTrace();
                 }
@@ -377,6 +377,53 @@ public class FileManager {
         System.out.println("Map.txt Updated");
 
         return true;
+    }
+
+    /**
+     * Sets the current map, with or without spawn locations
+     *
+     * @param mapName Name of map to be set as current
+     * @param isSpawn If spawns should be shown on map or not
+     * @throws IOException IO error for maps.txt opening or writing
+     * @throws FileNotFoundException Likely error finding map file
+     */
+    public static void setMap(String mapName, boolean isSpawn) throws IOException {
+
+        /*--- Check Map Validity ---*/
+        try {
+            if (!isValidMap(mapName)) {
+                System.err.println("That map does not exist in maps.txt");
+                return;
+            }
+        } catch (FileNotFoundException e) {
+            throw new FileNotFoundException("Map file could not be found, reason:" + e.getMessage());
+        }
+
+        /*--- Update Map.png ---*/
+        //copy map from map_images
+        if (isSpawn) {
+            try {
+                //try to get spawn file
+                Files.copy(Paths.get(inputPath + "map_images" + File.separator + mapName + " Spawn.png"), Paths.get(outputPath + "Map.png"), StandardCopyOption.REPLACE_EXISTING);
+            } catch (IOException exception) {
+                exception.printStackTrace();
+                //fallback for if spawn image doesn't exist
+                Files.copy(Paths.get(inputPath + "map_images" + File.separator + mapName + ".png"), Paths.get(outputPath + "Map.png"), StandardCopyOption.REPLACE_EXISTING);
+                //alert user of fallback
+                Master.newWarning("File Error", "Map Not Found", "Spawn map not found, falling back to non-spawn map");
+            }
+        } else {
+            //get file
+            Files.copy(Paths.get(inputPath + "map_images" + File.separator + mapName + ".png"), Paths.get(outputPath + "Map.png"), StandardCopyOption.REPLACE_EXISTING);
+        }
+        System.out.println("Map.png Updated");
+
+        /*--- Update Map.txt ---*/
+        Writer fileWriter = new FileWriter(outputPath + "Map.txt");
+        fileWriter.write(mapName);
+        fileWriter.close();
+        System.out.println("Map.txt Updated");
+
     }
 
     /**

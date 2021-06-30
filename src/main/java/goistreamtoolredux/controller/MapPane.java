@@ -1,5 +1,6 @@
 package goistreamtoolredux.controller;
 
+import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXSnackbar;
 import com.jfoenix.controls.JFXSnackbarLayout;
@@ -36,6 +37,9 @@ public class MapPane {
     @FXML // fx:id="mapComboBox"
     private JFXComboBox<String> mapComboBox; // Value injected by FXMLLoader
 
+    @FXML // fx:id="showSpawnsCheckBox"
+    private JFXCheckBox showSpawnsCheckBox; // Value injected by FXMLLoader
+
     @FXML // fx:id="mapImage"
     private ImageView mapImage; // Value injected by FXMLLoader
 
@@ -47,12 +51,28 @@ public class MapPane {
     @FXML
     void selectMap(ActionEvent event) {
         selectedMap = mapComboBox.getSelectionModel().getSelectedItem();
-        //update UI image
-        File mapFile = new File(FileManager.inputPath + "map_images" + File.separator + selectedMap + ".png");
-        mapImage.setImage(new Image(mapFile.toURI().toString()));
-        //todo update text, current is concept filler
-//        mapDetailText.setText("Selected Map is " + selectedMap);
-        mapDetailText.setText("Map details, and spawn locations for " + selectedMap + " coming in future release.");
+        if (selectedMap != null) {
+            //update UI image
+            File mapFile;
+            if (showSpawnsCheckBox.isSelected()) {
+                //show spawn image
+                mapFile = new File(FileManager.inputPath + "map_images" + File.separator + selectedMap + " Spawn.png");
+                if (!mapFile.exists()) { //if spawn image can't be found, use non-spawn variant as fallback
+                    mapFile = new File(FileManager.inputPath + "map_images" + File.separator + selectedMap + ".png");
+                }
+            } else {
+                //show normal image
+                mapFile = new File(FileManager.inputPath + "map_images" + File.separator + selectedMap + ".png");
+            }
+            mapImage.setImage(new Image(mapFile.toURI().toString()));
+            //todo update text, current is concept filler
+            mapDetailText.setText("Map details for " + selectedMap + " coming in future release.");
+        }
+    }
+
+    @FXML
+    void spawnStatusChanged(ActionEvent event) {
+        selectMap(event);
     }
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
@@ -77,7 +97,9 @@ public class MapPane {
         //save map
         if (selectedMap != null) {
             try {
-                FileManager.setMap(selectedMap);
+                System.out.println("selected map: " + selectedMap);
+                System.out.println("checkbox: " + showSpawnsCheckBox.isSelected());
+                FileManager.setMap(selectedMap, showSpawnsCheckBox.isSelected());
                 //snackBar popup, team infos saved
                 JFXSnackbar bar = new JFXSnackbar(anchorPane);
                 bar.enqueue(new JFXSnackbar.SnackbarEvent(new JFXSnackbarLayout("Updating Map...",null,null),new Duration(1000)));
