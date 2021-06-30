@@ -30,9 +30,11 @@ dependencies {
 
 macAppBundle {
     mainClassName = "goistreamtoolredux.Main"
-//    icon = "myIcon.icns"
-    bundleJRE = true
-//    javaProperties.put("apple.laf.useScreenMenuBar", "true")
+    icon = "app-icon.png"
+    appName = "GoICasterCompanion"
+    volumeName = "GoICC Install"
+    dmgName = "GoICC v0.5.0"
+    bundleJRE = false
 //    backgroundImage = "doc/macbackground.png"
 }
 
