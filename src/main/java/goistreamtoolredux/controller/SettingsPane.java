@@ -102,17 +102,20 @@ public class SettingsPane {
      */
     @FXML
     void setPrefInput(ActionEvent event) {
+        //setup alert snackbar
+        JFXSnackbar bar = new JFXSnackbar(anchorPane);
+
         //Open Directory Chooser
         DirectoryChooser chooser = new DirectoryChooser();
         chooser.setTitle("Preferred Input Directory");
         chooser.setInitialDirectory(new File(FileManager.getInputPath()));
         File selectedDir = chooser.showDialog(App.getPrimaryStage());
         if (selectedDir == null) {
-            //todo snackbar saying not set
+            bar.enqueue(new JFXSnackbar.SnackbarEvent(new JFXSnackbarLayout("No directory was chosen"),new Duration(1000)));
             return;
         }
         FileManager.setInputPath(selectedDir.getPath());
-        //todo snackbar saying updated
+        bar.enqueue(new JFXSnackbar.SnackbarEvent(new JFXSnackbarLayout("Input directory updated"),new Duration(1000)));
 
         //update scrollPane
         inputPathText.setText(FileManager.getInputPath());
@@ -124,17 +127,18 @@ public class SettingsPane {
      */
     @FXML
     void setPrefOutput(ActionEvent event) {
+        JFXSnackbar bar = new JFXSnackbar(anchorPane);
         //Open Directory Chooser
         DirectoryChooser chooser = new DirectoryChooser();
         chooser.setTitle("Preferred Output Directory");
         chooser.setInitialDirectory(new File(FileManager.getOutputPath()));
         File selectedDir = chooser.showDialog(App.getPrimaryStage());
         if (selectedDir == null) {
-            //todo snackbar saying not set
+            bar.enqueue(new JFXSnackbar.SnackbarEvent(new JFXSnackbarLayout("No directory was chosen"),new Duration(1000)));
             return;
         }
         FileManager.setOutputPath(selectedDir.getPath());
-        //todo snackbar saying updated
+        bar.enqueue(new JFXSnackbar.SnackbarEvent(new JFXSnackbarLayout("Input directory updated"),new Duration(1000)));
 
         //update scrollPane
         inputPathText.setText(FileManager.getOutputPath());
