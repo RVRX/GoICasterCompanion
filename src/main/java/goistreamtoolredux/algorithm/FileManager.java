@@ -10,9 +10,17 @@ import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.file.*;
 import java.util.*;
+import java.util.prefs.Preferences;
 import java.util.stream.Stream;
 
 public class FileManager {
+
+//    private Preferences prefs = Preferences.userRoot().node(this.getClass().getName());
+    //set static accessor for preferences
+    private static Preferences prefs = Preferences.userRoot().node("/goistreamtoolredux/algorithm");
+    //set static final fields for key names
+    private static final String OUTPUT_FOLDER = "output_folder";
+    private static final String INPUT_FOLDER = "input_folder";
 
     //System independent path to output folder
     public static String outputPath = getOutputPath();
@@ -31,7 +39,18 @@ public class FileManager {
     }
 
     /**
-     * Gets the (OS specific) application output folder path.
+     * Gets the currently set application output folder path.
+     *
+     * @return user preferred output folder, default if no preference is set
+     * @see #getInputPath()
+     */
+    public static String getOutputPath() {
+        return prefs.get(OUTPUT_FOLDER, getDefaultOutputPath());
+    }
+
+    /**
+     * Gets the default (OS specific) application output folder path.
+     * @// TODO: 7/1/21 update this to point to documents folder
      *
      * This should be the current working directory of the application (where it was launched from)
      * on all OS's except for Mac, where it will be
@@ -39,9 +58,9 @@ public class FileManager {
      *
      * @return full path to output folder ending with separator char (typically '<code>/</code>'),
      * so that content may be appended to it
-     * @see #getOutputPath()
+     * @see #getDefaultInputPath()
      */
-    public static String getOutputPath() {
+    public static String getDefaultOutputPath() {
         if (System.getProperty("os.name").toLowerCase().contains("mac os")) {
             return System.getProperty("user.home") + File.separator + "Library" + File.separator +
                     "Application Support" + File.separator + "GoIStreamToolRedux" + File.separator + "output" + File.separator;
@@ -51,7 +70,18 @@ public class FileManager {
     }
 
     /**
-     * Gets the (OS specific) application input folder path.
+     * Gets the currently set application input folder path.
+     *
+     * @return user preferred input folder, default if no preference is set
+     * @see #getOutputPath()
+     */
+    public static String getInputPath() {
+        return prefs.get(INPUT_FOLDER, getDefaultInputPath());
+    }
+
+    /**
+     * Gets the default (OS specific) application input folder path.
+     * @// TODO: 7/1/21 update this to point to documents folder
      *
      * This should be the current working directory of the application (where it was launched from)
      * on all OS's except for Mac, where it will be
@@ -59,15 +89,45 @@ public class FileManager {
      *
      * @return full path to input folder ending with separator char (typically '<code>/</code>'),
      * so that content may be appended to it
-     * @see #getOutputPath()
+     * @see #getDefaultOutputPath()
      */
-    public static String getInputPath() {
+    public static String getDefaultInputPath() {
         if (System.getProperty("os.name").toLowerCase().contains("mac os")) {
             return System.getProperty("user.home") + File.separator + "Library" + File.separator +
                     "Application Support" + File.separator + "GoIStreamToolRedux" + File.separator + "input" + File.separator;
         } else {
             return System.getProperty("user.dir") + File.separator + "input" + File.separator;
         }
+    }
+
+    /**
+     * Sets the preferred output path
+     * @param outputPath valid path to new output folder, MUST END IN FILE SEPARATOR
+     */
+    public static void setOutputPath(String outputPath) { //todo, input a Path instead?
+        prefs.put(OUTPUT_FOLDER, outputPath);
+    }
+
+    /**
+     * Sets the preferred input path
+     * @param inputPath valid path to new input folder, MUST END IN FILE SEPARATOR
+     */
+    public static void setInputPath(String inputPath) {
+        prefs.put(INPUT_FOLDER, inputPath);
+    }
+
+    /**
+     * Resets the outputPath to application default
+     */
+    public static void resetOutputPath() {
+        prefs.remove(OUTPUT_FOLDER);
+    }
+
+    /**
+     * Resets the inputPath to application default
+     */
+    public static void resetInputPath() {
+        prefs.remove(INPUT_FOLDER);
     }
 
     private static void CLIParse(String input) {
@@ -251,7 +311,6 @@ public class FileManager {
 
         return true;
     }
-
 
     /**
      * Gets the current tournament number from file

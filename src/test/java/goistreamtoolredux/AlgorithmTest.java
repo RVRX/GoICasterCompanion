@@ -8,8 +8,11 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
+import java.util.prefs.BackingStoreException;
+import java.util.prefs.Preferences;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -91,6 +94,75 @@ public class AlgorithmTest {
     @Test
     public void getSCSBracketsTest() {
         FileManager.getScsBracket(353);
+    }
+
+
+    @Test
+    public void setOutputPathPreference() {
+        String foo; // 'outputTest' directory
+        if (System.getProperty("os.name").toLowerCase().contains("mac os")) {
+            foo = System.getProperty("user.home") + File.separator + "Library" + File.separator +
+                    "Application Support" + File.separator + "GoIStreamToolRedux" + File.separator + "outputTest" + File.separator;
+        } else {
+            foo = System.getProperty("user.dir") + File.separator + "outputTest" + File.separator;
+        }
+
+        //completely wipe system preferences for this class.
+        Preferences prefs = Preferences.userRoot().node("/goistreamtoolredux/algorithm");
+        try {
+            prefs.clear();
+        } catch (BackingStoreException e) {
+            e.printStackTrace();
+        }
+
+        //attempt to reset non-existent preference (was just wiped above)
+        FileManager.resetOutputPath();
+
+        //set new output path
+        FileManager.setOutputPath(foo);
+
+        //test that output path was set
+        assertEquals(foo, FileManager.getOutputPath());
+
+        //reset
+        FileManager.resetOutputPath();
+
+        //assert successful reset
+        assertEquals(FileManager.getDefaultOutputPath(), FileManager.getOutputPath());
+    }
+
+    @Test
+    public void setInputPathPreference() {
+        String foo; // 'inputTest' directory
+        if (System.getProperty("os.name").toLowerCase().contains("mac os")) {
+            foo = System.getProperty("user.home") + File.separator + "Library" + File.separator +
+                    "Application Support" + File.separator + "GoIStreamToolRedux" + File.separator + "inputTest" + File.separator;
+        } else {
+            foo = System.getProperty("user.dir") + File.separator + "inputTest" + File.separator;
+        }
+
+        //completely wipe system preferences for this class.
+        Preferences prefs = Preferences.userRoot().node("/goistreamtoolredux/algorithm");
+        try {
+            prefs.clear();
+        } catch (BackingStoreException e) {
+            e.printStackTrace();
+        }
+
+        //attempt to reset non-existent preference (was just wiped above)
+        FileManager.resetInputPath();
+
+        //set new input path
+        FileManager.setInputPath(foo);
+
+        //test that input path was set
+        assertEquals(foo, FileManager.getInputPath());
+
+        //reset
+        FileManager.resetInputPath();
+
+        //assert successful reset
+        assertEquals(FileManager.getDefaultInputPath(), FileManager.getInputPath());
     }
 
 }
