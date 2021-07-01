@@ -42,7 +42,7 @@ macAppBundle {
 launch4j {
     outfile = 'GoICasterCompanion.exe'
     mainClassName = 'goistreamtoolredux.Main'
-    icon = "${projectDir}/app-icon.png" //todo verify this on windows
+    icon = "${projectDir}/splash-cropped-256x256.ico"
 }
 
 
