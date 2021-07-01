@@ -3,6 +3,7 @@ package goistreamtoolredux.algorithm;
 import goistreamtoolredux.controller.Master;
 
 import javax.imageio.ImageIO;
+import javax.swing.filechooser.FileSystemView;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.URL;
@@ -50,11 +51,9 @@ public class FileManager {
 
     /**
      * Gets the default (OS specific) application output folder path.
-     * @// TODO: 7/1/21 update this to point to documents folder
      *
-     * This should be the current working directory of the application (where it was launched from)
-     * on all OS's except for Mac, where it will be
-     * the <code>~/Application Support/GoIStreamToolRedux/output/</code> folder.
+     * This should be the "Input" folder within "Documents" or documents equivalent on the user's OS.
+     * On non-MacOS Unix this will map to $HOME.
      *
      * @return full path to output folder ending with separator char (typically '<code>/</code>'),
      * so that content may be appended to it
@@ -62,10 +61,9 @@ public class FileManager {
      */
     public static String getDefaultOutputPath() {
         if (System.getProperty("os.name").toLowerCase().contains("mac os")) {
-            return System.getProperty("user.home") + File.separator + "Library" + File.separator +
-                    "Application Support" + File.separator + "GoIStreamToolRedux" + File.separator + "output" + File.separator;
+            return System.getProperty("user.home") + File.separator + "Documents" + File.separator + "GoICasterCompanion" + File.separator + "output" + File.separator;
         } else {
-            return System.getProperty("user.dir") + File.separator + "output" + File.separator;
+            return FileSystemView.getFileSystemView().getDefaultDirectory().getPath() + File.separator + "GoICasterCompanion" + File.separator + "output" + File.separator;
         }
     }
 
@@ -81,11 +79,9 @@ public class FileManager {
 
     /**
      * Gets the default (OS specific) application input folder path.
-     * @// TODO: 7/1/21 update this to point to documents folder
      *
-     * This should be the current working directory of the application (where it was launched from)
-     * on all OS's except for Mac, where it will be
-     * the <code>~/Application Support/GoIStreamToolRedux/input/</code> folder.
+     * This should be the "Input" folder within "Documents" or documents equivalent on the user's OS.
+     * On non-MacOS Unix this will map to $HOME.
      *
      * @return full path to input folder ending with separator char (typically '<code>/</code>'),
      * so that content may be appended to it
@@ -93,10 +89,9 @@ public class FileManager {
      */
     public static String getDefaultInputPath() {
         if (System.getProperty("os.name").toLowerCase().contains("mac os")) {
-            return System.getProperty("user.home") + File.separator + "Library" + File.separator +
-                    "Application Support" + File.separator + "GoIStreamToolRedux" + File.separator + "input" + File.separator;
+            return System.getProperty("user.home") + File.separator + "Documents" + File.separator + "GoICasterCompanion" + File.separator + "input" + File.separator;
         } else {
-            return System.getProperty("user.dir") + File.separator + "input" + File.separator;
+            return FileSystemView.getFileSystemView().getDefaultDirectory().getPath() + File.separator + "GoICasterCompanion" + File.separator + "input" + File.separator;
         }
     }
 
