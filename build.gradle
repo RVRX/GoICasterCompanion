@@ -5,6 +5,7 @@ plugins {
     id 'edu.sc.seis.launch4j' version '2.5.0'
 }
 mainClassName = 'goistreamtoolredux.Main'
+project.version = 0.5
 
 repositories {
     mavenCentral()
@@ -30,14 +31,18 @@ dependencies {
 
 macAppBundle {
     mainClassName = "goistreamtoolredux.Main"
-//    icon = "myIcon.icns"
-    bundleJRE = true
-//    javaProperties.put("apple.laf.useScreenMenuBar", "true")
+    icon = "app-icon.png"
+    appName = "GoICasterCompanion"
+    volumeName = "GoICC Install"
+    dmgName = "GoICC v0.5.0"
+    bundleJRE = false
 //    backgroundImage = "doc/macbackground.png"
 }
 
 launch4j {
+    outfile = 'GoICasterCompanion.exe'
     mainClassName = 'goistreamtoolredux.Main'
+    icon = "${projectDir}/splash-cropped-256x256.ico"
 }
 
 

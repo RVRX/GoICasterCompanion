@@ -12,6 +12,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -47,6 +48,15 @@ public class App extends Application {
         Parent root = loader.load();
         masterController = (Master) loader.getController();
         primaryStage.setTitle("GoICasterCompanion");
+
+        //add icon
+        Image icon32 = new Image(getClass().getResourceAsStream("images/splash-cropped-32x32.png"));
+        Image icon64 = new Image(getClass().getResourceAsStream("images/splash-cropped-32x32.png"));
+        Image icon256 = new Image(getClass().getResourceAsStream("images/splash-cropped-32x32.png"));
+        System.out.println("Logos Retrieved");
+        primaryStage.getIcons().addAll(icon32, icon64, icon256);
+        System.out.println("Icons Added");
+
         primaryStage.setScene(new Scene(root, 700, 400)); // 600 (page) + 100 (sidebar) by 400
 
         //manual application delay for setup (allow user to disable), and preloader calls
