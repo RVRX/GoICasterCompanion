@@ -15,6 +15,7 @@ import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
+import javafx.stage.DirectoryChooser;
 import javafx.util.Duration;
 
 import java.awt.*;
@@ -93,6 +94,50 @@ public class SettingsPane {
                 exception.printStackTrace();
             }
         }
+    }
+
+    /**
+     * Sets the preferred input folder
+     * @param event calling event, passed by JavaFX
+     */
+    @FXML
+    void setPrefInput(ActionEvent event) {
+        //Open Directory Chooser
+        DirectoryChooser chooser = new DirectoryChooser();
+        chooser.setTitle("Preferred Input Directory");
+        chooser.setInitialDirectory(new File(FileManager.getInputPath()));
+        File selectedDir = chooser.showDialog(App.getPrimaryStage());
+        if (selectedDir == null) {
+            //todo snackbar saying not set
+            return;
+        }
+        FileManager.setInputPath(selectedDir.getPath());
+        //todo snackbar saying updated
+
+        //update scrollPane
+        inputPathText.setText(FileManager.getInputPath());
+    }
+
+    /**
+     * Sets the preferred output folder
+     * @param event calling event, passed by JavaFX
+     */
+    @FXML
+    void setPrefOutput(ActionEvent event) {
+        //Open Directory Chooser
+        DirectoryChooser chooser = new DirectoryChooser();
+        chooser.setTitle("Preferred Output Directory");
+        chooser.setInitialDirectory(new File(FileManager.getOutputPath()));
+        File selectedDir = chooser.showDialog(App.getPrimaryStage());
+        if (selectedDir == null) {
+            //todo snackbar saying not set
+            return;
+        }
+        FileManager.setOutputPath(selectedDir.getPath());
+        //todo snackbar saying updated
+
+        //update scrollPane
+        inputPathText.setText(FileManager.getOutputPath());
     }
 
     @FXML
