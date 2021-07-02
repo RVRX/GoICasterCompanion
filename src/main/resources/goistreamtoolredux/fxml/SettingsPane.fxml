@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
@@ -78,10 +77,16 @@
                            <HBox.margin>
                               <Insets left="5.0" right="5.0" />
                            </HBox.margin></JFXButton>
+                        <JFXButton fx:id="setPrefOutputButton" onAction="#setPrefOutput" text="Set Preferred Output Folder">
+                           <HBox.margin>
+                              <Insets right="5.0" />
+                           </HBox.margin>
+                        </JFXButton>
                         <JFXButton onAction="#openInputFolder" text="Open Input Folder">
                            <HBox.margin>
                               <Insets left="5.0" right="5.0" />
                            </HBox.margin></JFXButton>
+                        <JFXButton fx:id="setPrefInputButton" onAction="#setPrefInput" text="Set Preferred Input Folder" />
                      </children>
                   </HBox>
                   <HBox prefHeight="100.0" prefWidth="600.0">

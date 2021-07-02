@@ -15,6 +15,7 @@ import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
+import javafx.stage.DirectoryChooser;
 import javafx.util.Duration;
 
 import java.awt.*;
@@ -93,6 +94,54 @@ public class SettingsPane {
                 exception.printStackTrace();
             }
         }
+    }
+
+    /**
+     * Sets the preferred input folder
+     * @param event calling event, passed by JavaFX
+     */
+    @FXML
+    void setPrefInput(ActionEvent event) {
+        //setup alert snackbar
+        JFXSnackbar bar = new JFXSnackbar(anchorPane);
+
+        //Open Directory Chooser
+        DirectoryChooser chooser = new DirectoryChooser();
+        chooser.setTitle("Preferred Input Directory");
+        chooser.setInitialDirectory(new File(FileManager.getInputPath()));
+        File selectedDir = chooser.showDialog(App.getPrimaryStage());
+        if (selectedDir == null) {
+            bar.enqueue(new JFXSnackbar.SnackbarEvent(new JFXSnackbarLayout("No directory was chosen"),new Duration(1000)));
+            return;
+        }
+        FileManager.setInputPath(selectedDir.getPath());
+        bar.enqueue(new JFXSnackbar.SnackbarEvent(new JFXSnackbarLayout("Input directory updated"),new Duration(1000)));
+
+        //update scrollPane
+        inputPathText.setText(FileManager.getInputPath());
+    }
+
+    /**
+     * Sets the preferred output folder
+     * @param event calling event, passed by JavaFX
+     */
+    @FXML
+    void setPrefOutput(ActionEvent event) {
+        JFXSnackbar bar = new JFXSnackbar(anchorPane);
+        //Open Directory Chooser
+        DirectoryChooser chooser = new DirectoryChooser();
+        chooser.setTitle("Preferred Output Directory");
+        chooser.setInitialDirectory(new File(FileManager.getOutputPath()));
+        File selectedDir = chooser.showDialog(App.getPrimaryStage());
+        if (selectedDir == null) {
+            bar.enqueue(new JFXSnackbar.SnackbarEvent(new JFXSnackbarLayout("No directory was chosen"),new Duration(1000)));
+            return;
+        }
+        FileManager.setOutputPath(selectedDir.getPath());
+        bar.enqueue(new JFXSnackbar.SnackbarEvent(new JFXSnackbarLayout("Input directory updated"),new Duration(1000)));
+
+        //update scrollPane
+        inputPathText.setText(FileManager.getOutputPath());
     }
 
     @FXML

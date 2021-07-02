@@ -1,18 +1,33 @@
 package goistreamtoolredux.algorithm;
 
 import goistreamtoolredux.controller.Master;
+import javafx.application.Platform;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 
 import javax.imageio.ImageIO;
+import javax.swing.filechooser.FileSystemView;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.file.*;
 import java.util.*;
+import java.util.prefs.Preferences;
 import java.util.stream.Stream;
 
 public class FileManager {
+
+    //set static accessor for preferences
+    private static Preferences prefs = Preferences.userRoot().node("/goistreamtoolredux/algorithm");
+    //set static final fields for key names
+    private static final String OUTPUT_FOLDER = "output_folder";
+    private static final String INPUT_FOLDER = "input_folder";
 
     //System independent path to output folder
     public static String outputPath = getOutputPath();
@@ -31,43 +46,89 @@ public class FileManager {
     }
 
     /**
-     * Gets the (OS specific) application output folder path.
+     * Gets the currently set application output folder path.
      *
-     * This should be the current working directory of the application (where it was launched from)
-     * on all OS's except for Mac, where it will be
-     * the <code>~/Application Support/GoIStreamToolRedux/output/</code> folder.
+     * @return user preferred output folder, default if no preference is set
+     * @see #getInputPath()
+     */
+    public static String getOutputPath() {
+        return prefs.get(OUTPUT_FOLDER, getDefaultOutputPath());
+    }
+
+    /**
+     * Gets the default (OS specific) application output folder path.
+     *
+     * This should be the "Input" folder within "Documents" or documents equivalent on the user's OS.
+     * On non-MacOS Unix this will map to $HOME.
      *
      * @return full path to output folder ending with separator char (typically '<code>/</code>'),
      * so that content may be appended to it
-     * @see #getOutputPath()
+     * @see #getDefaultInputPath()
      */
-    public static String getOutputPath() {
+    public static String getDefaultOutputPath() {
         if (System.getProperty("os.name").toLowerCase().contains("mac os")) {
-            return System.getProperty("user.home") + File.separator + "Library" + File.separator +
-                    "Application Support" + File.separator + "GoIStreamToolRedux" + File.separator + "output" + File.separator;
+            return System.getProperty("user.home") + File.separator + "Documents" + File.separator + "GoICasterCompanion" + File.separator + "output" + File.separator;
         } else {
-            return System.getProperty("user.dir") + File.separator + "output" + File.separator;
+            return FileSystemView.getFileSystemView().getDefaultDirectory().getPath() + File.separator + "GoICasterCompanion" + File.separator + "output" + File.separator;
         }
     }
 
     /**
-     * Gets the (OS specific) application input folder path.
+     * Gets the currently set application input folder path.
      *
-     * This should be the current working directory of the application (where it was launched from)
-     * on all OS's except for Mac, where it will be
-     * the <code>~/Application Support/GoIStreamToolRedux/input/</code> folder.
-     *
-     * @return full path to input folder ending with separator char (typically '<code>/</code>'),
-     * so that content may be appended to it
+     * @return user preferred input folder, default if no preference is set
      * @see #getOutputPath()
      */
     public static String getInputPath() {
+        return prefs.get(INPUT_FOLDER, getDefaultInputPath());
+    }
+
+    /**
+     * Gets the default (OS specific) application input folder path.
+     *
+     * This should be the "Input" folder within "Documents" or documents equivalent on the user's OS.
+     * On non-MacOS Unix this will map to $HOME.
+     *
+     * @return full path to input folder ending with separator char (typically '<code>/</code>'),
+     * so that content may be appended to it
+     * @see #getDefaultOutputPath()
+     */
+    public static String getDefaultInputPath() {
         if (System.getProperty("os.name").toLowerCase().contains("mac os")) {
-            return System.getProperty("user.home") + File.separator + "Library" + File.separator +
-                    "Application Support" + File.separator + "GoIStreamToolRedux" + File.separator + "input" + File.separator;
+            return System.getProperty("user.home") + File.separator + "Documents" + File.separator + "GoICasterCompanion" + File.separator + "input" + File.separator;
         } else {
-            return System.getProperty("user.dir") + File.separator + "input" + File.separator;
+            return FileSystemView.getFileSystemView().getDefaultDirectory().getPath() + File.separator + "GoICasterCompanion" + File.separator + "input" + File.separator;
         }
+    }
+
+    /**
+     * Sets the preferred output path
+     * @param outputPath valid path to new output folder, MUST END IN FILE SEPARATOR
+     */
+    public static void setOutputPath(String outputPath) { //todo, input a Path instead?
+        prefs.put(OUTPUT_FOLDER, outputPath);
+    }
+
+    /**
+     * Sets the preferred input path
+     * @param inputPath valid path to new input folder, MUST END IN FILE SEPARATOR
+     */
+    public static void setInputPath(String inputPath) {
+        prefs.put(INPUT_FOLDER, inputPath);
+    }
+
+    /**
+     * Resets the outputPath to application default
+     */
+    public static void resetOutputPath() {
+        prefs.remove(OUTPUT_FOLDER);
+    }
+
+    /**
+     * Resets the inputPath to application default
+     */
+    public static void resetInputPath() {
+        prefs.remove(INPUT_FOLDER);
     }
 
     private static void CLIParse(String input) {
@@ -252,7 +313,6 @@ public class FileManager {
         return true;
     }
 
-
     /**
      * Gets the current tournament number from file
      * @return current tournament number, or 1 if IO error encountered
@@ -268,6 +328,76 @@ public class FileManager {
     }
 
     /**
+     * Prompts user that input folder wasn't found.
+     * Allows them to choose to download or open their own.
+     *
+     * Helper function for {@link #verifyContent()}
+     */
+    public static void noInputFolderPrompt() {
+        Platform.runLater(new Runnable(){
+            @Override
+            public void run() {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Missing Input Folder");
+                alert.setHeaderText("Input Folder Could Not be Found");
+                alert.setContentText("Would you like to download an input folder from the server, or open the directory to add your own?");
+
+                ButtonType buttonTypeDownload = new ButtonType("Download");
+                ButtonType buttonTypeOpen = new ButtonType("Open");
+                ButtonType buttonTypeCancel = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+                alert.getButtonTypes().setAll(buttonTypeDownload, buttonTypeOpen, buttonTypeCancel);
+
+
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.get() == buttonTypeDownload){
+                    // ... user chose "Download"
+                    //open input download in browser and location for input folder
+                    downloadInfoAlert();
+
+                } else if (result.get() == buttonTypeOpen) {
+                    // ... user chose "Open"
+                    //open dir
+                    try {
+                        Desktop.getDesktop().open(new File(inputPath).getParentFile());
+                    } catch (IOException exception) {
+                        exception.printStackTrace();
+                    }
+                } else {
+                    // ... user chose CANCEL or closed the dialog
+                }
+            }
+        });
+    }
+
+    /**
+     * Confirmation dialog for downloading input folder.
+     *
+     * Helper function for {@link #noInputFolderPrompt()}
+     */
+    private static void downloadInfoAlert() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation Dialog");
+        alert.setHeaderText("File will be downloaded");
+        alert.setContentText("When your browser prompts you to download the file please save it to the location opened in your file explorer and extract (replace existing).");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK){
+            //send file URL to browser and open file explorer
+            if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+                try {
+                    Desktop.getDesktop().browse(new URI("https://skyborne.net/input.zip"));
+                    Desktop.getDesktop().open(new File(inputPath).getParentFile());
+                } catch (IOException | URISyntaxException exception) {
+                    exception.printStackTrace();
+                }
+            }
+        } else {
+            // ... user chose CANCEL or closed the dialog
+        }
+    }
+
+    /**
      * Checks for <code>input</code> and <code>output</code> folders, creates them if necessary.
      *
      * @throws IOException Error creating file or directory
@@ -279,7 +409,9 @@ public class FileManager {
         Path inputPathObject = Paths.get(inputPath);
         if (!Files.exists(inputPathObject)) {
             System.out.println("Input folder cannot be found... recreating");
-            Master.newWarning("File Verification","Input Folder Cannot be Found","During verification, the input folder could not be found in: '" + inputPath + "'. Download a pre-made input folder from the website (goicc.skyborne.net), and put it in the aforementioned directory.");
+            //prompt download options
+            noInputFolderPrompt();
+            //create input folder
             if (inputPathObject.toFile().mkdirs()) {
                 System.out.println("Input folder created successfully");
             } else {
