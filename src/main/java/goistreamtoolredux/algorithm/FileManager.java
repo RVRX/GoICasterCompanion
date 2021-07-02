@@ -741,7 +741,7 @@ public class FileManager {
      * Takes user to download page if there is a new update.
      */
     public static void checkForUpdates() {
-        System.err.println("checking for updates...");
+        System.out.println("checking for updates...");
         Platform.runLater(new Runnable(){
             @Override
             public void run() {
@@ -749,7 +749,7 @@ public class FileManager {
                     URL url = new URL("https://raw.githubusercontent.com/RVRX/GoICasterCompanion/main/CURRENTVERSION");
                     Scanner s = new Scanner(url.openStream());
                     String serverVersionNumber = s.nextLine();
-                    System.err.println(serverVersionNumber);
+                    System.out.println(serverVersionNumber);
                     //parse versionNumber into sections, find which is bigger.
                     if (compareVersions(serverVersionNumber, App.version) == 1) {
                         //update is available
