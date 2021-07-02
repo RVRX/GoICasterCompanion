@@ -51,6 +51,9 @@ public class SettingsPane {
     @FXML // fx:id="osVersionText"
     private Text osVersionText; // Value injected by FXMLLoader
 
+    @FXML // fx:id="appVersionText"
+    private Text appVersionText; // Value injected by FXMLLoader
+
     @FXML // fx:id="lobbyTimerSpinner"
     private Spinner<Integer> lobbyTimerSpinner; // Value injected by FXMLLoader
 
@@ -165,6 +168,7 @@ public class SettingsPane {
         osNameText.setText(System.getProperty("os.name"));
         osArchText.setText(System.getProperty("os.arch"));
         osVersionText.setText(System.getProperty("os.version"));
+        appVersionText.setText(App.version);
 
         try {
             SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory
