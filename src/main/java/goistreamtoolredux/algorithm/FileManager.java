@@ -447,7 +447,7 @@ public class FileManager {
      *
      * Updates the output teamA/B image with the new team's image.
      *  File is in the format `"Team" + teamIdentifier + ".png"`
-     * Updates the team & teamShort txt files to the new team's name.
+     * Updates the team &amp; teamShort txt files to the new team's name.
      *  File name formatted as `"Team" + teamIdentifier + ".txt"`,
      *  and `"TeamShort" + teamIdentifier + ".txt"`
      *
