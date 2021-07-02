@@ -342,20 +342,20 @@ public class FileManager {
                 alert.setHeaderText("Input Folder Could Not be Found");
                 alert.setContentText("Would you like to download an input folder from the server, or open the directory to add your own?");
 
-                ButtonType buttonTypeOne = new ButtonType("Download");
-                ButtonType buttonTypeTwo = new ButtonType("Open");
+                ButtonType buttonTypeDownload = new ButtonType("Download");
+                ButtonType buttonTypeOpen = new ButtonType("Open");
                 ButtonType buttonTypeCancel = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
 
-                alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeTwo, buttonTypeCancel);
+                alert.getButtonTypes().setAll(buttonTypeDownload, buttonTypeOpen, buttonTypeCancel);
 
 
                 Optional<ButtonType> result = alert.showAndWait();
-                if (result.get() == buttonTypeOne){
+                if (result.get() == buttonTypeDownload){
                     // ... user chose "Download"
                     //open input download in browser and location for input folder
                     downloadInfoAlert();
 
-                } else if (result.get() == buttonTypeTwo) {
+                } else if (result.get() == buttonTypeOpen) {
                     // ... user chose "Open"
                     //open dir
                     try {
