@@ -64,6 +64,12 @@
                                     <Insets bottom="5.0" />
                                  </VBox.margin>
                               </HBox>
+                              <HBox>
+                                 <children>
+                                    <Label minWidth="-Infinity" text="GoICC Version: " />
+                                    <Text fx:id="appVersionText" strokeType="OUTSIDE" strokeWidth="0.0" text="..." />
+                                 </children>
+                              </HBox>
                            </children>
                         </VBox>
                      </content>
