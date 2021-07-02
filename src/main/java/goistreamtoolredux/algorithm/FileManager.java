@@ -1,11 +1,18 @@
 package goistreamtoolredux.algorithm;
 
 import goistreamtoolredux.controller.Master;
+import javafx.application.Platform;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 
 import javax.imageio.ImageIO;
 import javax.swing.filechooser.FileSystemView;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
@@ -16,7 +23,6 @@ import java.util.stream.Stream;
 
 public class FileManager {
 
-//    private Preferences prefs = Preferences.userRoot().node(this.getClass().getName());
     //set static accessor for preferences
     private static Preferences prefs = Preferences.userRoot().node("/goistreamtoolredux/algorithm");
     //set static final fields for key names
@@ -322,6 +328,76 @@ public class FileManager {
     }
 
     /**
+     * Prompts user that input folder wasn't found.
+     * Allows them to choose to download or open their own.
+     *
+     * Helper function for {@link #verifyContent()}
+     */
+    public static void noInputFolderPrompt() {
+        Platform.runLater(new Runnable(){
+            @Override
+            public void run() {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Missing Input Folder");
+                alert.setHeaderText("Input Folder Could Not be Found");
+                alert.setContentText("Would you like to download an input folder from the server, or open the directory to add your own?");
+
+                ButtonType buttonTypeOne = new ButtonType("Download");
+                ButtonType buttonTypeTwo = new ButtonType("Open");
+                ButtonType buttonTypeCancel = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+                alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeTwo, buttonTypeCancel);
+
+
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.get() == buttonTypeOne){
+                    // ... user chose "Download"
+                    //open input download in browser and location for input folder
+                    downloadInfoAlert();
+
+                } else if (result.get() == buttonTypeTwo) {
+                    // ... user chose "Open"
+                    //open dir
+                    try {
+                        Desktop.getDesktop().open(new File(inputPath).getParentFile());
+                    } catch (IOException exception) {
+                        exception.printStackTrace();
+                    }
+                } else {
+                    // ... user chose CANCEL or closed the dialog
+                }
+            }
+        });
+    }
+
+    /**
+     * Confirmation dialog for downloading input folder.
+     *
+     * Helper function for {@link #noInputFolderPrompt()}
+     */
+    private static void downloadInfoAlert() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation Dialog");
+        alert.setHeaderText("File will be downloaded");
+        alert.setContentText("When your browser prompts you to download the file please save it to the location opened in your file explorer and extract (replace existing).");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK){
+            //send file URL to browser and open file explorer
+            if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+                try {
+                    Desktop.getDesktop().browse(new URI("https://skyborne.net/input.zip"));
+                    Desktop.getDesktop().open(new File(inputPath).getParentFile());
+                } catch (IOException | URISyntaxException exception) {
+                    exception.printStackTrace();
+                }
+            }
+        } else {
+            // ... user chose CANCEL or closed the dialog
+        }
+    }
+
+    /**
      * Checks for <code>input</code> and <code>output</code> folders, creates them if necessary.
      *
      * @throws IOException Error creating file or directory
@@ -333,7 +409,9 @@ public class FileManager {
         Path inputPathObject = Paths.get(inputPath);
         if (!Files.exists(inputPathObject)) {
             System.out.println("Input folder cannot be found... recreating");
-            Master.newWarning("File Verification","Input Folder Cannot be Found","During verification, the input folder could not be found in: '" + inputPath + "'. Download a pre-made input folder from the website (goicc.skyborne.net), and put it in the aforementioned directory.");
+            //prompt download options
+            noInputFolderPrompt();
+            //create input folder
             if (inputPathObject.toFile().mkdirs()) {
                 System.out.println("Input folder created successfully");
             } else {
