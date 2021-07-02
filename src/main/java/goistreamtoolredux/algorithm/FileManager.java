@@ -1,10 +1,17 @@
 package goistreamtoolredux.algorithm;
 
+import goistreamtoolredux.App;
 import goistreamtoolredux.controller.Master;
+import javafx.application.Platform;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
@@ -703,4 +710,76 @@ public class FileManager {
             exception.printStackTrace();
         }
     }
+
+    /**
+     * Returns 1 if <code>v1 > v2</code>, -1 otherwise
+     * @param version1
+     * @param version2
+     * @return
+     */
+    public static int compareVersions(String version1, String version2) {
+        int comparisonResult = 0;
+
+        String[] version1Splits = version1.split("\\.");
+        String[] version2Splits = version2.split("\\.");
+        int maxLengthOfVersionSplits = Math.max(version1Splits.length, version2Splits.length);
+
+        for (int i = 0; i < maxLengthOfVersionSplits; i++){
+            Integer v1 = i < version1Splits.length ? Integer.parseInt(version1Splits[i]) : 0;
+            Integer v2 = i < version2Splits.length ? Integer.parseInt(version2Splits[i]) : 0;
+            int compare = v1.compareTo(v2);
+            if (compare != 0) {
+                comparisonResult = compare;
+                break;
+            }
+        }
+        return comparisonResult;
+    }
+
+    /**
+     * checks GitHub for any new releases after current version.
+     * Takes user to download page if there is a new update.
+     */
+    public static void checkForUpdates() {
+        System.err.println("checking for updates...");
+        Platform.runLater(new Runnable(){
+            @Override
+            public void run() {
+                try {
+                    URL url = new URL("https://raw.githubusercontent.com/RVRX/GoICasterCompanion/main/CURRENTVERSION");
+                    Scanner s = new Scanner(url.openStream());
+                    String serverVersionNumber = s.nextLine();
+                    System.err.println(serverVersionNumber);
+                    //parse versionNumber into sections, find which is bigger.
+                    if (compareVersions(serverVersionNumber, App.version) == 1) {
+                        //update is available
+                        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                        alert.setTitle("Update Dialog");
+                        alert.setHeaderText("A New Version is Available");
+                        alert.setContentText("You are on version '" + App.version + "'. The newest version is '" + serverVersionNumber + "'. Would you like to check out the new update?");
+
+                        Optional<ButtonType> result = alert.showAndWait();
+                        if (result.get() == ButtonType.OK) {
+                            // ... user chose OK
+                            Desktop.getDesktop().browse(new URI("https://github.com/RVRX/GoIStreamToolRedux/releases/latest"));
+
+                        }
+                    }
+                }
+                catch (IOException exception) {
+                    // there was some connection problem, or the file did not exist on the server,
+                    // or your URL was not in the right format.
+                    // think about what to do now, and put it here.
+                    exception.printStackTrace(); // for now, simply output it.
+                } catch (NoSuchElementException exception) {
+                    //scanner could not read file correctly
+                    exception.printStackTrace();
+                } catch (URISyntaxException e) {
+                    //bad uri, should never happen (or always happen)
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
 }
