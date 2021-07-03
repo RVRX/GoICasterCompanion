@@ -19,6 +19,10 @@ import java.io.IOException;
 
 public class App extends Application {
 
+    //current application version. User for update checking
+    //todo, update this every release
+    public static final String version = "0.5.0";
+
     /**The JavaFX application's primary stage. All Scenes are built upon this stage*/
     private static Stage primaryStage;
     private static Master masterController;
@@ -35,6 +39,7 @@ public class App extends Application {
         System.out.println("Starting Up");
         try {
             FileManager.verifyContent();
+            FileManager.checkForUpdates();
         } catch (IOException exception) {
             exception.printStackTrace();
             Platform.exit();

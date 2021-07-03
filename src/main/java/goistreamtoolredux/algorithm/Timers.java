@@ -98,7 +98,7 @@ public class Timers {
     /**
      * Converts from seconds to <code>MM:SS</code> format
      * @param totalSecs
-     * @return <code>M:SS</code> if <code>totalSecs < 60</code>, else <code>MM:SS</code>
+     * @return <code>M:SS</code> if <code>totalSecs &lt; 60</code>, else <code>MM:SS</code>
      */
     public static String convertToMinuteFormat(int totalSecs) {
 

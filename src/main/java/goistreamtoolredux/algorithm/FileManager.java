@@ -1,18 +1,38 @@
 package goistreamtoolredux.algorithm;
 
+import goistreamtoolredux.App;
 import goistreamtoolredux.controller.Master;
+import javafx.application.Platform;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
+import javafx.application.Platform;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 
 import javax.imageio.ImageIO;
+import javax.swing.filechooser.FileSystemView;
+import java.awt.*;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.file.*;
 import java.util.*;
+import java.util.prefs.Preferences;
 import java.util.stream.Stream;
 
 public class FileManager {
+
+    //set static accessor for preferences
+    private static Preferences prefs = Preferences.userRoot().node("/goistreamtoolredux/algorithm");
+    //set static final fields for key names
+    private static final String OUTPUT_FOLDER = "output_folder";
+    private static final String INPUT_FOLDER = "input_folder";
 
     //System independent path to output folder
     public static String outputPath = getOutputPath();
@@ -31,43 +51,89 @@ public class FileManager {
     }
 
     /**
-     * Gets the (OS specific) application output folder path.
+     * Gets the currently set application output folder path.
      *
-     * This should be the current working directory of the application (where it was launched from)
-     * on all OS's except for Mac, where it will be
-     * the <code>~/Application Support/GoIStreamToolRedux/output/</code> folder.
+     * @return user preferred output folder, default if no preference is set
+     * @see #getInputPath()
+     */
+    public static String getOutputPath() {
+        return prefs.get(OUTPUT_FOLDER, getDefaultOutputPath());
+    }
+
+    /**
+     * Gets the default (OS specific) application output folder path.
+     *
+     * This should be the "Input" folder within "Documents" or documents equivalent on the user's OS.
+     * On non-MacOS Unix this will map to $HOME.
      *
      * @return full path to output folder ending with separator char (typically '<code>/</code>'),
      * so that content may be appended to it
-     * @see #getOutputPath()
+     * @see #getDefaultInputPath()
      */
-    public static String getOutputPath() {
+    public static String getDefaultOutputPath() {
         if (System.getProperty("os.name").toLowerCase().contains("mac os")) {
-            return System.getProperty("user.home") + File.separator + "Library" + File.separator +
-                    "Application Support" + File.separator + "GoIStreamToolRedux" + File.separator + "output" + File.separator;
+            return System.getProperty("user.home") + File.separator + "Documents" + File.separator + "GoICasterCompanion" + File.separator + "output" + File.separator;
         } else {
-            return System.getProperty("user.dir") + File.separator + "output" + File.separator;
+            return FileSystemView.getFileSystemView().getDefaultDirectory().getPath() + File.separator + "GoICasterCompanion" + File.separator + "output" + File.separator;
         }
     }
 
     /**
-     * Gets the (OS specific) application input folder path.
+     * Gets the currently set application input folder path.
      *
-     * This should be the current working directory of the application (where it was launched from)
-     * on all OS's except for Mac, where it will be
-     * the <code>~/Application Support/GoIStreamToolRedux/input/</code> folder.
-     *
-     * @return full path to input folder ending with separator char (typically '<code>/</code>'),
-     * so that content may be appended to it
+     * @return user preferred input folder, default if no preference is set
      * @see #getOutputPath()
      */
     public static String getInputPath() {
+        return prefs.get(INPUT_FOLDER, getDefaultInputPath());
+    }
+
+    /**
+     * Gets the default (OS specific) application input folder path.
+     *
+     * This should be the "Input" folder within "Documents" or documents equivalent on the user's OS.
+     * On non-MacOS Unix this will map to $HOME.
+     *
+     * @return full path to input folder ending with separator char (typically '<code>/</code>'),
+     * so that content may be appended to it
+     * @see #getDefaultOutputPath()
+     */
+    public static String getDefaultInputPath() {
         if (System.getProperty("os.name").toLowerCase().contains("mac os")) {
-            return System.getProperty("user.home") + File.separator + "Library" + File.separator +
-                    "Application Support" + File.separator + "GoIStreamToolRedux" + File.separator + "input" + File.separator;
+            return System.getProperty("user.home") + File.separator + "Documents" + File.separator + "GoICasterCompanion" + File.separator + "input" + File.separator;
         } else {
-            return System.getProperty("user.dir") + File.separator + "input" + File.separator;
+            return FileSystemView.getFileSystemView().getDefaultDirectory().getPath() + File.separator + "GoICasterCompanion" + File.separator + "input" + File.separator;
         }
+    }
+
+    /**
+     * Sets the preferred output path
+     * @param outputPath valid path to new output folder, MUST END IN FILE SEPARATOR
+     */
+    public static void setOutputPath(String outputPath) { //todo, input a Path instead?
+        prefs.put(OUTPUT_FOLDER, outputPath);
+    }
+
+    /**
+     * Sets the preferred input path
+     * @param inputPath valid path to new input folder, MUST END IN FILE SEPARATOR
+     */
+    public static void setInputPath(String inputPath) {
+        prefs.put(INPUT_FOLDER, inputPath);
+    }
+
+    /**
+     * Resets the outputPath to application default
+     */
+    public static void resetOutputPath() {
+        prefs.remove(OUTPUT_FOLDER);
+    }
+
+    /**
+     * Resets the inputPath to application default
+     */
+    public static void resetInputPath() {
+        prefs.remove(INPUT_FOLDER);
     }
 
     private static void CLIParse(String input) {
@@ -252,7 +318,6 @@ public class FileManager {
         return true;
     }
 
-
     /**
      * Gets the current tournament number from file
      * @return current tournament number, or 1 if IO error encountered
@@ -268,6 +333,76 @@ public class FileManager {
     }
 
     /**
+     * Prompts user that input folder wasn't found.
+     * Allows them to choose to download or open their own.
+     *
+     * Helper function for {@link #verifyContent()}
+     */
+    public static void noInputFolderPrompt() {
+        Platform.runLater(new Runnable(){
+            @Override
+            public void run() {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Missing Input Folder");
+                alert.setHeaderText("Input Folder Could Not be Found");
+                alert.setContentText("Would you like to download an input folder from the server, or open the directory to add your own?");
+
+                ButtonType buttonTypeDownload = new ButtonType("Download");
+                ButtonType buttonTypeOpen = new ButtonType("Open");
+                ButtonType buttonTypeCancel = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+                alert.getButtonTypes().setAll(buttonTypeDownload, buttonTypeOpen, buttonTypeCancel);
+
+
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.get() == buttonTypeDownload){
+                    // ... user chose "Download"
+                    //open input download in browser and location for input folder
+                    downloadInfoAlert();
+
+                } else if (result.get() == buttonTypeOpen) {
+                    // ... user chose "Open"
+                    //open dir
+                    try {
+                        Desktop.getDesktop().open(new File(inputPath).getParentFile());
+                    } catch (IOException exception) {
+                        exception.printStackTrace();
+                    }
+                } else {
+                    // ... user chose CANCEL or closed the dialog
+                }
+            }
+        });
+    }
+
+    /**
+     * Confirmation dialog for downloading input folder.
+     *
+     * Helper function for {@link #noInputFolderPrompt()}
+     */
+    private static void downloadInfoAlert() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation Dialog");
+        alert.setHeaderText("File will be downloaded");
+        alert.setContentText("When your browser prompts you to download the file please save it to the location opened in your file explorer and extract (replace existing).");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK){
+            //send file URL to browser and open file explorer
+            if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+                try {
+                    Desktop.getDesktop().browse(new URI("https://skyborne.net/input.zip"));
+                    Desktop.getDesktop().open(new File(inputPath).getParentFile());
+                } catch (IOException | URISyntaxException exception) {
+                    exception.printStackTrace();
+                }
+            }
+        } else {
+            // ... user chose CANCEL or closed the dialog
+        }
+    }
+
+    /**
      * Checks for <code>input</code> and <code>output</code> folders, creates them if necessary.
      *
      * @throws IOException Error creating file or directory
@@ -279,7 +414,9 @@ public class FileManager {
         Path inputPathObject = Paths.get(inputPath);
         if (!Files.exists(inputPathObject)) {
             System.out.println("Input folder cannot be found... recreating");
-            Master.newWarning("File Verification","Input Folder Cannot be Found","During verification, the input folder could not be found in: '" + inputPath + "'. Download a pre-made input folder from the website (goicc.skyborne.net), and put it in the aforementioned directory.");
+            //prompt download options
+            noInputFolderPrompt();
+            //create input folder
             if (inputPathObject.toFile().mkdirs()) {
                 System.out.println("Input folder created successfully");
             } else {
@@ -447,7 +584,7 @@ public class FileManager {
      *
      * Updates the output teamA/B image with the new team's image.
      *  File is in the format `"Team" + teamIdentifier + ".png"`
-     * Updates the team & teamShort txt files to the new team's name.
+     * Updates the team &amp; teamShort txt files to the new team's name.
      *  File name formatted as `"Team" + teamIdentifier + ".txt"`,
      *  and `"TeamShort" + teamIdentifier + ".txt"`
      *
@@ -703,4 +840,76 @@ public class FileManager {
             exception.printStackTrace();
         }
     }
+
+    /**
+     * Returns 1 if <code>v1 > v2</code>, -1 otherwise
+     * @param version1
+     * @param version2
+     * @return
+     */
+    public static int compareVersions(String version1, String version2) {
+        int comparisonResult = 0;
+
+        String[] version1Splits = version1.split("\\.");
+        String[] version2Splits = version2.split("\\.");
+        int maxLengthOfVersionSplits = Math.max(version1Splits.length, version2Splits.length);
+
+        for (int i = 0; i < maxLengthOfVersionSplits; i++){
+            Integer v1 = i < version1Splits.length ? Integer.parseInt(version1Splits[i]) : 0;
+            Integer v2 = i < version2Splits.length ? Integer.parseInt(version2Splits[i]) : 0;
+            int compare = v1.compareTo(v2);
+            if (compare != 0) {
+                comparisonResult = compare;
+                break;
+            }
+        }
+        return comparisonResult;
+    }
+
+    /**
+     * checks GitHub for any new releases after current version.
+     * Takes user to download page if there is a new update.
+     */
+    public static void checkForUpdates() {
+        System.out.println("checking for updates...");
+        Platform.runLater(new Runnable(){
+            @Override
+            public void run() {
+                try {
+                    URL url = new URL("https://raw.githubusercontent.com/RVRX/GoICasterCompanion/main/CURRENTVERSION");
+                    Scanner s = new Scanner(url.openStream());
+                    String serverVersionNumber = s.nextLine();
+                    System.out.println(serverVersionNumber);
+                    //parse versionNumber into sections, find which is bigger.
+                    if (compareVersions(serverVersionNumber, App.version) == 1) {
+                        //update is available
+                        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                        alert.setTitle("Update Dialog");
+                        alert.setHeaderText("A New Version is Available");
+                        alert.setContentText("You are on version '" + App.version + "'. The newest version is '" + serverVersionNumber + "'. Would you like to check out the new update?");
+
+                        Optional<ButtonType> result = alert.showAndWait();
+                        if (result.get() == ButtonType.OK) {
+                            // ... user chose OK
+                            Desktop.getDesktop().browse(new URI("https://github.com/RVRX/GoIStreamToolRedux/releases/latest"));
+
+                        }
+                    }
+                }
+                catch (IOException exception) {
+                    // there was some connection problem, or the file did not exist on the server,
+                    // or your URL was not in the right format.
+                    // think about what to do now, and put it here.
+                    exception.printStackTrace(); // for now, simply output it.
+                } catch (NoSuchElementException exception) {
+                    //scanner could not read file correctly
+                    exception.printStackTrace();
+                } catch (URISyntaxException e) {
+                    //bad uri, should never happen (or always happen)
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
 }
