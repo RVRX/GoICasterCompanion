@@ -486,6 +486,20 @@ public class FileManager {
     }
 
     /**
+     * Gets the current tournament name from file
+     *
+     * @return current tournament name
+     * @throws FileNotFoundException tournament file could not be found
+     * @throws NoSuchElementException file contains unexpected (or no) content
+     */
+    public static String getTournamentName() throws FileNotFoundException, NoSuchElementException {
+        Scanner tourneyScanner = new Scanner(new File(outputPath + "TournamentName.txt"));
+        String firstLine = tourneyScanner.nextLine();
+        tourneyScanner.close();
+        return firstLine;
+    }
+
+    /**
      * Checks if a map name is a valid map found in <code>maps.txt</code>.
      *
      * @param map Full name of a map to check

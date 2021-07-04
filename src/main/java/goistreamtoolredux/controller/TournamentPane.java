@@ -15,6 +15,7 @@ import javafx.util.Duration;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
+import java.util.NoSuchElementException;
 import java.util.ResourceBundle;
 
 public class TournamentPane {
@@ -69,8 +70,16 @@ public class TournamentPane {
         }
         tournamentNumberSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, Integer.MAX_VALUE, savedTournamentNumber));
 
-        //todo set tournament text field
-//        tournamentNameField.setText();
-
+        //set tournament text field to current in file
+        try {
+            tournamentNameField.setText(FileManager.getTournamentName());
+        } catch (FileNotFoundException exception) {
+            //file has not yet been created
+            //but will be crated on save
+        } catch (NoSuchElementException exception) {
+            //file is empty,
+            //but contents will be overwritten on save so
+            //nothing to worry about here
+        }
     }
 }
