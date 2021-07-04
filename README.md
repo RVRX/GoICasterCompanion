@@ -23,30 +23,6 @@
 <div id="downloads" class="mb-5"></div>
 
 
-<h1>Downloads</h1>
-<div class="row">
-    <div class="col">
-        <h4 class="display-4">Release v0.4.0</h4>
-        <p class="lead">Solely the native executable</p>
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item">Mac: <a href="https://github.com/RVRX/GoICasterCompanion/releases/download/0.4.0/GoIStreamToolRedux-v0.4-app.zip">GoIStreamTool-v0.4.app.zip</a></li>
-            <li class="list-group-item">Windows: <a href="https://github.com/RVRX/GoICasterCompanion/releases/download/0.4.0/GoIStreamToolRedux-v0.4.exe">GoIStreamTool-v0.4.exe</a></li>
-            <li class="list-group-item">Packaged Jar: <a href="https://github.com/RVRX/GoICasterCompanion/releases/download/0.4.0/GoIStreamToolRedux-v0.4.jar">GoIStreamTool-0.4.jar</a></li>
-        </ul>
-    </div>
-    <div class="col">
-        <h4 class="display-4">Map & Team Bundle</h4>
-        <p class="lead">Pre-built input folder</p>
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item">Input Folder: <a href="http://skyborne.net/input.zip">input.zip</a></li>
-            <li class="list-group-item"><h6 class="mt-4 text-primary"><a href="https://github.com/RVRX/GoICasterCompanion/releases">For the <em>latest</em> releases (and for patch notes), please check the GitHub</a>.</h6>
-            </li>
-        </ul>
-    </div>
-</div>
-
-
-<br><br>
 <h1 id="usage">Usage</h1>
 <h2 id="usage-overview">Overview</h2>
 <p>
