@@ -3,6 +3,7 @@ package goistreamtoolredux.controller;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXSnackbar;
 import com.jfoenix.controls.JFXSnackbarLayout;
+import com.jfoenix.controls.JFXTextField;
 import goistreamtoolredux.algorithm.FileManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -32,12 +33,16 @@ public class TournamentPane {
     @FXML // fx:id="saveButton"
     private JFXButton saveButton; // Value injected by FXMLLoader
 
+    @FXML // fx:id="tournamentNameField"
+    private JFXTextField tournamentNameField; // Value injected by FXMLLoader
+
     @FXML
     void saveChanges(ActionEvent event) {
         JFXSnackbar bar = new JFXSnackbar(anchorPane);
         bar.enqueue(new JFXSnackbar.SnackbarEvent(new JFXSnackbarLayout("Updating Tournament Info...",null,null),new Duration(500)));
         FileManager.setTourneyNumber(tournamentNumberSpinner.getValue().toString());
         bar.enqueue(new JFXSnackbar.SnackbarEvent(new JFXSnackbarLayout("Updated",null,null),new Duration(1000)));
+        //todo, save tournamentName to file
     }
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
