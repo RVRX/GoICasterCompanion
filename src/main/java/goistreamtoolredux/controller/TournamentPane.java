@@ -13,6 +13,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -42,7 +43,13 @@ public class TournamentPane {
         bar.enqueue(new JFXSnackbar.SnackbarEvent(new JFXSnackbarLayout("Updating Tournament Info...",null,null),new Duration(500)));
         FileManager.setTourneyNumber(tournamentNumberSpinner.getValue().toString());
         bar.enqueue(new JFXSnackbar.SnackbarEvent(new JFXSnackbarLayout("Updated",null,null),new Duration(1000)));
-        //todo, save tournamentName to file
+        //save tournamentName to file
+        try {
+            FileManager.setTournamentName(tournamentNameField.getText());
+        } catch (IOException exception) {
+            exception.printStackTrace();
+            //todo, handle
+        }
     }
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
@@ -61,6 +68,9 @@ public class TournamentPane {
             System.out.println("Tournament File not found. Defaulting to 1");
         }
         tournamentNumberSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, Integer.MAX_VALUE, savedTournamentNumber));
+
+        //todo set tournament text field
+//        tournamentNameField.setText();
 
     }
 }
