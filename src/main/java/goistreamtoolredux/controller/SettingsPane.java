@@ -144,7 +144,7 @@ public class SettingsPane {
         bar.enqueue(new JFXSnackbar.SnackbarEvent(new JFXSnackbarLayout("Input directory updated"),new Duration(1000)));
 
         //update scrollPane
-        inputPathText.setText(FileManager.getOutputPath());
+        outputPathText.setText(FileManager.getOutputPath());
     }
 
     @FXML
