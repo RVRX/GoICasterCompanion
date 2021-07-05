@@ -34,7 +34,7 @@ macAppBundle {
     icon = "app-icon.png"
     appName = "GoICasterCompanion"
     volumeName = "GoICC Install"
-    dmgName = "GoICC v0.5.0"
+    dmgName = "GoICC v0.5.1"
     bundleJRE = false
 //    backgroundImage = "doc/macbackground.png"
 }
