@@ -103,9 +103,14 @@ public class MapPane {
                 //snackBar popup, team infos saved
                 JFXSnackbar bar = new JFXSnackbar(anchorPane);
                 bar.enqueue(new JFXSnackbar.SnackbarEvent(new JFXSnackbarLayout("Updating Map...",null,null),new Duration(1000)));
+            } catch (FileNotFoundException exception) {
+                exception.printStackTrace();
+                JFXSnackbar bar = new JFXSnackbar(anchorPane);
+                bar.enqueue(new JFXSnackbar.SnackbarEvent(new JFXSnackbarLayout("Error Finding Map File...",null,null),new Duration(1000)));
             } catch (IOException exception) {
                 exception.printStackTrace();
-                //todo, error popup
+                JFXSnackbar bar = new JFXSnackbar(anchorPane);
+                bar.enqueue(new JFXSnackbar.SnackbarEvent(new JFXSnackbarLayout("Error Setting Map...",null,null),new Duration(1000)));
             }
         }
     }
