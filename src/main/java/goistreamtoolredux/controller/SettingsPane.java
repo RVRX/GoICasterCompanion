@@ -117,7 +117,7 @@ public class SettingsPane {
             bar.enqueue(new JFXSnackbar.SnackbarEvent(new JFXSnackbarLayout("No directory was chosen"),new Duration(1000)));
             return;
         }
-        FileManager.setInputPath(selectedDir.getPath());
+        FileManager.setInputPath(selectedDir.getPath() + File.separator);
         bar.enqueue(new JFXSnackbar.SnackbarEvent(new JFXSnackbarLayout("Input directory updated"),new Duration(1000)));
 
         //update scrollPane
@@ -140,7 +140,7 @@ public class SettingsPane {
             bar.enqueue(new JFXSnackbar.SnackbarEvent(new JFXSnackbarLayout("No directory was chosen"),new Duration(1000)));
             return;
         }
-        FileManager.setOutputPath(selectedDir.getPath());
+        FileManager.setOutputPath(selectedDir.getPath() + File.separator);
         bar.enqueue(new JFXSnackbar.SnackbarEvent(new JFXSnackbarLayout("Input directory updated"),new Duration(1000)));
 
         //update scrollPane
