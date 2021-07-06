@@ -1,3 +1,4 @@
+#!/usr/bin/env lua
 --[[
 Update application to new version
 changes all the variables and meta-data
