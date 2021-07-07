@@ -21,7 +21,7 @@ public class App extends Application {
 
     //current application version. User for update checking
     //todo, update this every release
-    public static final String version = "0.5.1";
+    public static final String version = "1.0.0";
 
     /**The JavaFX application's primary stage. All Scenes are built upon this stage*/
     private static Stage primaryStage;
