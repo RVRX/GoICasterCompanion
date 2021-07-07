@@ -6,13 +6,9 @@ import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
-import javafx.application.Platform;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 
 import javax.imageio.ImageIO;
 import javax.swing.filechooser.FileSystemView;
-import java.awt.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
@@ -474,6 +470,33 @@ public class FileManager {
         if (timerLength.createNewFile()) {
             System.out.println("timerLength.txt was missing and has been created");
         } else System.out.println("timerLength.txt file found");
+    }
+
+    /**
+     * Updates the <code>TournamentName.txt</code> file.
+     * @param tournamentName new content for file
+     * @throws IOException if error writing to file
+     */
+    public static void setTournamentName(String tournamentName) throws IOException {
+        /*--- Update TournamentName.txt ---*/
+        Writer fileWriter = new FileWriter(outputPath + "TournamentName.txt");
+        fileWriter.write(tournamentName);
+        fileWriter.close();
+        System.out.println("TournamentName.txt Updated");
+    }
+
+    /**
+     * Gets the current tournament name from file
+     *
+     * @return current tournament name
+     * @throws FileNotFoundException tournament file could not be found
+     * @throws NoSuchElementException file contains unexpected (or no) content
+     */
+    public static String getTournamentName() throws FileNotFoundException, NoSuchElementException {
+        Scanner tourneyScanner = new Scanner(new File(outputPath + "TournamentName.txt"));
+        String firstLine = tourneyScanner.nextLine();
+        tourneyScanner.close();
+        return firstLine;
     }
 
     /**
