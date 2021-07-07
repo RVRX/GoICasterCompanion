@@ -27,6 +27,9 @@ function findAndEditLine(filePath, modifierType)
 		elseif (modifierType == 2) then
 			lineCheck = string.find(line, "project.version = '")
 			lineReplacement = "project.version = '" .. newVersion .. "'"
+		elseif (modifierType == 3) then
+			lineCheck = string.find(line, 'dmgName = "')
+			lineReplacement = '    dmgName = "GoICC v' .. newVersion .. '"'
 		end
 
 		--modifier
@@ -73,7 +76,8 @@ findAndEditLine("GoICC Installation Media Creation Script.iss", 1)
 
 -- ** UPDATE "BUILD.GRADLE" **
 io.stdout:write('	Updating "build.gradle"\n')
-findAndEditLine("build.gradle", 2)
+findAndEditLine("build.gradle", 2) -- project.version
+findAndEditLine("build.gradle", 3) -- dmgName
 
 -- ** UPDATE "CURRENTVERSION" **
 io.stdout:write('	Updating "CURRENTVERSION" file\n')
