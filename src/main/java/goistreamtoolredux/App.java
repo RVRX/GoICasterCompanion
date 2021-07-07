@@ -20,7 +20,6 @@ import java.io.IOException;
 public class App extends Application {
 
     //current application version. User for update checking
-    //todo, update this every release
     public static final String version = "1.0.0";
 
     /**The JavaFX application's primary stage. All Scenes are built upon this stage*/
@@ -63,6 +62,8 @@ public class App extends Application {
         System.out.println("Icons Added");
 
         primaryStage.setScene(new Scene(root, 700, 400)); // 600 (page) + 100 (sidebar) by 400
+        primaryStage.setOpacity(0);
+        primaryStage.show();
 
         //manual application delay for setup (allow user to disable), and preloader calls
         Task<Void> sleeper = new Task<Void>() {
@@ -81,7 +82,7 @@ public class App extends Application {
                 //notify preloader, so that it may close
                 notifyPreloader(new Preloader.ProgressNotification(1));
                 //show application stage
-                primaryStage.show();
+                primaryStage.setOpacity(1);
             }
         });
         new Thread(sleeper).start();
