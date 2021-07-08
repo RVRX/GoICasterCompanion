@@ -42,6 +42,7 @@ public class TournamentPane {
     void saveChanges(ActionEvent event) {
         JFXSnackbar bar = new JFXSnackbar(anchorPane);
         bar.enqueue(new JFXSnackbar.SnackbarEvent(new JFXSnackbarLayout("Updating Tournament Info...",null,null),new Duration(500)));
+        anchorPane.requestFocus(); //request save button focus so the spinner gets updated
         FileManager.setTourneyNumber(tournamentNumberSpinner.getValue().toString());
         bar.enqueue(new JFXSnackbar.SnackbarEvent(new JFXSnackbarLayout("Updated",null,null),new Duration(1000)));
         //save tournamentName to file
@@ -68,7 +69,15 @@ public class TournamentPane {
             //file was not found, will be created upon user saving input [saveChanges() call]. No need to handle.
             System.out.println("Tournament File not found. Defaulting to 1");
         }
-        tournamentNumberSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, Integer.MAX_VALUE, savedTournamentNumber));
+        SpinnerValueFactory factory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, Integer.MAX_VALUE, savedTournamentNumber);
+        tournamentNumberSpinner.setValueFactory(factory);
+
+        tournamentNumberSpinner.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                tournamentNumberSpinner.increment(0); // won't change value, but will commit editor
+            }
+        });
+
 
         //set tournament text field to current in file
         try {

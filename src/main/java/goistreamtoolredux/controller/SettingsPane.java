@@ -69,6 +69,7 @@ public class SettingsPane {
     void save() {
         JFXSnackbar bar = new JFXSnackbar(anchorPane);
         bar.enqueue(new JFXSnackbar.SnackbarEvent(new JFXSnackbarLayout("Saving..."),new Duration(350)));
+        anchorPane.requestFocus();
         try {
             LobbyTimer.getInstance().setInitialTimerLength(lobbyTimerSpinner.getValue());
             bar.enqueue(new JFXSnackbar.SnackbarEvent(new JFXSnackbarLayout("Saved."),new Duration(1000)));
@@ -187,6 +188,14 @@ public class SettingsPane {
             SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory
                     (1, Integer.MAX_VALUE, LobbyTimer.getInstance().getInitialTimerLength());
             lobbyTimerSpinner.setValueFactory(valueFactory);
+
+            //set up fix to spinner bug
+            lobbyTimerSpinner.focusedProperty().addListener((observable, oldValue, newValue) -> {
+                if (!newValue) {
+                    lobbyTimerSpinner.increment(0); // won't change value, but will commit editor
+                }
+            });
+
         } catch (IOException | InvalidDataException exception) {
             exception.printStackTrace();
             //todo, handle
