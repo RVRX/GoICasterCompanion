@@ -11,7 +11,7 @@
          <children>
             <HBox prefHeight="400.0" prefWidth="600.0">
                <children>
-                  <ScrollPane>
+                  <ScrollPane prefHeight="209.0" prefWidth="590.0">
                      <HBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </HBox.margin>
@@ -75,24 +75,36 @@
                   </ScrollPane>
                </children>
             </HBox>
-            <VBox>
+            <VBox prefHeight="447.0" prefWidth="600.0">
                <children>
-                  <HBox prefHeight="100.0" prefWidth="600.0">
+                  <HBox prefHeight="39.0" prefWidth="600.0">
                      <children>
                         <JFXButton onAction="#openOutputFolder" text="Open Output Folder">
                            <HBox.margin>
-                              <Insets left="5.0" right="5.0" />
+                              <Insets bottom="5.0" left="5.0" right="5.0" />
                            </HBox.margin></JFXButton>
                         <JFXButton fx:id="setPrefOutputButton" onAction="#setPrefOutput" text="Set Preferred Output Folder">
                            <HBox.margin>
-                              <Insets right="5.0" />
+                              <Insets bottom="5.0" right="5.0" />
                            </HBox.margin>
                         </JFXButton>
                         <JFXButton onAction="#openInputFolder" text="Open Input Folder">
                            <HBox.margin>
-                              <Insets left="5.0" right="5.0" />
+                              <Insets bottom="5.0" left="5.0" right="5.0" />
                            </HBox.margin></JFXButton>
-                        <JFXButton fx:id="setPrefInputButton" onAction="#setPrefInput" text="Set Preferred Input Folder" />
+                        <JFXButton fx:id="setPrefInputButton" onAction="#setPrefInput" text="Set Preferred Input Folder">
+                           <HBox.margin>
+                              <Insets bottom="5.0" />
+                           </HBox.margin></JFXButton>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="45.0" prefWidth="600.0">
+                     <children>
+                        <JFXButton fx:id="resetPreferencesButton" onAction="#resetPreferencesAction" text="Reset Preferences">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" />
+                           </HBox.margin>
+                        </JFXButton>
                      </children>
                   </HBox>
                   <HBox prefHeight="100.0" prefWidth="600.0">

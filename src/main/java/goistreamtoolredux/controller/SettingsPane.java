@@ -7,10 +7,13 @@ import goistreamtoolredux.App;
 import goistreamtoolredux.algorithm.FileManager;
 import goistreamtoolredux.algorithm.InvalidDataException;
 import goistreamtoolredux.algorithm.LobbyTimer;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.layout.AnchorPane;
@@ -23,7 +26,9 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.prefs.BackingStoreException;
 
 public class SettingsPane {
 
@@ -100,7 +105,7 @@ public class SettingsPane {
     }
 
     /**
-     * Sets the preferred input folder
+     * Sets the preferred input folder. Prompts app restart
      * @param event calling event, passed by JavaFX
      */
     @FXML
@@ -118,14 +123,18 @@ public class SettingsPane {
             return;
         }
         FileManager.setInputPath(selectedDir.getPath() + File.separator);
+        FileManager.refreshPreferences();
         bar.enqueue(new JFXSnackbar.SnackbarEvent(new JFXSnackbarLayout("Input directory updated"),new Duration(1000)));
 
         //update scrollPane
         inputPathText.setText(FileManager.getInputPath());
+
+        //prompt restart
+        displayRestartAppDialog();
     }
 
     /**
-     * Sets the preferred output folder
+     * Sets the preferred output folder. Prompts app restart
      * @param event calling event, passed by JavaFX
      */
     @FXML
@@ -141,10 +150,14 @@ public class SettingsPane {
             return;
         }
         FileManager.setOutputPath(selectedDir.getPath() + File.separator);
+        FileManager.refreshPreferences();
         bar.enqueue(new JFXSnackbar.SnackbarEvent(new JFXSnackbarLayout("Input directory updated"),new Duration(1000)));
 
         //update scrollPane
         outputPathText.setText(FileManager.getOutputPath());
+
+        //prompt restart
+        displayRestartAppDialog();
     }
 
     @FXML
@@ -190,5 +203,54 @@ public class SettingsPane {
         themeList.add("Monochrome Ocean");
         themeComboBox.setItems(themeList);
 
+    }
+
+    /**
+     * Prompts the user if they would like to reset preferences.
+     * Calls {@link FileManager#resetPreferences()} if the user selects 'OK'.
+     * Will prompt user to restart app afterwards.
+     * @param actionEvent calling event's action details, typically handled by FXML
+     */
+    @FXML
+    public void resetPreferencesAction(ActionEvent actionEvent) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation Dialog");
+        alert.setHeaderText("Reset App Preferences");
+        alert.setContentText("Are you sure you want to do this?");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK) {
+            // ... user chose OK
+            try {
+                //reset
+                FileManager.resetPreferences();
+                //refresh prefs (alternative to a restart)
+                FileManager.refreshPreferences();
+                //prompt user for restart
+                displayRestartAppDialog();
+            } catch (BackingStoreException e) {
+                e.printStackTrace();
+                Alert error = new Alert(Alert.AlertType.ERROR);
+                error.setTitle("Error Dialog");
+                error.setHeaderText("Could Not Reset Preferences");
+                error.setContentText("An error occurred when attempting to reset the preferences to default");
+                error.showAndWait();
+            }
+        }
+    }
+
+    /**
+     * Displays a prompt to the user asking them to restart the program for their changes to take effect.
+     * If the user selects 'OK' the program will initiate shutdown.
+     */
+    private void displayRestartAppDialog() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Restart Dialog");
+        alert.setHeaderText("It is recommended that the application be restarted after performing this action.");
+        alert.setContentText("Press 'OK' to close the app now (you will have to restart manually)");
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK){
+            Platform.exit();
+        }
     }
 }
