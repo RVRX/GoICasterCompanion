@@ -1,11 +1,13 @@
 package goistreamtoolredux.algorithm;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.LinkedList;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.stream.Stream;
 
@@ -35,6 +37,28 @@ public class Team implements Comparable<Team> {
 
     public Path getTeamLogo() {
         return teamLogo;
+    }
+
+    /**
+     * Loads a team from the <code>output/Team$.txt</code> file
+     * @param teamIdentifier Identifier for the team. Typically either one of: A, B, C, D.
+     * @return the team name, or null if no team name was found
+     */
+    public static String getTeamFromDisk(String teamIdentifier) {
+        File teamFile = new File(FileManager.outputPath + "Team" + teamIdentifier.toUpperCase() + ".txt");
+
+        String teamNameFromFile = null;
+        try {
+            Scanner fileScanner = new Scanner(teamFile);
+            teamNameFromFile = fileScanner.nextLine();
+            fileScanner.close();
+        } catch (FileNotFoundException | NoSuchElementException exception) {
+            exception.printStackTrace();
+            //todo handle
+        }
+
+
+        return teamNameFromFile;
     }
 
     /**

@@ -239,7 +239,9 @@ public class TeamPane {
         comboBoxesToInit.add(teamCComboBox);
         comboBoxesToInit.add(teamDComboBox);
         try {
-            teamComboBoxInit(comboBoxesToInit);
+            LinkedList<Team> teams = Team.getAllTeamsFromDisk();
+            teamComboBoxInit(comboBoxesToInit, teams);
+            teamComboboxSelectionInit(teams);
         } catch (IOException exception) {
             exception.printStackTrace();
             //todo error popup if failure
@@ -249,13 +251,49 @@ public class TeamPane {
     }
 
     /**
+     * Sets the current selection for each combobox based on team files in disk.
+     *
+     * Loops through each team in the teamList and sees if the team's name is equal to the name of
+     * any of the teams set in disk. If so, selects it for the appropriate comboBox
+     *
+     * @param teamsList list of teams to search through for matching selects
+     */
+    private void teamComboboxSelectionInit(LinkedList<Team> teamsList) {
+        //get current values from disk
+        String currentAName = Team.getTeamFromDisk("A");
+        String currentBName = Team.getTeamFromDisk("B");
+        String currentCName = Team.getTeamFromDisk("C");
+        String currentDName = Team.getTeamFromDisk("D");
+
+        //for each team
+        for (Team aTeam :
+                teamsList) {
+            //if team is right team
+            String teamName = aTeam.getTeamName();
+            if (teamName.equals(currentAName)) {
+                teamAComboBox.getSelectionModel().select(aTeam);
+                selectTeamA(null);
+            } else if (teamName.equals(currentBName)) {
+                teamBComboBox.getSelectionModel().select(aTeam);
+                selectTeamB(null);
+            } else if (teamName.equals(currentCName)) {
+                teamCComboBox.getSelectionModel().select(aTeam);
+                selectTeamC(null);
+            } else if (teamName.equals(currentDName)) {
+                teamDComboBox.getSelectionModel().select(aTeam);
+                selectTeamD(null);
+            }
+        }
+    }
+
+    /**
      *
      * @param comboBoxLinkedList
+     * @param teams
      * @throws IOException when IO error getting teams from disk
      */
-    private void teamComboBoxInit(LinkedList<ComboBox<Team>> comboBoxLinkedList) throws IOException {
+    private void teamComboBoxInit(LinkedList<ComboBox<Team>> comboBoxLinkedList, LinkedList<Team> teams) {
         //get all teams from disk
-        LinkedList<Team> teams = Team.getAllTeamsFromDisk();
         Collections.sort(teams);
         //add to observable list
         ObservableList<Team> teamObservableList = FXCollections.observableArrayList();
