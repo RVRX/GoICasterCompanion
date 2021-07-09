@@ -1,12 +1,16 @@
 package goistreamtoolredux.controller;
 
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXToggleButton;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
 import goistreamtoolredux.algorithm.FileManager;
 import goistreamtoolredux.algorithm.InvalidDataException;
 import goistreamtoolredux.algorithm.LobbyTimer;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.Spinner;
 import javafx.scene.input.MouseEvent;
 
 import java.io.File;
@@ -38,40 +42,20 @@ public class TimerPane {
     @FXML // fx:id="lobbyTimerText"
     private Label lobbyTimerText; // Value injected by FXMLLoader
 
-    @FXML // fx:id="customPlay"
-    private MaterialDesignIconView customPlay; // Value injected by FXMLLoader
+    @FXML // fx:id="timerToggler"
+    private JFXToggleButton timerToggler; // Value injected by FXMLLoader
 
-    @FXML // fx:id="customPause"
-    private MaterialDesignIconView customPause; // Value injected by FXMLLoader
+    @FXML // fx:id="timerOneSpinner"
+    private Spinner<?> timerOneSpinner; // Value injected by FXMLLoader
 
-    @FXML // fx:id="customStop"
-    private MaterialDesignIconView customStop; // Value injected by FXMLLoader
+    @FXML // fx:id="timerTwoSpinner"
+    private Spinner<?> timerTwoSpinner; // Value injected by FXMLLoader
 
-    @FXML // fx:id="customRestart"
-    private MaterialDesignIconView customRestart; // Value injected by FXMLLoader
+    @FXML // fx:id="saveButton"
+    private JFXButton saveButton; // Value injected by FXMLLoader
 
-    @FXML // fx:id="customTimerText1"
-    private Label customTimerText; // Value injected by FXMLLoader
 
-    @FXML
-    void customPauseClicked(MouseEvent event) {
-        System.out.println("customPauseClicked");
-    }
 
-    @FXML
-    void customPlayClicked(MouseEvent event) {
-        System.out.println("customPlayClicked");
-    }
-
-    @FXML
-    void customRestartClicked(MouseEvent event) {
-
-    }
-
-    @FXML
-    void customStopClicked(MouseEvent event) {
-
-    }
 
     @FXML
     void lobbyPauseClicked(MouseEvent event) {
@@ -132,11 +116,6 @@ public class TimerPane {
         assert lobbyStop != null : "fx:id=\"lobbyStop\" was not injected: check your FXML file 'TimerPane.fxml'.";
         assert lobbyRestart != null : "fx:id=\"lobbyRestart\" was not injected: check your FXML file 'TimerPane.fxml'.";
         assert lobbyTimerText != null : "fx:id=\"lobbyTimerText\" was not injected: check your FXML file 'TimerPane.fxml'.";
-        assert customPlay != null : "fx:id=\"customPlay\" was not injected: check your FXML file 'TimerPane.fxml'.";
-        assert customPause != null : "fx:id=\"customPause\" was not injected: check your FXML file 'TimerPane.fxml'.";
-        assert customStop != null : "fx:id=\"customStop\" was not injected: check your FXML file 'TimerPane.fxml'.";
-        assert customRestart != null : "fx:id=\"customRestart\" was not injected: check your FXML file 'TimerPane.fxml'.";
-        assert customTimerText != null : "fx:id=\"customTimerText1\" was not injected: check your FXML file 'TimerPane.fxml'.";
 
         //get initial lobby timer length
         try {
@@ -161,9 +140,21 @@ public class TimerPane {
             //todo handle
         }
 
-        //todo, figure out a method for updating timer value,
-        //  for now, however, they will be hidden
-        customTimerText.setVisible(false);
+    }
+
+    /**
+     * Sets the currently active timer.
+     * @param actionEvent
+     */
+    public void timerTogglerAction(ActionEvent actionEvent) {
+
+    }
+
+    /**
+     * Saves the current changes to the Timer page
+     * @param actionEvent
+     */
+    public void save(ActionEvent actionEvent) {
 
     }
 }
