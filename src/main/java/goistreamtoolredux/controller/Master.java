@@ -92,6 +92,9 @@ public class Master {
                 case "/goistreamtoolredux/fxml/SettingsPane.fxml":
                     settingsPaneController.save();
                     break;
+                case "/goistreamtoolredux/fxml/TimerPane.fxml":
+                    timerPaneController.save(null);
+                    break;
             }
         }
     }

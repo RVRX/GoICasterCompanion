@@ -45,7 +45,7 @@
                               <Font size="17.0" />
                            </font>
                         </Text>
-                        <Spinner fx:id="timerOneSpinner" onKeyPressed="#updateTimerOne" prefHeight="25.0" prefWidth="90.0" />
+                        <Spinner fx:id="timerOneSpinner" prefHeight="25.0" prefWidth="90.0" />
                      </children>
                   </VBox>
                   <VBox alignment="CENTER" prefHeight="200.0" prefWidth="300.0">
@@ -55,7 +55,7 @@
                               <Font size="17.0" />
                            </font>
                         </Text>
-                        <Spinner fx:id="timerTwoSpinner" onKeyPressed="#updateTimerTwo" prefHeight="25.0" prefWidth="90.0" />
+                        <Spinner fx:id="timerTwoSpinner" prefHeight="25.0" prefWidth="90.0" />
                      </children>
                   </VBox>
                </children>

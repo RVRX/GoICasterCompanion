@@ -1,8 +1,11 @@
 package goistreamtoolredux.controller;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXSnackbar;
+import com.jfoenix.controls.JFXSnackbarLayout;
 import com.jfoenix.controls.JFXToggleButton;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
+import goistreamtoolredux.App;
 import goistreamtoolredux.algorithm.FileManager;
 import goistreamtoolredux.algorithm.InvalidDataException;
 import goistreamtoolredux.algorithm.LobbyTimer;
@@ -12,9 +15,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.util.Duration;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -158,7 +161,6 @@ public class TimerPane {
         //init toggler
         timerToggler.setSelected(!prefs.getBoolean(IS_TIMER_ONE, true));
 
-
         //init timer 1 spinner
         initTimerSpinner(timerOneSpinner, prefs.getInt(TIMER_ONE_LENGTH, 240));
 
@@ -177,7 +179,12 @@ public class TimerPane {
             //set up fix to spinner bug
             timerSpinner.focusedProperty().addListener((observable, oldValue, newValue) -> {
                 if (!newValue) {
-                    timerSpinner.increment(0); // won't change value, but will commit editor
+                    try {
+                        timerSpinner.increment(0); // won't change value, but will commit editor
+                    } catch (NumberFormatException exception) {
+                        JFXSnackbar bar = new JFXSnackbar(App.getMasterController().getTimerPaneController().anchorPane); //Roundabout way of getting back to this controller through a static method
+                        bar.fireEvent(new JFXSnackbar.SnackbarEvent(new JFXSnackbarLayout("Timer Input Invalid","OK",action -> bar.close()),Duration.INDEFINITE));
+                    }
                 }
             });
 
@@ -190,8 +197,7 @@ public class TimerPane {
     }
 
     /**
-     * Sets the currently active timer.
-     * @param actionEvent
+     * Sets the currently active timer preference.
      */
     @FXML
     public void timerTogglerAction(ActionEvent actionEvent) {
@@ -206,30 +212,20 @@ public class TimerPane {
 
     /**
      * Saves the current changes to the Timer page
-     * @param actionEvent
      */
     @FXML
     public void save(ActionEvent actionEvent) {
-        //todo add save listener in master, set up preferences saving.
-        anchorPane.requestFocus();
+        anchorPane.requestFocus(); //pulls focus away from spinners - allowing them to update their values
+        JFXSnackbar bar = new JFXSnackbar(anchorPane);
         try {
             LobbyTimer.getInstance().setInitialTimerLength(timerOneSpinner.getValue());
             prefs.putInt(TIMER_ONE_LENGTH, timerOneSpinner.getValue());
             prefs.putInt(TIMER_TWO_LENGTH, timerTwoSpinner.getValue());
+            bar.enqueue(new JFXSnackbar.SnackbarEvent(new JFXSnackbarLayout("Saving Timers"),new Duration(1000)));
         } catch (IOException exception) {
+            //todo
             exception.printStackTrace();
         }
     }
 
-    @FXML
-    public void updateTimerOne(KeyEvent keyEvent) {
-        timerOneSpinner.increment(0);
-        save(null);
-    }
-
-    @FXML
-    public void updateTimerTwo(KeyEvent keyEvent) {
-        timerTwoSpinner.increment(0);
-        save(null);
-    }
 }
