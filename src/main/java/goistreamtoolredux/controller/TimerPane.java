@@ -155,6 +155,9 @@ public class TimerPane {
             //todo handle
         }
 
+        //init toggler
+        timerToggler.setSelected(!prefs.getBoolean(IS_TIMER_ONE, true));
+
 
         //init timer 1 spinner
         initTimerSpinner(timerOneSpinner, prefs.getInt(TIMER_ONE_LENGTH, 240));
@@ -165,6 +168,7 @@ public class TimerPane {
     }
 
     static void initTimerSpinner(Spinner<Integer> timerSpinner, int initialLength) {
+        timerSpinner.setEditable(true);
         try {
             SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory
                     (1, Integer.MAX_VALUE, initialLength);
