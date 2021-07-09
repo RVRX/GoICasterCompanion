@@ -5,7 +5,6 @@ import com.jfoenix.controls.JFXSnackbar;
 import com.jfoenix.controls.JFXSnackbarLayout;
 import goistreamtoolredux.App;
 import goistreamtoolredux.algorithm.FileManager;
-import goistreamtoolredux.algorithm.LobbyTimer;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -13,7 +12,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.Spinner;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
@@ -56,26 +54,11 @@ public class SettingsPane {
     @FXML // fx:id="appVersionText"
     private Text appVersionText; // Value injected by FXMLLoader
 
-    @FXML // fx:id="lobbyTimerSpinner"
-    private Spinner<Integer> lobbyTimerSpinner; // Value injected by FXMLLoader
-
     @FXML // fx:id="themeComboBox"
     private JFXComboBox<String> themeComboBox; // Value injected by FXMLLoader
 
 
-    void save() {
-        JFXSnackbar bar = new JFXSnackbar(anchorPane);
-        bar.enqueue(new JFXSnackbar.SnackbarEvent(new JFXSnackbarLayout("Saving..."),new Duration(350)));
-        anchorPane.requestFocus();
-        try {
-            LobbyTimer.getInstance().setInitialTimerLength(lobbyTimerSpinner.getValue());
-            bar.enqueue(new JFXSnackbar.SnackbarEvent(new JFXSnackbarLayout("Saved."),new Duration(1000)));
-
-        } catch (IOException exception) {
-            bar.enqueue(new JFXSnackbar.SnackbarEvent(new JFXSnackbarLayout("Could Not Save","CLOSE",action -> bar.close()), Duration.INDEFINITE, null));
-            exception.printStackTrace();
-        }
-    }
+    void save() { }
 
 
     @FXML
@@ -180,8 +163,6 @@ public class SettingsPane {
         osArchText.setText(System.getProperty("os.arch"));
         osVersionText.setText(System.getProperty("os.version"));
         appVersionText.setText(App.version);
-
-        TimerPane.initTimerSpinner(lobbyTimerSpinner, 240);
 
         ObservableList<String> themeList = FXCollections.observableArrayList();
         themeList.add("Skyborne Light (Default)");

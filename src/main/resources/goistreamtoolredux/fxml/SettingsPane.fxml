@@ -107,16 +107,7 @@
                         </JFXButton>
                      </children>
                   </HBox>
-                  <HBox prefHeight="100.0" prefWidth="600.0">
-                     <children>
-                        <Label text="Lobby Timer: ">
-                           <HBox.margin>
-                              <Insets left="5.0" top="5.0" />
-                           </HBox.margin>
-                        </Label>
-                        <Spinner fx:id="lobbyTimerSpinner" />
-                     </children>
-                  </HBox>
+                  <HBox prefHeight="37.0" prefWidth="600.0" />
                   <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
                      <children>
                         <Label text="Theme: ">
