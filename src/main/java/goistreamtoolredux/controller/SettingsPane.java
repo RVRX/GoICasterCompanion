@@ -184,27 +184,7 @@ public class SettingsPane {
         osVersionText.setText(System.getProperty("os.version"));
         appVersionText.setText(App.version);
 
-        try {
-            SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory
-                    (1, Integer.MAX_VALUE, LobbyTimer.getInstance().getInitialTimerLength());
-            lobbyTimerSpinner.setValueFactory(valueFactory);
-
-            //set up fix to spinner bug
-            lobbyTimerSpinner.focusedProperty().addListener((observable, oldValue, newValue) -> {
-                if (!newValue) {
-                    lobbyTimerSpinner.increment(0); // won't change value, but will commit editor
-                }
-            });
-
-        } catch (IOException | InvalidDataException exception) {
-            exception.printStackTrace();
-            //todo, handle
-        } catch (NoSuchElementException exception) {
-            //set initial value to 240, if getInitialTimerLength() throws error
-            SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory
-                    (1, Integer.MAX_VALUE, 240);
-            lobbyTimerSpinner.setValueFactory(valueFactory);
-        }
+        TimerPane.initTimerSpinner(lobbyTimerSpinner);
 
         ObservableList<String> themeList = FXCollections.observableArrayList();
         themeList.add("Skyborne Light (Default)");

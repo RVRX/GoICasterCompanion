@@ -1,6 +1,8 @@
 package goistreamtoolredux.controller;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXSnackbar;
+import com.jfoenix.controls.JFXSnackbarLayout;
 import com.jfoenix.controls.JFXToggleButton;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
 import goistreamtoolredux.algorithm.FileManager;
@@ -11,12 +13,17 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.util.Duration;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
+import java.util.NoSuchElementException;
 import java.util.ResourceBundle;
 
 public class TimerPane {
@@ -26,6 +33,9 @@ public class TimerPane {
 
     @FXML // URL location of the FXML file that was given to the FXMLLoader
     private URL location;
+
+    @FXML // fx:id="anchorPane"
+    private AnchorPane anchorPane; // Value injected by FXMLLoader
 
     @FXML // fx:id="lobbyPlay"
     private MaterialDesignIconView lobbyPlay; // Value injected by FXMLLoader
@@ -46,10 +56,10 @@ public class TimerPane {
     private JFXToggleButton timerToggler; // Value injected by FXMLLoader
 
     @FXML // fx:id="timerOneSpinner"
-    private Spinner<?> timerOneSpinner; // Value injected by FXMLLoader
+    private Spinner<Integer> timerOneSpinner; // Value injected by FXMLLoader
 
     @FXML // fx:id="timerTwoSpinner"
-    private Spinner<?> timerTwoSpinner; // Value injected by FXMLLoader
+    private Spinner<Integer> timerTwoSpinner; // Value injected by FXMLLoader
 
     @FXML // fx:id="saveButton"
     private JFXButton saveButton; // Value injected by FXMLLoader
@@ -140,12 +150,44 @@ public class TimerPane {
             //todo handle
         }
 
+
+        //init timer 1 spinner
+        initTimerSpinner(timerOneSpinner);
+
+        //init timer 2 spinner
+        initTimerSpinner(timerTwoSpinner);
+
+    }
+
+    static void initTimerSpinner(Spinner<Integer> timerSpinner) {
+        try {
+            SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory
+                    (1, Integer.MAX_VALUE, LobbyTimer.getInstance().getInitialTimerLength());
+            timerSpinner.setValueFactory(valueFactory);
+
+            //set up fix to spinner bug
+            timerSpinner.focusedProperty().addListener((observable, oldValue, newValue) -> {
+                if (!newValue) {
+                    timerSpinner.increment(0); // won't change value, but will commit editor
+                }
+            });
+
+        } catch (IOException | InvalidDataException exception) {
+            exception.printStackTrace();
+            //todo, handle
+        } catch (NoSuchElementException exception) {
+            //set initial value to 240, if getInitialTimerLength() throws error
+            SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory
+                    (1, Integer.MAX_VALUE, 240);
+            timerSpinner.setValueFactory(valueFactory);
+        }
     }
 
     /**
      * Sets the currently active timer.
      * @param actionEvent
      */
+    @FXML
     public void timerTogglerAction(ActionEvent actionEvent) {
 
     }
@@ -154,7 +196,26 @@ public class TimerPane {
      * Saves the current changes to the Timer page
      * @param actionEvent
      */
+    @FXML
     public void save(ActionEvent actionEvent) {
+        //todo add save listener in master, set up preferences saving.
+        anchorPane.requestFocus();
+        try {
+            LobbyTimer.getInstance().setInitialTimerLength(timerOneSpinner.getValue());
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
+    }
 
+    @FXML
+    public void updateTimerOne(KeyEvent keyEvent) {
+        timerOneSpinner.increment(0);
+        save(null);
+    }
+
+    @FXML
+    public void updateTimerTwo(KeyEvent keyEvent) {
+        timerTwoSpinner.increment(0);
+        save(null);
     }
 }
