@@ -5,7 +5,6 @@ import com.jfoenix.controls.JFXSnackbar;
 import com.jfoenix.controls.JFXSnackbarLayout;
 import goistreamtoolredux.App;
 import goistreamtoolredux.algorithm.FileManager;
-import goistreamtoolredux.algorithm.InvalidDataException;
 import goistreamtoolredux.algorithm.LobbyTimer;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -15,7 +14,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Spinner;
-import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
@@ -25,7 +23,6 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.prefs.BackingStoreException;
@@ -184,7 +181,7 @@ public class SettingsPane {
         osVersionText.setText(System.getProperty("os.version"));
         appVersionText.setText(App.version);
 
-        TimerPane.initTimerSpinner(lobbyTimerSpinner);
+        TimerPane.initTimerSpinner(lobbyTimerSpinner, 240);
 
         ObservableList<String> themeList = FXCollections.observableArrayList();
         themeList.add("Skyborne Light (Default)");

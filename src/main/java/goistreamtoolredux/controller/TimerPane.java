@@ -1,8 +1,6 @@
 package goistreamtoolredux.controller;
 
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXSnackbar;
-import com.jfoenix.controls.JFXSnackbarLayout;
 import com.jfoenix.controls.JFXToggleButton;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
 import goistreamtoolredux.algorithm.FileManager;
@@ -17,7 +15,6 @@ import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.util.Duration;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -25,6 +22,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.NoSuchElementException;
 import java.util.ResourceBundle;
+import java.util.prefs.Preferences;
 
 public class TimerPane {
 
@@ -63,6 +61,13 @@ public class TimerPane {
 
     @FXML // fx:id="saveButton"
     private JFXButton saveButton; // Value injected by FXMLLoader
+
+    //preferences
+    private static Preferences prefs = Preferences.userRoot().node("/goistreamtoolredux/algorithm");
+    private static final String TIMER_ONE_LENGTH = "timer_one_length";
+    private static final String TIMER_TWO_LENGTH = "timer_two_length";
+    private static final String IS_TIMER_ONE = "is_timer_one";
+
 
 
 
@@ -152,17 +157,17 @@ public class TimerPane {
 
 
         //init timer 1 spinner
-        initTimerSpinner(timerOneSpinner);
+        initTimerSpinner(timerOneSpinner, prefs.getInt(TIMER_ONE_LENGTH, 240));
 
         //init timer 2 spinner
-        initTimerSpinner(timerTwoSpinner);
+        initTimerSpinner(timerTwoSpinner, prefs.getInt(TIMER_TWO_LENGTH, 240));
 
     }
 
-    static void initTimerSpinner(Spinner<Integer> timerSpinner) {
+    static void initTimerSpinner(Spinner<Integer> timerSpinner, int initialLength) {
         try {
             SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory
-                    (1, Integer.MAX_VALUE, LobbyTimer.getInstance().getInitialTimerLength());
+                    (1, Integer.MAX_VALUE, initialLength);
             timerSpinner.setValueFactory(valueFactory);
 
             //set up fix to spinner bug
@@ -172,9 +177,6 @@ public class TimerPane {
                 }
             });
 
-        } catch (IOException | InvalidDataException exception) {
-            exception.printStackTrace();
-            //todo, handle
         } catch (NoSuchElementException exception) {
             //set initial value to 240, if getInitialTimerLength() throws error
             SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory
@@ -189,7 +191,13 @@ public class TimerPane {
      */
     @FXML
     public void timerTogglerAction(ActionEvent actionEvent) {
-
+        if (timerToggler.isSelected()) {
+            //set timerTwo as active
+            prefs.putBoolean(IS_TIMER_ONE, false);
+        } else {
+            //set timer one as active
+            prefs.putBoolean(IS_TIMER_ONE, true);
+        }
     }
 
     /**
@@ -202,6 +210,8 @@ public class TimerPane {
         anchorPane.requestFocus();
         try {
             LobbyTimer.getInstance().setInitialTimerLength(timerOneSpinner.getValue());
+            prefs.putInt(TIMER_ONE_LENGTH, timerOneSpinner.getValue());
+            prefs.putInt(TIMER_TWO_LENGTH, timerTwoSpinner.getValue());
         } catch (IOException exception) {
             exception.printStackTrace();
         }
