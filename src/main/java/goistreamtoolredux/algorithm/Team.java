@@ -53,8 +53,7 @@ public class Team implements Comparable<Team> {
             teamNameFromFile = fileScanner.nextLine();
             fileScanner.close();
         } catch (FileNotFoundException | NoSuchElementException exception) {
-            exception.printStackTrace();
-            //todo handle
+            return null;
         }
 
 
