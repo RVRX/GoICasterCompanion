@@ -109,6 +109,7 @@ public class TimerPane {
     void lobbyStopClicked(MouseEvent event) {
         try {
             LobbyTimer.getInstance().stop();
+            lobbyTimerText.setText("0");
         } catch (IOException exception) {
             exception.printStackTrace();
             //todo handle
