@@ -197,9 +197,9 @@ public class Master {
          else if (name.equalsIgnoreCase("Skyborne Light (Default)")) {
              masterAnchorPane.getStylesheets().setAll("/goistreamtoolredux/css/light/MainStyle.css");
              navigationSidebarVBox.getStylesheets().setAll("/goistreamtoolredux/css/light/Navigation.css");
-         } else if (name.equalsIgnoreCase("monochrome ocean")) {
+         } else if (name.equalsIgnoreCase("monochrome ocean [legacy]")) {
              masterAnchorPane.getStylesheets().setAll("/goistreamtoolredux/css/monochrome/MainStyle.css");
-             navigationSidebarVBox.getStylesheets().clear();
+             navigationSidebarVBox.getStylesheets().setAll("/goistreamtoolredux/css/monochrome/Navigation.css");
         }
     }
 

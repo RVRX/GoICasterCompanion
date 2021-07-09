@@ -33,7 +33,7 @@
             <HBox alignment="CENTER">
                <children>
                   <Label text="Timer One" />
-                  <JFXToggleButton fx:id="timerToggler" onAction="#timerTogglerAction" text="Timer Two" />
+                  <JFXToggleButton id="timerSwitchToggler" fx:id="timerToggler" onAction="#timerTogglerAction" text="Timer Two" />
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="134.0" prefWidth="600.0">

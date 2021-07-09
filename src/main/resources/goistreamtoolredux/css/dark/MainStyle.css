@@ -102,3 +102,11 @@ JFXButton {
     -fx-text-fill: WHITE;
     -fx-background-color: -fx--primary-light;
 }
+
+/*TimerPane's timer selection indicator*/
+#timerSwitchToggler {
+    -jfx-toggle-color: #ffffff; /*color when selected*/
+    -jfx-toggle-line-color: -fx--primary-light; /*background when selected*/
+    -jfx-untoggle-color: #ffffff; /*color when not selected*/
+    -jfx-untoggle-line-color: -fx--primary-light; /*background color when not selected*/
+}
