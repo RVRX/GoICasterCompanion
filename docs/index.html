@@ -203,16 +203,16 @@
                 After initial setup, the only file an average user will modify would be the <code>teams.txt</code> and corresponding file in <code>team_logos</code>.
                 <u>Any files marked with an (<span class="text-secondary">*</span>), are recommended to be left alone</u>.
             </p>
-            <h4>map_images directory<span class="text-secondary">*</span></h4>
+            <h4><code>map_images/</code><span class="text-secondary">*</span></h4>
             <p>
                 The map images folder contains an <b>image of each map</b>, along with an <b>image of each spawn (optional)</b>. Each file is named specifically with the same name as found in the maps.txt, along with the file's extension. Spawn images are names the same but with "<code> Spawn</code>" appended before the file extension.
                 Any inconsistencies between the map image name and the name as found in <code>maps.txt</code> will result in undefined behaviour.
             </p>
-            <h4>maps.txt<span class="text-secondary">*</span></h4>
+            <h4><code>maps.txt</code><span class="text-secondary">*</span></h4>
             <p>The maps text file <b>contains the exact name of each map</b>. See <code>map_images</code> for more details.</p>
-            <h4>team_logos directory</h4>
+            <h4><code>team_logos/</code></h4>
             <p>The team logos folder contains an <b>image for each team</b>, preferably in PNG format, but the application can handle some conversions. Each file is <em>named specifically with the same name as found in the teams.txt</em> (the section before the "|" on each line). Any inconsistencies between a team's logo name and the name as found in teams.txt will result in no image being displayed for that team.</p>
-            <h4>teams.txt</h4>
+            <h4><code>teams.txt</code></h4>
             <p>
                 <b>Contains the name an abbreviation of each team</b>. formatted as:
             <pre>teamName1|ABBREVIATION1<br>teamName2|ABBREVIATION2</pre>
@@ -221,21 +221,21 @@
 
             <h2 id="output">Output</h2>
             <p>The <code>output</code> folder is <b>where the application does its changes, and where the end-user points their streaming tool for source files</b>.</p>
-            <h4>Map.png</h4>
+            <h4><code>Map.png</code></h4>
             <p>Image of the current map.</p>
-            <h4>Map.txt</h4>
+            <h4><code>Map.txt</code></h4>
             <p>Name of the current map.</p>
-            <h4>Team<var>X</var>.png</h4>
+            <h4><code>Team<var>X</var>.png</code></h4>
             <p>Logo for team <var>X</var>.</p>
-            <h4>Team<var>X</var>.txt</h4>
+            <h4><code>Team<var>X</var>.txt</code></h4>
             <p>Name of team <var>X</var>.</p>
-            <h4>TeamShort<var>X</var>.txt</h4>
+            <h4><code>TeamShort<var>X</var>.txt</code></h4>
             <p>Abbreviated name of team <var>X</var>. <em>Often overlain on the top right team color ribbons to show which team is which.</em></p>
-            <h4>Timer.txt</h4>
+            <h4><code>Timer.txt</code></h4>
             <p>Current timer value in <code>MM:SS</code> format.</p>
-            <h4>TournamentName.txt</h4>
+            <h4><code>TournamentName.txt</code></h4>
             <p>The current tournament name. e.g., "SCS" or "Sunday Community Skirmish."</p>
-            <h4>TournamentNumber.txt</h4>
+            <h4><code>TournamentNumber.txt</code></h4>
             <p>The current tournament number. <em>e.g., to be appended to the end of "SCS: #", to get "SCS: #336."</em></p>
 
             <h2 id="application-usage" class="pt-4">Application Usage</h2>
