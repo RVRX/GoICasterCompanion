@@ -12,7 +12,6 @@ import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 import java.io.File;
@@ -43,9 +42,6 @@ public class MapPane {
     @FXML // fx:id="mapImage"
     private ImageView mapImage; // Value injected by FXMLLoader
 
-    @FXML // fx:id="mapDetailText"
-    private Text mapDetailText; // Value injected by FXMLLoader
-
     private String selectedMap;
 
     @FXML
@@ -65,8 +61,6 @@ public class MapPane {
                 mapFile = new File(FileManager.inputPath + "map_images" + File.separator + selectedMap + ".png");
             }
             mapImage.setImage(new Image(mapFile.toURI().toString()));
-            //todo update text, current is concept filler
-            mapDetailText.setText("Map details for " + selectedMap + " coming in future release.");
         }
     }
 
@@ -79,7 +73,6 @@ public class MapPane {
     void initialize() {
         assert mapComboBox != null : "fx:id=\"mapComboBox\" was not injected: check your FXML file 'MapPane.fxml'.";
         assert mapImage != null : "fx:id=\"mapImage\" was not injected: check your FXML file 'MapPane.fxml'.";
-        assert mapDetailText != null : "fx:id=\"mapDetailText\" was not injected: check your FXML file 'MapPane.fxml'.";
 
         try {
             //init map combo box
