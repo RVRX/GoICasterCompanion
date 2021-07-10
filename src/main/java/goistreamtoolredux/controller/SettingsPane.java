@@ -24,6 +24,7 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.prefs.BackingStoreException;
+import java.util.prefs.Preferences;
 
 public class SettingsPane {
 
@@ -56,6 +57,8 @@ public class SettingsPane {
 
     @FXML // fx:id="themeComboBox"
     private JFXComboBox<String> themeComboBox; // Value injected by FXMLLoader
+
+    private static Preferences prefs = Preferences.userRoot().node("/goistreamtoolredux/algorithm");
 
 
     void save() { }
@@ -144,6 +147,7 @@ public class SettingsPane {
     @FXML
     void themeComboBoxHandler(ActionEvent event) {
         String item = themeComboBox.getSelectionModel().getSelectedItem();
+        prefs.put(Master.PREFERRED_THEME, item);
         App.getMasterController().setTheme(item);
     }
 

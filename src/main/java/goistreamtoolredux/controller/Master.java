@@ -16,6 +16,7 @@ import javafx.scene.layout.VBox;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.prefs.Preferences;
 
 public class Master {
 
@@ -64,6 +65,10 @@ public class Master {
     private TimerPane timerPaneController;
     private TournamentPane tournamentPaneController;
     private SettingsPane settingsPaneController;
+
+    //prefs
+    private static Preferences prefs = Preferences.userRoot().node("/goistreamtoolredux/algorithm");
+    public static final String PREFERRED_THEME = "default_theme";
 
     public TimerPane getTimerPaneController() {
         return timerPaneController;
@@ -135,7 +140,7 @@ public class Master {
         setPage("/goistreamtoolredux/fxml/TeamPane.fxml");
 
         //set default theme
-        setTheme("skyborne light (default)");
+        setTheme(prefs.get(PREFERRED_THEME, "skyborne light (default)"));
     }
 
     /**
