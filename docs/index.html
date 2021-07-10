@@ -236,6 +236,35 @@
             <h4>TournamentNumber.txt</h4>
             <p>The current tournament number. <em>e.g., to be appended to the end of "SCS: #", to get "SCS: #336".</em></p>
 
+            <h2 id="application-usage" class="pt-4">Application Usage</h2>
+            <h3 id="teams">Teams</h3>
+            <p>
+                The Teams page contains dropdowns for four different teams. Upon choosing a team a preview will be given of their logo and short name.
+                The selected teams will not be saved to disk until the “Save” button is clicked or <kbd>&#8984; + S</kbd> or <kbd>Ctrl + S</kbd> is pressed. Not all dropdowns have to have a selection, some can be left blank.
+            </p>
+            <h3 id="map">Map</h3>
+            <p>
+                The Map page contains a singular dropdown listing all of the maps in the input folder.
+                Ticking the show spawn checkbox will swap over to the spawn version of the map.
+                In order for a map to show up in the dropdown it must be in both the Map.txt file, and have a PNG in the <code>map_images</code> folder.
+            </p>
+            <h3 id="timer">Timer</h3>
+            <p>
+                The main controls for the timer at at the top of the page. To customize the length of the timer, edit either of the integer spinners at the bottom.
+                Make sure to save your changes with the “save” button or <kbd>&#8984; + S</kbd> or <kbd>Ctrl + S</kbd>. Once you have the changes saved, set the switch to the timer length you would like to use.
+                An example usage for this dual-timer system would be having a lobby timer and a game timer that can be set beforehand, and quickly swapped between. Note that only one timer may be running at a time and their states are not saved between runs. If you switch timers you must either ‘stop’ then ‘start’ or just ‘restart’ the timer before the new timer starts. The timer will continue running in the background as long as the application is not closed - so feel free to change tabs and edit other aspects while the timer is counting down.
+            </p>
+            <h3 id="tournament">Tournament (Tourney)</h3>
+            <p>
+                Simple enough, the two editable fields here change the <code>output/TournamentName.txt</code> and <code>output/TournamentNumber.txt</code> files.
+            </p>
+            <h3 id="settings">Settings</h3>
+            <p>
+                The settings page shows some basic information about the setup of the app and the machine it is running on. If you ever want to see the version of the app you are running, you can see that here.
+                The numerous buttons on the page allow you to open, set, and reset, the input and output folders separately. It is one-hundred percent valid to have completely different paths for your input and output folder. Just remember that changing your I/O folders does not carry the data to the new location – that must be done manually by you. If the new location does not contain the right files, the app will create an empty file in its place.
+                The theme switcher allows you to easily change between different looks for the app. The “Skyborne Light” theme is the default and most actively updated theme, followed by “Skyborne Dark,” and the original app theme, “Monochrome Ocean.”
+            </p>
+
             <br>
             <h1 id="contributing" class="pt-5">Contributing</h1>
             <h3>Giving Feedback</h3>
