@@ -6,13 +6,9 @@ import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
-import javafx.application.Platform;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 
 import javax.imageio.ImageIO;
 import javax.swing.filechooser.FileSystemView;
-import java.awt.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
@@ -23,6 +19,7 @@ import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.file.*;
 import java.util.*;
+import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 import java.util.stream.Stream;
 
@@ -477,6 +474,33 @@ public class FileManager {
     }
 
     /**
+     * Updates the <code>TournamentName.txt</code> file.
+     * @param tournamentName new content for file
+     * @throws IOException if error writing to file
+     */
+    public static void setTournamentName(String tournamentName) throws IOException {
+        /*--- Update TournamentName.txt ---*/
+        Writer fileWriter = new FileWriter(outputPath + "TournamentName.txt");
+        fileWriter.write(tournamentName);
+        fileWriter.close();
+        System.out.println("TournamentName.txt Updated");
+    }
+
+    /**
+     * Gets the current tournament name from file
+     *
+     * @return current tournament name
+     * @throws FileNotFoundException tournament file could not be found
+     * @throws NoSuchElementException file contains unexpected (or no) content
+     */
+    public static String getTournamentName() throws FileNotFoundException, NoSuchElementException {
+        Scanner tourneyScanner = new Scanner(new File(outputPath + "TournamentName.txt"));
+        String firstLine = tourneyScanner.nextLine();
+        tourneyScanner.close();
+        return firstLine;
+    }
+
+    /**
      * Checks if a map name is a valid map found in <code>maps.txt</code>.
      *
      * @param map Full name of a map to check
@@ -892,15 +916,13 @@ public class FileManager {
                         if (result.get() == ButtonType.OK) {
                             // ... user chose OK
                             Desktop.getDesktop().browse(new URI("https://github.com/RVRX/GoIStreamToolRedux/releases/latest"));
-
                         }
                     }
                 }
                 catch (IOException exception) {
                     // there was some connection problem, or the file did not exist on the server,
                     // or your URL was not in the right format.
-                    // think about what to do now, and put it here.
-                    exception.printStackTrace(); // for now, simply output it.
+                    exception.printStackTrace(); // todo - for now, simply output it.
                 } catch (NoSuchElementException exception) {
                     //scanner could not read file correctly
                     exception.printStackTrace();
@@ -912,4 +934,20 @@ public class FileManager {
         });
     }
 
+    /**
+     * Calls {@link Preferences#clear()} on the FileManager's preference node - effectively resetting it.
+     * @implNote Does not guarantee full refresh of preferences in app until after a restart.
+     * @throws BackingStoreException if could not complete clear due to failure relating to the backing store
+     */
+    public static void resetPreferences() throws BackingStoreException {
+        prefs.clear();
+    }
+
+    /**
+     * Attempts to refresh the application's preferences.
+     */
+    public static void refreshPreferences() {
+        inputPath = getInputPath();
+        outputPath = getOutputPath();
+    }
 }

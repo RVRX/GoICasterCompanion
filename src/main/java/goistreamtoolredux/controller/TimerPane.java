@@ -1,19 +1,31 @@
 package goistreamtoolredux.controller;
 
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXSnackbar;
+import com.jfoenix.controls.JFXSnackbarLayout;
+import com.jfoenix.controls.JFXToggleButton;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
+import goistreamtoolredux.App;
 import goistreamtoolredux.algorithm.FileManager;
 import goistreamtoolredux.algorithm.InvalidDataException;
 import goistreamtoolredux.algorithm.LobbyTimer;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.util.Duration;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
+import java.util.NoSuchElementException;
 import java.util.ResourceBundle;
+import java.util.prefs.Preferences;
 
 public class TimerPane {
 
@@ -22,6 +34,9 @@ public class TimerPane {
 
     @FXML // URL location of the FXML file that was given to the FXMLLoader
     private URL location;
+
+    @FXML // fx:id="anchorPane"
+    private AnchorPane anchorPane; // Value injected by FXMLLoader
 
     @FXML // fx:id="lobbyPlay"
     private MaterialDesignIconView lobbyPlay; // Value injected by FXMLLoader
@@ -38,40 +53,27 @@ public class TimerPane {
     @FXML // fx:id="lobbyTimerText"
     private Label lobbyTimerText; // Value injected by FXMLLoader
 
-    @FXML // fx:id="customPlay"
-    private MaterialDesignIconView customPlay; // Value injected by FXMLLoader
+    @FXML // fx:id="timerToggler"
+    private JFXToggleButton timerToggler; // Value injected by FXMLLoader
 
-    @FXML // fx:id="customPause"
-    private MaterialDesignIconView customPause; // Value injected by FXMLLoader
+    @FXML // fx:id="timerOneSpinner"
+    private Spinner<Integer> timerOneSpinner; // Value injected by FXMLLoader
 
-    @FXML // fx:id="customStop"
-    private MaterialDesignIconView customStop; // Value injected by FXMLLoader
+    @FXML // fx:id="timerTwoSpinner"
+    private Spinner<Integer> timerTwoSpinner; // Value injected by FXMLLoader
 
-    @FXML // fx:id="customRestart"
-    private MaterialDesignIconView customRestart; // Value injected by FXMLLoader
+    @FXML // fx:id="saveButton"
+    private JFXButton saveButton; // Value injected by FXMLLoader
 
-    @FXML // fx:id="customTimerText1"
-    private Label customTimerText; // Value injected by FXMLLoader
+    //preferences
+    private static Preferences prefs = Preferences.userRoot().node("/goistreamtoolredux/algorithm");
+    private static final String TIMER_ONE_LENGTH = "timer_one_length";
+    private static final String TIMER_TWO_LENGTH = "timer_two_length";
+    private static final String IS_TIMER_ONE = "is_timer_one";
 
-    @FXML
-    void customPauseClicked(MouseEvent event) {
-        System.out.println("customPauseClicked");
-    }
 
-    @FXML
-    void customPlayClicked(MouseEvent event) {
-        System.out.println("customPlayClicked");
-    }
 
-    @FXML
-    void customRestartClicked(MouseEvent event) {
 
-    }
-
-    @FXML
-    void customStopClicked(MouseEvent event) {
-
-    }
 
     @FXML
     void lobbyPauseClicked(MouseEvent event) {
@@ -109,6 +111,7 @@ public class TimerPane {
     void lobbyStopClicked(MouseEvent event) {
         try {
             LobbyTimer.getInstance().stop();
+            lobbyTimerText.setText("0");
         } catch (IOException exception) {
             exception.printStackTrace();
             //todo handle
@@ -131,11 +134,6 @@ public class TimerPane {
         assert lobbyStop != null : "fx:id=\"lobbyStop\" was not injected: check your FXML file 'TimerPane.fxml'.";
         assert lobbyRestart != null : "fx:id=\"lobbyRestart\" was not injected: check your FXML file 'TimerPane.fxml'.";
         assert lobbyTimerText != null : "fx:id=\"lobbyTimerText\" was not injected: check your FXML file 'TimerPane.fxml'.";
-        assert customPlay != null : "fx:id=\"customPlay\" was not injected: check your FXML file 'TimerPane.fxml'.";
-        assert customPause != null : "fx:id=\"customPause\" was not injected: check your FXML file 'TimerPane.fxml'.";
-        assert customStop != null : "fx:id=\"customStop\" was not injected: check your FXML file 'TimerPane.fxml'.";
-        assert customRestart != null : "fx:id=\"customRestart\" was not injected: check your FXML file 'TimerPane.fxml'.";
-        assert customTimerText != null : "fx:id=\"customTimerText1\" was not injected: check your FXML file 'TimerPane.fxml'.";
 
         //get initial lobby timer length
         try {
@@ -160,9 +158,74 @@ public class TimerPane {
             //todo handle
         }
 
-        //todo, figure out a method for updating timer value,
-        //  for now, however, they will be hidden
-        customTimerText.setVisible(false);
+        //init toggler
+        timerToggler.setSelected(!prefs.getBoolean(IS_TIMER_ONE, true));
+
+        //init timer 1 spinner
+        initTimerSpinner(timerOneSpinner, prefs.getInt(TIMER_ONE_LENGTH, 240));
+
+        //init timer 2 spinner
+        initTimerSpinner(timerTwoSpinner, prefs.getInt(TIMER_TWO_LENGTH, 240));
 
     }
+
+    static void initTimerSpinner(Spinner<Integer> timerSpinner, int initialLength) {
+        timerSpinner.setEditable(true);
+        try {
+            SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory
+                    (1, Integer.MAX_VALUE, initialLength);
+            timerSpinner.setValueFactory(valueFactory);
+
+            //set up fix to spinner bug
+            timerSpinner.focusedProperty().addListener((observable, oldValue, newValue) -> {
+                if (!newValue) {
+                    try {
+                        timerSpinner.increment(0); // won't change value, but will commit editor
+                    } catch (NumberFormatException exception) {
+                        JFXSnackbar bar = new JFXSnackbar(App.getMasterController().getTimerPaneController().anchorPane); //Roundabout way of getting back to this controller through a static method
+                        bar.fireEvent(new JFXSnackbar.SnackbarEvent(new JFXSnackbarLayout("Timer Input Invalid","OK",action -> bar.close()),Duration.INDEFINITE));
+                    }
+                }
+            });
+
+        } catch (NoSuchElementException exception) {
+            //set initial value to 240, if getInitialTimerLength() throws error
+            SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory
+                    (1, Integer.MAX_VALUE, 240);
+            timerSpinner.setValueFactory(valueFactory);
+        }
+    }
+
+    /**
+     * Sets the currently active timer preference.
+     */
+    @FXML
+    public void timerTogglerAction(ActionEvent actionEvent) {
+        if (timerToggler.isSelected()) {
+            //set timerTwo as active
+            prefs.putBoolean(IS_TIMER_ONE, false);
+        } else {
+            //set timer one as active
+            prefs.putBoolean(IS_TIMER_ONE, true);
+        }
+    }
+
+    /**
+     * Saves the current changes to the Timer page
+     */
+    @FXML
+    public void save(ActionEvent actionEvent) {
+        anchorPane.requestFocus(); //pulls focus away from spinners - allowing them to update their values
+        JFXSnackbar bar = new JFXSnackbar(anchorPane);
+        try {
+            LobbyTimer.getInstance().setInitialTimerLength(timerOneSpinner.getValue());
+            prefs.putInt(TIMER_ONE_LENGTH, timerOneSpinner.getValue());
+            prefs.putInt(TIMER_TWO_LENGTH, timerTwoSpinner.getValue());
+            bar.enqueue(new JFXSnackbar.SnackbarEvent(new JFXSnackbarLayout("Saving Timers"),new Duration(1000)));
+        } catch (IOException exception) {
+            //todo
+            exception.printStackTrace();
+        }
+    }
+
 }

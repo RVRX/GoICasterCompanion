@@ -1,0 +1,23 @@
+* {
+    /*Set Global Primary and Secondary Color Variables*/
+
+    -fx--primary: #039be5;
+    -fx--primary-dark: #006db3;
+    -fx--primary-light: #63ccff;
+
+    -fx--secondary: #546e7a;
+    -fx--secondary-light: #819ca9;
+    -fx--secondary-dark: #29434e;
+
+    -fx--error: #D34336;
+}
+
+JFXButton, JFXButton > MaterialDesignIconView {
+    -fx-background-color: lightgrey;
+    /*-fx-border-color: #5e5e87;*/
+    -fx-text-fill: black;
+    -fx-border-width: 2px;
+    -fx-border-radius: 0px;
+    -fx-background-radius: 0px;
+    -fx-fill: black;
+}

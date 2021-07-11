@@ -138,9 +138,8 @@
     <div class="row" id="main-row">
         <div class="col">
             <h1 id="application-overview" class="mt-3 pt-5">Application Overview</h1>
-            <p>Guns of Icarus Caster Companion (GoICC, GoICasterCompanion) - formerly GoIStreamToolRedux - is a cross-platform application designed to assist <a href="https://gunsoficarus.com/" target="_blank">Guns of Icarus</a> tournament broadcasters with their interfaces and overlays. It includes UI management for teams, maps, timers, and tournament info that all ties into an output folder, providing OBS (or other casting tool) with static file paths to read from. The GoICC project started as an adaptation of the original closed-course Windows application <a href="https://urzlab.com/goistreamtool/" target="_blank">GoiStreamTool</a> by GoIO player and caster Urz.</p>
+            <p>Guns of Icarus Caster Companion - formerly GoIStreamToolRedux - is a cross-platform application designed to assist <a href="https://gunsoficarus.com/" target="_blank">Guns of Icarus</a> tournament broadcasters with their interfaces and overlays. It includes UI management for teams, maps, timers, and tournament info that all ties into an output folder, providing OBS (or other casting tool) with static file paths to read from. The GoICC project started as an adaptation of the original closed-course Windows application <a href="https://urzlab.com/goistreamtool/" target="_blank">GoiStreamTool</a> by GoI player and caster Urz.</p>
             <p>GoICC is a free and open-source software. As such, community contributions to the application source and its supporting material is welcome, and feedback is appreciated to help grow the application. See <a href="#contributing">contributing</a> for more info.</p>
-            <p class="text-warning">The software is still in development and testing phases. No future download is guaranteed to be more stable than past downloads, until release <em>v1.0</em>. Backing up input and output folders is recommended.</p>
 
             <h1 id="features" class="pt-5">Features</h1>
 
@@ -165,22 +164,24 @@
             <h1 class="pt-5">Downloads</h1>
             <div class="row">
                 <div class="col">
-                    <h4 class="display-4">Release v0.5.0</h4>
+                    <h4 class="display-4">Release v0.5.1</h4>
                     <p class="lead">Solely the native installer - no input folder included</p>
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item">Mac: <a href="https://github.com/RVRX/GoICasterCompanion/releases/download/0.5.0/GoICC.v0.5.0.dmg">GoICC.v0.5.0.dmg</a></li>
-                        <li class="list-group-item">Windows: <a href="https://github.com/RVRX/GoICasterCompanion/releases/download/0.5.0/GoICC_Setup_v0.5.exe">GoICC_Setup_v0.5.exe</a></li>
-                        <li class="list-group-item">Packaged Jar: <a href="https://github.com/RVRX/GoICasterCompanion/releases/download/0.5.0/GoICC-0.5.jar">GoICC-0.5.jar</a></li>
+                        <li class="list-group-item">Mac: <a href="https://github.com/RVRX/GoICasterCompanion/releases/download/0.5.1/GoICC.v0.5.1.dmg">GoICC.v0.5.1.dmg</a></li>
+                        <li class="list-group-item">Windows: <a href="https://github.com/RVRX/GoICasterCompanion/releases/download/0.5.1/GoICC_Setup_v0.5.1.exe">GoICC_Setup_v0.5.1.exe</a></li>
+                        <li class="list-group-item">Packaged Jar: <a href="https://github.com/RVRX/GoICasterCompanion/releases/download/0.5.1/GoICC-0.5.1.jar">GoICC-0.5.1.jar</a></li>
                     </ul>
                 </div>
                 <div class="col">
                     <h4 class="display-4">Map & Team Bundle</h4>
-                    <p class="lead">Pre-built input folder</p>
+                    <p class="lead">Pre-built input folder containing <em>high</em> quality map and spawn map images. Recommended for all new users</p>
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item">Input Folder: <a href="http://skyborne.net/input.zip">input.zip</a></li>
-                        <li class="list-group-item"><h6 class="mt-4 text-primary"><a href="https://github.com/RVRX/GoICasterCompanion/releases">For the <em>latest</em> releases (and for patch notes), please check the GitHub</a>.</h6>
-                        </li>
+                        <li class="list-group-item">Input Folder: <a href="http://skyborne.net/input.zip" target="_blank">input.zip</a></li>
+                        <li class="list-group-item"><em>Thanks to DKR for help procuring updated maps, and creating spawn location images for each.</em></li>
                     </ul>
+                </div>
+                <div class="text-center">
+                    <h6 class="mt-4 text-primary"><a href="https://github.com/RVRX/GoICasterCompanion/releases">For the <em>latest</em> releases (and for patch notes), please check the GitHub</a>.</h6>
                 </div>
             </div>
 
@@ -193,7 +194,7 @@
                 This is to allow casters to queue up content before saving it.
             </p>
             <p>
-                The following sections will detail the contents of the <code>input</code> and <code>output</code> folders, and provide suggestions for their use.
+                The following sections will detail the contents of the <code>input</code> and <code>output</code> folders, and provide documentation for their use.
             </p>
 
             <h2 id="input">Input</h2>
@@ -203,16 +204,16 @@
                 After initial setup, the only file an average user will modify would be the <code>teams.txt</code> and corresponding file in <code>team_logos</code>.
                 <u>Any files marked with an (<span class="text-secondary">*</span>), are recommended to be left alone</u>.
             </p>
-            <h4>map_images directory<span class="text-secondary">*</span></h4>
+            <h4><code>map_images/</code><span class="text-secondary">*</span></h4>
             <p>
                 The map images folder contains an <b>image of each map</b>, along with an <b>image of each spawn (optional)</b>. Each file is named specifically with the same name as found in the maps.txt, along with the file's extension. Spawn images are names the same but with "<code> Spawn</code>" appended before the file extension.
                 Any inconsistencies between the map image name and the name as found in <code>maps.txt</code> will result in undefined behaviour.
             </p>
-            <h4>maps.txt<span class="text-secondary">*</span></h4>
+            <h4><code>maps.txt</code><span class="text-secondary">*</span></h4>
             <p>The maps text file <b>contains the exact name of each map</b>. See <code>map_images</code> for more details.</p>
-            <h4>team_logos directory</h4>
+            <h4><code>team_logos/</code></h4>
             <p>The team logos folder contains an <b>image for each team</b>, preferably in PNG format, but the application can handle some conversions. Each file is <em>named specifically with the same name as found in the teams.txt</em> (the section before the "|" on each line). Any inconsistencies between a team's logo name and the name as found in teams.txt will result in no image being displayed for that team.</p>
-            <h4>teams.txt</h4>
+            <h4><code>teams.txt</code></h4>
             <p>
                 <b>Contains the name an abbreviation of each team</b>. formatted as:
             <pre>teamName1|ABBREVIATION1<br>teamName2|ABBREVIATION2</pre>
@@ -221,27 +222,59 @@
 
             <h2 id="output">Output</h2>
             <p>The <code>output</code> folder is <b>where the application does its changes, and where the end-user points their streaming tool for source files</b>.</p>
-            <h4>Map.png</h4>
+            <h4><code>Map.png</code></h4>
             <p>Image of the current map.</p>
-            <h4>Map.txt</h4>
+            <h4><code>Map.txt</code></h4>
             <p>Name of the current map.</p>
-            <h4>Team<var>X</var>.png</h4>
+            <h4><code>Team<var>X</var>.png</code></h4>
             <p>Logo for team <var>X</var>.</p>
-            <h4>Team<var>X</var>.txt</h4>
+            <h4><code>Team<var>X</var>.txt</code></h4>
             <p>Name of team <var>X</var>.</p>
-            <h4>TeamShort<var>X</var>.txt</h4>
+            <h4><code>TeamShort<var>X</var>.txt</code></h4>
             <p>Abbreviated name of team <var>X</var>. <em>Often overlain on the top right team color ribbons to show which team is which.</em></p>
-            <h4>Timer.txt</h4>
+            <h4><code>Timer.txt</code></h4>
             <p>Current timer value in <code>MM:SS</code> format.</p>
-            <h4>TournamentNumber.txt</h4>
-            <p>The current tournament number. <em>e.g., to be appended to the end of "SCS: #", to get "SCS: #336".</em></p>
+            <h4><code>TournamentName.txt</code></h4>
+            <p>The current tournament name. e.g., "SCS" or "Sunday Community Skirmish."</p>
+            <h4><code>TournamentNumber.txt</code></h4>
+            <p>The current tournament number. <em>e.g., to be appended to the end of "SCS: #", to get "SCS: #336."</em></p>
+
+            <h2 id="application-usage" class="pt-4">Application Usage</h2>
+            <h3 id="teams">Teams</h3>
+            <p>
+                The Teams page contains dropdowns for four different teams. Upon choosing a team a preview will be given of their logo and short name.
+                The selected teams will not be saved to disk until the “Save” button is clicked or <kbd>&#8984; + S</kbd> or <kbd>Ctrl + S</kbd> is pressed. Not all dropdowns have to have a selection, some can be left blank.
+            </p>
+            <h3 id="map">Map</h3>
+            <p>
+                The Map page contains a singular dropdown listing all of the maps in the input folder.
+                Ticking the show spawn checkbox will swap over to the spawn version of the map.
+                In order for a map to show up in the dropdown it must be in both the Map.txt file, and have a PNG in the <code>map_images</code> folder.
+            </p>
+            <h3 id="timer">Timer</h3>
+            <p>
+                The main controls for the timer at at the top of the page. To customize the length of the timer, edit either of the integer spinners at the bottom.
+                Make sure to save your changes with the “save” button or <kbd>&#8984; + S</kbd> or <kbd>Ctrl + S</kbd>. Once you have the changes saved, set the switch to the timer length you would like to use.
+                An example usage for this dual-timer system would be having a lobby timer and a game timer that can be set beforehand, and quickly swapped between. Note that only one timer may be running at a time and their states are not saved between runs. If you switch timers you must either ‘stop’ then ‘start’ or just ‘restart’ the timer before the new timer starts. The timer will continue running in the background as long as the application is not closed - so feel free to change tabs and edit other aspects while the timer is counting down.
+            </p>
+            <h3 id="tournament">Tournament (Tourney)</h3>
+            <p>
+                Simple enough, the two editable fields here change the <code>output/TournamentName.txt</code> and <code>output/TournamentNumber.txt</code> files.
+            </p>
+            <h3 id="settings">Settings</h3>
+            <p>
+                The settings page shows some basic information about the setup of the app and the machine it is running on. If you ever want to see the version of the app you are running, you can see that here.
+                The numerous buttons on the page allow you to open, set, and reset, the input and output folders separately. It is one-hundred percent valid to have completely different paths for your input and output folder. Just remember that changing your I/O folders does not carry the data to the new location – that must be done manually by you. If the new location does not contain the right files, the app will create an empty file in its place.
+                <img class="img-fluid" width="512" src="https://user-images.githubusercontent.com/45409688/125149291-2e6ed180-e106-11eb-920b-6f915a57a8ee.png"><br>
+                The theme switcher allows you to easily change between different looks for the app. The “Skyborne Light” theme is the default and most actively updated theme, followed by “Skyborne Dark,” and the original app theme, “Monochrome Ocean.”
+            </p>
 
             <br>
             <h1 id="contributing" class="pt-5">Contributing</h1>
             <h3>Giving Feedback</h3>
             <p>Reporting bugs, requesting features, and suggesting changes, can all be done through the <a href="https://github.com/RVRX/GoICasterCompanion/issues">GitHub Issues page</a> by creating a <a href="https://github.com/RVRX/GoICasterCompanion/issues/new">new issue</a> <em>(a GitHub account is required).</em></p>
             <h3>Contributing to source</h3>
-            <p>PRs are encouraged.</p>
+            <p>Contributions from anyone with experience in Java (esp. File IO), JavaFX, FXML/XML, CSS, or generating/compiling native executables. Pull Requests are encouraged.</p>
         </div>
     </div>
 </div>
