@@ -45,17 +45,14 @@ public class Timers {
      * Gets the total length of the timer. Not to be confused with the current length,
      * this value is where the timer will go to when restarting or starting after a stop.
      *
+     * Gotten from the preferences API, defaults to 240 if no preference set yet.
+     *
      * @return timer length in seconds
      * @throws IOException
      * @throws NoSuchElementException TimerLength.txt contains an unexpected character.
      * @see #setInitialTimerLength(int)
      */
     public int getInitialTimerLength() throws IOException, NoSuchElementException, InvalidDataException {
-        //todo, find what timer is currently selected.
-        //  getInitial length for that timer
-
-
-
         if (prefs.getBoolean(IS_TIMER_ONE, true)) {
             //if timer one is selected, or must be defaulted to
             return prefs.getInt(TIMER_ONE_LENGTH, 240);
@@ -63,14 +60,6 @@ public class Timers {
             //if timer two is selected
             return prefs.getInt(TIMER_TWO_LENGTH, 240);
         }
-
-
-//        //open TimerLength file and gets the current value
-//        File timerSettings = new File(timerLength);
-//        Scanner scanner = new Scanner(timerSettings);
-//        int value = scanner.nextInt();
-//        if (value <= 0) throw new InvalidDataException("TimerLength.txt cannot contain a non-postive value");
-//        return value;
     }
 
 

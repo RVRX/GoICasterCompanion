@@ -107,7 +107,7 @@ public class FileManager {
      * Sets the preferred output path
      * @param outputPath valid path to new output folder, MUST END IN FILE SEPARATOR
      */
-    public static void setOutputPath(String outputPath) { //todo, input a Path instead?
+    public static void setOutputPath(String outputPath) {
         prefs.put(OUTPUT_FOLDER, outputPath);
     }
 
@@ -607,10 +607,10 @@ public class FileManager {
      * E.g., used when setting "The Skyborne" as team A.
      *
      * Updates the output teamA/B image with the new team's image.
-     *  File is in the format `"Team" + teamIdentifier + ".png"`
+     *  File is in the format <code>"Team" + teamIdentifier + ".png"</code>
      * Updates the team &amp; teamShort txt files to the new team's name.
-     *  File name formatted as `"Team" + teamIdentifier + ".txt"`,
-     *  and `"TeamShort" + teamIdentifier + ".txt"`
+     *  File name formatted as <code>"Team" + teamIdentifier + ".txt"</code>,
+     *  and <code>"TeamShort" + teamIdentifier + ".txt"</code>
      *
      * @param newTeamName Name of the team. Must occur in teams.txt
      * @param teamIdentifier Value to identify team. Must be a valid character for filesystem
@@ -918,17 +918,14 @@ public class FileManager {
                             Desktop.getDesktop().browse(new URI("https://github.com/RVRX/GoIStreamToolRedux/releases/latest"));
                         }
                     }
-                }
-                catch (IOException exception) {
-                    // there was some connection problem, or the file did not exist on the server,
-                    // or your URL was not in the right format.
-                    exception.printStackTrace(); // todo - for now, simply output it.
-                } catch (NoSuchElementException exception) {
-                    //scanner could not read file correctly
-                    exception.printStackTrace();
-                } catch (URISyntaxException e) {
-                    //bad uri, should never happen (or always happen)
-                    e.printStackTrace();
+                } catch (IOException | NoSuchElementException | URISyntaxException exception) {
+                    //Due to:
+                    // * No Internet
+                    // * Scanner could not read file
+                    // * Any other IO/net error with file
+
+                    //No need to do anything
+                    System.out.println("Could not check for new update");
                 }
             }
         });

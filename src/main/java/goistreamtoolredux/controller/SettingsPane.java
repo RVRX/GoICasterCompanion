@@ -70,7 +70,8 @@ public class SettingsPane {
             try {
                 Desktop.getDesktop().open(new File(FileManager.inputPath));
             } catch (IOException exception) {
-                //todo, handle
+                JFXSnackbar bar = new JFXSnackbar(anchorPane);
+                bar.fireEvent(new JFXSnackbar.SnackbarEvent(new JFXSnackbarLayout("Failed to Open folder","OK",action -> bar.close()),Duration.INDEFINITE));
                 exception.printStackTrace();
             }
         }
@@ -82,7 +83,8 @@ public class SettingsPane {
             try {
                 Desktop.getDesktop().open(new File(FileManager.outputPath));
             } catch (IOException exception) {
-                //todo, handle
+                JFXSnackbar bar = new JFXSnackbar(anchorPane);
+                bar.fireEvent(new JFXSnackbar.SnackbarEvent(new JFXSnackbarLayout("Failed to Open folder","OK",action -> bar.close()),Duration.INDEFINITE));
                 exception.printStackTrace();
             }
         }
