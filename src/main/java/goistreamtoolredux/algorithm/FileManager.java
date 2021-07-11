@@ -365,8 +365,6 @@ public class FileManager {
                     } catch (IOException exception) {
                         exception.printStackTrace();
                     }
-                } else {
-                    // ... user chose CANCEL or closed the dialog
                 }
             }
         });
@@ -394,8 +392,6 @@ public class FileManager {
                     exception.printStackTrace();
                 }
             }
-        } else {
-            // ... user chose CANCEL or closed the dialog
         }
     }
 
