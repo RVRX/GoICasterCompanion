@@ -18,6 +18,7 @@ import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.file.*;
+import java.nio.file.attribute.FileTime;
 import java.util.*;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
@@ -673,6 +674,7 @@ public class FileManager {
 
             //copy from teamLogo Path to TeamX.png
             Files.copy(teamLogo,Paths.get(outputPath + "Team" + teamIdentifier + ".png"), StandardCopyOption.REPLACE_EXISTING);
+            Files.setLastModifiedTime(Paths.get(outputPath + "Team" + teamIdentifier + ".png"), FileTime.fromMillis(System.currentTimeMillis()));
         } else { //logo not PNG
             try {
                 //convert to png
@@ -690,6 +692,7 @@ public class FileManager {
 
                     //copy from teamLogo Path to TeamX.png
                     Files.copy(Paths.get(inputPath + "team_logos" + File.separator + newTeamName + ".png"),Paths.get(outputPath + "Team" + teamIdentifier + ".png"), StandardCopyOption.REPLACE_EXISTING);
+                    Files.setLastModifiedTime(Paths.get(outputPath + "Team" + teamIdentifier + ".png"), FileTime.fromMillis(System.currentTimeMillis()));
 
                 } else {
                     System.err.println("Image could not be converted to PNG");
