@@ -5,14 +5,13 @@ import com.jfoenix.controls.JFXSnackbar;
 import com.jfoenix.controls.JFXSnackbarLayout;
 import goistreamtoolredux.App;
 import goistreamtoolredux.algorithm.FileManager;
-import goistreamtoolredux.algorithm.InvalidDataException;
-import goistreamtoolredux.algorithm.LobbyTimer;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Spinner;
-import javafx.scene.control.SpinnerValueFactory;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
@@ -22,8 +21,10 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.prefs.BackingStoreException;
+import java.util.prefs.Preferences;
 
 public class SettingsPane {
 
@@ -54,25 +55,13 @@ public class SettingsPane {
     @FXML // fx:id="appVersionText"
     private Text appVersionText; // Value injected by FXMLLoader
 
-    @FXML // fx:id="lobbyTimerSpinner"
-    private Spinner<Integer> lobbyTimerSpinner; // Value injected by FXMLLoader
-
     @FXML // fx:id="themeComboBox"
     private JFXComboBox<String> themeComboBox; // Value injected by FXMLLoader
 
+    private static Preferences prefs = Preferences.userRoot().node("/goistreamtoolredux/algorithm");
 
-    void save() {
-        JFXSnackbar bar = new JFXSnackbar(anchorPane);
-        bar.enqueue(new JFXSnackbar.SnackbarEvent(new JFXSnackbarLayout("Saving..."),new Duration(350)));
-        try {
-            LobbyTimer.getInstance().setInitialTimerLength(lobbyTimerSpinner.getValue());
-            bar.enqueue(new JFXSnackbar.SnackbarEvent(new JFXSnackbarLayout("Saved."),new Duration(1000)));
 
-        } catch (IOException exception) {
-            bar.enqueue(new JFXSnackbar.SnackbarEvent(new JFXSnackbarLayout("Could Not Save","CLOSE",action -> bar.close()), Duration.INDEFINITE, null));
-            exception.printStackTrace();
-        }
-    }
+    void save() { }
 
 
     @FXML
@@ -81,7 +70,8 @@ public class SettingsPane {
             try {
                 Desktop.getDesktop().open(new File(FileManager.inputPath));
             } catch (IOException exception) {
-                //todo, handle
+                JFXSnackbar bar = new JFXSnackbar(anchorPane);
+                bar.fireEvent(new JFXSnackbar.SnackbarEvent(new JFXSnackbarLayout("Failed to Open folder","OK",action -> bar.close()),Duration.INDEFINITE));
                 exception.printStackTrace();
             }
         }
@@ -93,14 +83,15 @@ public class SettingsPane {
             try {
                 Desktop.getDesktop().open(new File(FileManager.outputPath));
             } catch (IOException exception) {
-                //todo, handle
+                JFXSnackbar bar = new JFXSnackbar(anchorPane);
+                bar.fireEvent(new JFXSnackbar.SnackbarEvent(new JFXSnackbarLayout("Failed to Open folder","OK",action -> bar.close()),Duration.INDEFINITE));
                 exception.printStackTrace();
             }
         }
     }
 
     /**
-     * Sets the preferred input folder
+     * Sets the preferred input folder. Prompts app restart
      * @param event calling event, passed by JavaFX
      */
     @FXML
@@ -118,14 +109,18 @@ public class SettingsPane {
             return;
         }
         FileManager.setInputPath(selectedDir.getPath() + File.separator);
+        FileManager.refreshPreferences();
         bar.enqueue(new JFXSnackbar.SnackbarEvent(new JFXSnackbarLayout("Input directory updated"),new Duration(1000)));
 
         //update scrollPane
         inputPathText.setText(FileManager.getInputPath());
+
+        //prompt restart
+        displayRestartAppDialog();
     }
 
     /**
-     * Sets the preferred output folder
+     * Sets the preferred output folder. Prompts app restart
      * @param event calling event, passed by JavaFX
      */
     @FXML
@@ -141,15 +136,20 @@ public class SettingsPane {
             return;
         }
         FileManager.setOutputPath(selectedDir.getPath() + File.separator);
+        FileManager.refreshPreferences();
         bar.enqueue(new JFXSnackbar.SnackbarEvent(new JFXSnackbarLayout("Input directory updated"),new Duration(1000)));
 
         //update scrollPane
         outputPathText.setText(FileManager.getOutputPath());
+
+        //prompt restart
+        displayRestartAppDialog();
     }
 
     @FXML
     void themeComboBoxHandler(ActionEvent event) {
         String item = themeComboBox.getSelectionModel().getSelectedItem();
+        prefs.put(Master.PREFERRED_THEME, item);
         App.getMasterController().setTheme(item);
     }
 
@@ -170,25 +170,60 @@ public class SettingsPane {
         osVersionText.setText(System.getProperty("os.version"));
         appVersionText.setText(App.version);
 
-        try {
-            SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory
-                    (1, Integer.MAX_VALUE, LobbyTimer.getInstance().getInitialTimerLength());
-            lobbyTimerSpinner.setValueFactory(valueFactory);
-        } catch (IOException | InvalidDataException exception) {
-            exception.printStackTrace();
-            //todo, handle
-        } catch (NoSuchElementException exception) {
-            //set initial value to 240, if getInitialTimerLength() throws error
-            SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory
-                    (1, Integer.MAX_VALUE, 240);
-            lobbyTimerSpinner.setValueFactory(valueFactory);
-        }
-
         ObservableList<String> themeList = FXCollections.observableArrayList();
         themeList.add("Skyborne Light (Default)");
         themeList.add("Skyborne Dark");
-        themeList.add("Monochrome Ocean");
+        themeList.add("Monochrome Ocean [Legacy]");
         themeComboBox.setItems(themeList);
 
+    }
+
+    /**
+     * Prompts the user if they would like to reset preferences.
+     * Calls {@link FileManager#resetPreferences()} if the user selects 'OK'.
+     * Will prompt user to restart app afterwards.
+     * @param actionEvent calling event's action details, typically handled by FXML
+     */
+    @FXML
+    public void resetPreferencesAction(ActionEvent actionEvent) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation Dialog");
+        alert.setHeaderText("Reset App Preferences");
+        alert.setContentText("Are you sure you want to do this?");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK) {
+            // ... user chose OK
+            try {
+                //reset
+                FileManager.resetPreferences();
+                //refresh prefs (alternative to a restart)
+                FileManager.refreshPreferences();
+                //prompt user for restart
+                displayRestartAppDialog();
+            } catch (BackingStoreException e) {
+                e.printStackTrace();
+                Alert error = new Alert(Alert.AlertType.ERROR);
+                error.setTitle("Error Dialog");
+                error.setHeaderText("Could Not Reset Preferences");
+                error.setContentText("An error occurred when attempting to reset the preferences to default");
+                error.showAndWait();
+            }
+        }
+    }
+
+    /**
+     * Displays a prompt to the user asking them to restart the program for their changes to take effect.
+     * If the user selects 'OK' the program will initiate shutdown.
+     */
+    private void displayRestartAppDialog() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Restart Dialog");
+        alert.setHeaderText("It is recommended that the application be restarted after performing this action.");
+        alert.setContentText("Press 'OK' to close the app now (you will have to restart manually)");
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK){
+            Platform.exit();
+        }
     }
 }

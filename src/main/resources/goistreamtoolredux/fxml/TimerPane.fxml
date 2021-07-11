@@ -1,59 +1,87 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-
-<?import de.jensd.fx.glyphs.materialdesignicons.*?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXToggleButton?>
+<?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Spinner?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="goistreamtoolredux.controller.TimerPane">
+<AnchorPane fx:id="anchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="goistreamtoolredux.controller.TimerPane">
    <children>
-      <HBox prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox alignment="TOP_CENTER" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="300.0">
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Timer">
+               <font>
+                  <Font size="17.0" />
+               </font>
+            </Text>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Lobby Timer">
-                     <font>
-                        <Font size="17.0" />
-                     </font>
-                  </Text>
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                     <children>
-                        <MaterialDesignIconView fx:id="lobbyPlay" glyphName="PLAY" onMouseClicked="#lobbyPlayClicked" size="35.0" />
-                        <MaterialDesignIconView fx:id="lobbyPause" glyphName="PAUSE" onMouseClicked="#lobbyPauseClicked" size="35" />
-                        <MaterialDesignIconView fx:id="lobbyStop" glyphName="STOP" onMouseClicked="#lobbyStopClicked" size="35" />
-                        <MaterialDesignIconView fx:id="lobbyRestart" glyphName="REPLAY" onMouseClicked="#lobbyRestartClicked" size="35" />
-                     </children>
-                  </HBox>
-                  <Label fx:id="lobbyTimerText" text="00:00">
-                     <font>
-                        <Font size="96.0" />
-                     </font>
-                  </Label>
+                  <MaterialDesignIconView fx:id="lobbyPlay" glyphName="PLAY" onMouseClicked="#lobbyPlayClicked" size="35.0" />
+                  <MaterialDesignIconView fx:id="lobbyPause" glyphName="PAUSE" onMouseClicked="#lobbyPauseClicked" size="35" />
+                  <MaterialDesignIconView fx:id="lobbyStop" glyphName="STOP" onMouseClicked="#lobbyStopClicked" size="35" />
+                  <MaterialDesignIconView fx:id="lobbyRestart" glyphName="REPLAY" onMouseClicked="#lobbyRestartClicked" size="35" />
                </children>
-            </VBox>
-            <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="300.0">
+            </HBox>
+            <Label fx:id="lobbyTimerText" text="00:00">
+               <font>
+                  <Font size="96.0" />
+               </font>
+            </Label>
+            <HBox alignment="CENTER">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Custom Timer">
-                     <font>
-                        <Font size="17.0" />
-                     </font>
-                  </Text>
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                     <children>
-                        <MaterialDesignIconView fx:id="customPlay" glyphName="PLAY" onMouseClicked="#customPlayClicked" size="35.0" />
-                        <MaterialDesignIconView fx:id="customPause" glyphName="PAUSE" onMouseClicked="#customPauseClicked" size="35" />
-                        <MaterialDesignIconView fx:id="customStop" glyphName="STOP" onMouseClicked="#customStopClicked" size="35" />
-                        <MaterialDesignIconView fx:id="customRestart" glyphName="REPLAY" onMouseClicked="#customRestartClicked" size="35" />
-                     </children>
-                  </HBox>
-                  <Label fx:id="customTimerText" text="00:00">
-                     <font>
-                        <Font size="96.0" />
-                     </font>
-                  </Label>
+                  <Label text="Timer One" />
+                  <JFXToggleButton id="timerSwitchToggler" fx:id="timerToggler" onAction="#timerTogglerAction" text="Timer Two" />
                </children>
-            </VBox>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="134.0" prefWidth="600.0">
+               <children>
+                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="300.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Timer One Length">
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                        </Text>
+                        <Spinner fx:id="timerOneSpinner" prefHeight="25.0" prefWidth="90.0" />
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="300.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Timer Two Length">
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                        </Text>
+                        <Spinner fx:id="timerTwoSpinner" prefHeight="25.0" prefWidth="90.0" />
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
          </children>
-      </HBox>
+      </VBox>
+      <BorderPane layoutX="481.0" layoutY="297.0" prefHeight="70.0" prefWidth="115.0">
+         <bottom>
+            <GridPane BorderPane.alignment="BOTTOM_RIGHT">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <JFXButton fx:id="saveButton" onAction="#save" text="Save" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
+               </children>
+               <BorderPane.margin>
+                  <Insets bottom="5.0" right="5.0" />
+               </BorderPane.margin>
+            </GridPane>
+         </bottom>
+      </BorderPane>
    </children>
 </AnchorPane>

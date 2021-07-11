@@ -5,7 +5,6 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.Text?>
 <AnchorPane fx:id="anchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="goistreamtoolredux.controller.MapPane">
    <children>
       <HBox prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -42,15 +41,6 @@
                <HBox.margin>
                   <Insets left="5.0" right="5.0" top="15.0" />
                </HBox.margin>
-            </VBox>
-            <VBox prefHeight="200.0" prefWidth="300.0">
-               <children>
-                  <Text fx:id="mapDetailText" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="290.22900390625">
-                     <VBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="15.0" />
-                     </VBox.margin>
-                  </Text>
-               </children>
             </VBox>
          </children>
       </HBox>

@@ -6,13 +6,9 @@ import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
-import javafx.application.Platform;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 
 import javax.imageio.ImageIO;
 import javax.swing.filechooser.FileSystemView;
-import java.awt.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
@@ -22,7 +18,9 @@ import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.file.*;
+import java.nio.file.attribute.FileTime;
 import java.util.*;
+import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 import java.util.stream.Stream;
 
@@ -110,7 +108,7 @@ public class FileManager {
      * Sets the preferred output path
      * @param outputPath valid path to new output folder, MUST END IN FILE SEPARATOR
      */
-    public static void setOutputPath(String outputPath) { //todo, input a Path instead?
+    public static void setOutputPath(String outputPath) {
         prefs.put(OUTPUT_FOLDER, outputPath);
     }
 
@@ -368,8 +366,6 @@ public class FileManager {
                     } catch (IOException exception) {
                         exception.printStackTrace();
                     }
-                } else {
-                    // ... user chose CANCEL or closed the dialog
                 }
             }
         });
@@ -397,8 +393,6 @@ public class FileManager {
                     exception.printStackTrace();
                 }
             }
-        } else {
-            // ... user chose CANCEL or closed the dialog
         }
     }
 
@@ -474,6 +468,33 @@ public class FileManager {
         if (timerLength.createNewFile()) {
             System.out.println("timerLength.txt was missing and has been created");
         } else System.out.println("timerLength.txt file found");
+    }
+
+    /**
+     * Updates the <code>TournamentName.txt</code> file.
+     * @param tournamentName new content for file
+     * @throws IOException if error writing to file
+     */
+    public static void setTournamentName(String tournamentName) throws IOException {
+        /*--- Update TournamentName.txt ---*/
+        Writer fileWriter = new FileWriter(outputPath + "TournamentName.txt");
+        fileWriter.write(tournamentName);
+        fileWriter.close();
+        System.out.println("TournamentName.txt Updated");
+    }
+
+    /**
+     * Gets the current tournament name from file
+     *
+     * @return current tournament name
+     * @throws FileNotFoundException tournament file could not be found
+     * @throws NoSuchElementException file contains unexpected (or no) content
+     */
+    public static String getTournamentName() throws FileNotFoundException, NoSuchElementException {
+        Scanner tourneyScanner = new Scanner(new File(outputPath + "TournamentName.txt"));
+        String firstLine = tourneyScanner.nextLine();
+        tourneyScanner.close();
+        return firstLine;
     }
 
     /**
@@ -583,10 +604,10 @@ public class FileManager {
      * E.g., used when setting "The Skyborne" as team A.
      *
      * Updates the output teamA/B image with the new team's image.
-     *  File is in the format `"Team" + teamIdentifier + ".png"`
+     *  File is in the format <code>"Team" + teamIdentifier + ".png"</code>
      * Updates the team &amp; teamShort txt files to the new team's name.
-     *  File name formatted as `"Team" + teamIdentifier + ".txt"`,
-     *  and `"TeamShort" + teamIdentifier + ".txt"`
+     *  File name formatted as <code>"Team" + teamIdentifier + ".txt"</code>,
+     *  and <code>"TeamShort" + teamIdentifier + ".txt"</code>
      *
      * @param newTeamName Name of the team. Must occur in teams.txt
      * @param teamIdentifier Value to identify team. Must be a valid character for filesystem
@@ -653,6 +674,7 @@ public class FileManager {
 
             //copy from teamLogo Path to TeamX.png
             Files.copy(teamLogo,Paths.get(outputPath + "Team" + teamIdentifier + ".png"), StandardCopyOption.REPLACE_EXISTING);
+            Files.setLastModifiedTime(Paths.get(outputPath + "Team" + teamIdentifier + ".png"), FileTime.fromMillis(System.currentTimeMillis()));
         } else { //logo not PNG
             try {
                 //convert to png
@@ -670,6 +692,7 @@ public class FileManager {
 
                     //copy from teamLogo Path to TeamX.png
                     Files.copy(Paths.get(inputPath + "team_logos" + File.separator + newTeamName + ".png"),Paths.get(outputPath + "Team" + teamIdentifier + ".png"), StandardCopyOption.REPLACE_EXISTING);
+                    Files.setLastModifiedTime(Paths.get(outputPath + "Team" + teamIdentifier + ".png"), FileTime.fromMillis(System.currentTimeMillis()));
 
                 } else {
                     System.err.println("Image could not be converted to PNG");
@@ -892,24 +915,35 @@ public class FileManager {
                         if (result.get() == ButtonType.OK) {
                             // ... user chose OK
                             Desktop.getDesktop().browse(new URI("https://github.com/RVRX/GoIStreamToolRedux/releases/latest"));
-
                         }
                     }
-                }
-                catch (IOException exception) {
-                    // there was some connection problem, or the file did not exist on the server,
-                    // or your URL was not in the right format.
-                    // think about what to do now, and put it here.
-                    exception.printStackTrace(); // for now, simply output it.
-                } catch (NoSuchElementException exception) {
-                    //scanner could not read file correctly
-                    exception.printStackTrace();
-                } catch (URISyntaxException e) {
-                    //bad uri, should never happen (or always happen)
-                    e.printStackTrace();
+                } catch (IOException | NoSuchElementException | URISyntaxException exception) {
+                    //Due to:
+                    // * No Internet
+                    // * Scanner could not read file
+                    // * Any other IO/net error with file
+
+                    //No need to do anything
+                    System.out.println("Could not check for new update");
                 }
             }
         });
     }
 
+    /**
+     * Calls {@link Preferences#clear()} on the FileManager's preference node - effectively resetting it.
+     * @implNote Does not guarantee full refresh of preferences in app until after a restart.
+     * @throws BackingStoreException if could not complete clear due to failure relating to the backing store
+     */
+    public static void resetPreferences() throws BackingStoreException {
+        prefs.clear();
+    }
+
+    /**
+     * Attempts to refresh the application's preferences.
+     */
+    public static void refreshPreferences() {
+        inputPath = getInputPath();
+        outputPath = getOutputPath();
+    }
 }

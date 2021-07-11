@@ -103,7 +103,12 @@ public class LobbyTimer extends Timers {
         }
 
         //write initial timer length to Timer.txt
-        set(getInitialTimerLength());
+        try {
+            set(getInitialTimerLength());
+        } catch (NoSuchElementException exception) {
+            App.showExceptionDialog(exception, "Error starting/restarting timer.", "Please go to the settings page and specify a lobby timer length, and save it (Cmd+S), before attempting to start the timer.");
+            return;
+        }
 
         //start
         start();

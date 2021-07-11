@@ -165,4 +165,27 @@ public class AlgorithmTest {
         assertEquals(FileManager.getDefaultInputPath(), FileManager.getInputPath());
     }
 
+    @Test
+    public void gettingTeamFromDisk() {
+        try {
+            FileManager.setTeam("Cult of Phobos","X");
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
+
+        assertEquals("Cult of Phobos", Team.getTeamFromDisk("X"));
+
+
+
+
+        try {
+            FileManager.setTeam("The Pomelos","X");
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
+
+        assertEquals("The Pomelos", Team.getTeamFromDisk("X"));
+
+    }
+
 }

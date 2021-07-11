@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Guns of Icarus Caster Companion"
-#define MyAppVersion "0.5.1"
+#define MyAppVersion "1.0.0"
 #define MyAppPublisher "Cole Manning, RVRX"
 #define MyAppURL "https://goicc.skyborne.net/"
 #define MyAppExeName "GoICasterCompanion.exe"

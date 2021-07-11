@@ -3,11 +3,17 @@ package goistreamtoolredux.algorithm;
 import java.io.*;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
+import java.util.prefs.Preferences;
 
 public class Timers {
 
 //    private Timer currentTimer;
 //    protected boolean isTimerRunning = false;
+
+    private static Preferences prefs = Preferences.userRoot().node("/goistreamtoolredux/algorithm");
+    private static final String TIMER_ONE_LENGTH = "timer_one_length";
+    private static final String TIMER_TWO_LENGTH = "timer_two_length";
+    private static final String IS_TIMER_ONE = "is_timer_one";
 
     //File paths
     String timerLength = FileManager.inputPath + "TimerLength.txt";
@@ -22,11 +28,16 @@ public class Timers {
      * @see #getInitialTimerLength()
      */
     public void setInitialTimerLength(int seconds) throws IOException, IllegalArgumentException {
-        if (seconds <= 0) throw new IllegalArgumentException("Cannot set initial timer value to 0");
-        //open TimerLength file and set a new value
-        Writer fileWriter = new FileWriter(timerLength);
-        fileWriter.write(String.valueOf(seconds));
-        fileWriter.close();
+//        if (seconds <= 0) throw new IllegalArgumentException("Cannot set initial timer value to 0");
+//        //open TimerLength file and set a new value
+//        Writer fileWriter = new FileWriter(timerLength);
+//        fileWriter.write(String.valueOf(seconds));
+//        fileWriter.close();
+        prefs.putInt(TIMER_TWO_LENGTH, seconds);
+    }
+
+    public void setInitialTimerTwoLength(int seconds) {
+        prefs.putInt(TIMER_TWO_LENGTH, seconds);
     }
 
 
@@ -34,18 +45,21 @@ public class Timers {
      * Gets the total length of the timer. Not to be confused with the current length,
      * this value is where the timer will go to when restarting or starting after a stop.
      *
+     * Gotten from the preferences API, defaults to 240 if no preference set yet.
+     *
      * @return timer length in seconds
      * @throws IOException
      * @throws NoSuchElementException TimerLength.txt contains an unexpected character.
      * @see #setInitialTimerLength(int)
      */
     public int getInitialTimerLength() throws IOException, NoSuchElementException, InvalidDataException {
-        //open TimerLength file and gets the current value
-        File timerSettings = new File(timerLength);
-        Scanner scanner = new Scanner(timerSettings);
-        int value = scanner.nextInt();
-        if (value <= 0) throw new InvalidDataException("TimerLength.txt cannot contain a non-postive value");
-        return value;
+        if (prefs.getBoolean(IS_TIMER_ONE, true)) {
+            //if timer one is selected, or must be defaulted to
+            return prefs.getInt(TIMER_ONE_LENGTH, 240);
+        } else {
+            //if timer two is selected
+            return prefs.getInt(TIMER_TWO_LENGTH, 240);
+        }
     }
 
 
