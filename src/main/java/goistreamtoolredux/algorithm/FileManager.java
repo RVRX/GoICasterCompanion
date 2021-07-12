@@ -865,7 +865,7 @@ public class FileManager {
     }
 
     /**
-     * Returns 1 if <code>v1 > v2</code>, -1 otherwise
+     * Returns 1 if <code>v1 &gt; v2</code>, -1 otherwise
      * @param version1
      * @param version2
      * @return
@@ -932,7 +932,9 @@ public class FileManager {
 
     /**
      * Calls {@link Preferences#clear()} on the FileManager's preference node - effectively resetting it.
-     * @implNote Does not guarantee full refresh of preferences in app until after a restart.
+     *
+     * Does not guarantee full refresh of preferences in app until after a restart.
+     *
      * @throws BackingStoreException if could not complete clear due to failure relating to the backing store
      */
     public static void resetPreferences() throws BackingStoreException {
