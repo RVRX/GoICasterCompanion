@@ -13,4 +13,4 @@ The [latest release](https://github.com/RVRX/GoICasterCompanion/releases/latest)
 A Jar version is also available for other operating systems (libraries should be bundled into the JAR, might need Java 8 Installed).
 
 ## Documentation
-For application usage see https://goicc.skyborne.net/#usage. For API documentation see https://goicc.skyborne.net/javadoc
+For application usage see https://goicc.skyborne.net/#usage. For API documentation see https://goicc.skyborne.net/javadoc (The bulk of which is in the [FileManager](https://goicc.skyborne.net/javadoc/goistreamtoolredux/algorithm/FileManager) class)
