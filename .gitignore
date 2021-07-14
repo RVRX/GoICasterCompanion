@@ -1,3 +1,6 @@
+# Mac OS Finder files
+*.DS_Store
+
 # Prerequisites
 *.d
 
