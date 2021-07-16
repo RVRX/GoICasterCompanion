@@ -22,7 +22,7 @@ dependencies {
             group: 'de.jensd', name: 'fontawesomefx', version: '8.9', // https://mvnrepository.com/artifact/de.jensd/fontawesomefx
     )
 
-    testCompile(
+    testImplementation(
             "org.testfx:testfx-core:4.0.16-alpha",
             'org.junit.jupiter:junit-jupiter:5.6.0',
             'org.testfx:testfx-junit5:4.0.16-alpha',
@@ -67,4 +67,10 @@ task nonFatJar(type: Jar) {
     manifest {
         attributes 'Main-Class': mainClassName
     }
+}
+
+
+
+application {
+    applicationDefaultJvmArgs = ['--add-opens java.base/sun.javafx=ALL-UNNAMED'] //needed for Preloader call...
 }
