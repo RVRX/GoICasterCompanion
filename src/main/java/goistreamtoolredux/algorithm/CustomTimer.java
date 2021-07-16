@@ -141,8 +141,6 @@ class CountdownTimerCustom extends TimerTask {
             exception.printStackTrace();
         } catch (IOException exception) {
             exception.printStackTrace();
-        } catch (InvalidDataException exception) {
-            exception.printStackTrace();
         }
     }
 }
