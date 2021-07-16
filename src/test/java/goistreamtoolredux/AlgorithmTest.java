@@ -66,12 +66,6 @@ public class AlgorithmTest {
     }
 
     @Test
-    public void getSCSBracketsTest() {
-        FileManager.getScsBracket(353);
-    }
-
-
-    @Test
     public void setOutputPathPreference() {
         String foo; // 'outputTest' directory
         if (System.getProperty("os.name").toLowerCase().contains("mac os")) {
