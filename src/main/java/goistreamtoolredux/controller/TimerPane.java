@@ -70,6 +70,7 @@ public class TimerPane {
     private static final String TIMER_ONE_LENGTH = "timer_one_length";
     private static final String TIMER_TWO_LENGTH = "timer_two_length";
     private static final String IS_TIMER_ONE = "is_timer_one";
+    private static final String TIMER_END_TEXT = "timer_end_text";
 
 
 
@@ -165,6 +166,9 @@ public class TimerPane {
         //init timer 2 spinner
         initTimerSpinner(timerTwoSpinner, prefs.getInt(TIMER_TWO_LENGTH, 240));
 
+        //init value for end text TextField
+        timerEndTextField.setText(prefs.get(TIMER_END_TEXT, "0:00"));
+
     }
 
     static void initTimerSpinner(Spinner<Integer> timerSpinner, int initialLength) {
@@ -225,7 +229,9 @@ public class TimerPane {
             exception.printStackTrace();
         }
 
-        //todo update the finished preference
+        //update timer end text
+        prefs.put(TIMER_END_TEXT, timerEndTextField.getText());
+        System.out.println("updating end preference: " + prefs.get(TIMER_END_TEXT, "NOT THERE?"));
     }
 
 }
