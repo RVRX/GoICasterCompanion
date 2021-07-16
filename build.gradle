@@ -68,9 +68,3 @@ task nonFatJar(type: Jar) {
         attributes 'Main-Class': mainClassName
     }
 }
-
-
-
-application {
-    applicationDefaultJvmArgs = ['--add-opens java.base/sun.javafx=ALL-UNNAMED'] //needed for Preloader call...
-}
