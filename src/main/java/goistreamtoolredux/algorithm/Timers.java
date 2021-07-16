@@ -82,6 +82,9 @@ public class Timers {
      * Gets the <b>current</b> value of the timer.
      * If the timer file is empty or invalid, the file will be fixed,
      * and the default length (TimerLength.txt will be returned)
+     *
+     * @// TODO: 7/15/21 remove TimerLength.txt logic! Depreciated and unexpected
+     *
      * @return time left in seconds.
      * @throws FileNotFoundException timer.txt cannot be found
      * @throws InvalidDataException incorrect values in TimerLength.txt
@@ -91,7 +94,14 @@ public class Timers {
         File timerSettings = new File(timerTXT);
         Scanner scanner = new Scanner(timerSettings);
         try {
-            return convertFromMinuteFormat(scanner.nextLine());
+            int foo = convertFromMinuteFormat(scanner.nextLine());
+            return foo;
+        } catch (NumberFormatException exception) {
+            //occurs when timer.txt does not contain int - this can be because of user input
+            // but more commonly due to user setting their own end text in the file.
+            // in this case, we just return the preferred length.
+            return getInitialTimerLength();
+
         } catch (NoSuchElementException e) {
             //timer file is empty or invalid.
             //write value of "TimerLength.txt" to "Timer.txt", and return such
