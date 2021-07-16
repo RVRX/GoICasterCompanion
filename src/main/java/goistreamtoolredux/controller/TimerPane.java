@@ -1,9 +1,6 @@
 package goistreamtoolredux.controller;
 
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXSnackbar;
-import com.jfoenix.controls.JFXSnackbarLayout;
-import com.jfoenix.controls.JFXToggleButton;
+import com.jfoenix.controls.*;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
 import goistreamtoolredux.App;
 import goistreamtoolredux.algorithm.FileManager;
@@ -56,6 +53,9 @@ public class TimerPane {
     @FXML // fx:id="timerToggler"
     private JFXToggleButton timerToggler; // Value injected by FXMLLoader
 
+    @FXML // fx:id="timerEndTextField"
+    private JFXTextField timerEndTextField; // Value injected by FXMLLoader
+
     @FXML // fx:id="timerOneSpinner"
     private Spinner<Integer> timerOneSpinner; // Value injected by FXMLLoader
 
@@ -70,8 +70,6 @@ public class TimerPane {
     private static final String TIMER_ONE_LENGTH = "timer_one_length";
     private static final String TIMER_TWO_LENGTH = "timer_two_length";
     private static final String IS_TIMER_ONE = "is_timer_one";
-
-
 
 
 
@@ -226,6 +224,8 @@ public class TimerPane {
             //todo
             exception.printStackTrace();
         }
+
+        //todo update the finished preference
     }
 
 }
