@@ -94,8 +94,7 @@ public class Timers {
         File timerSettings = new File(timerTXT);
         Scanner scanner = new Scanner(timerSettings);
         try {
-            int foo = convertFromMinuteFormat(scanner.nextLine());
-            return foo;
+            return convertFromMinuteFormat(scanner.nextLine());
         } catch (NumberFormatException exception) {
             //occurs when timer.txt does not contain int - this can be because of user input
             // but more commonly due to user setting their own end text in the file.
