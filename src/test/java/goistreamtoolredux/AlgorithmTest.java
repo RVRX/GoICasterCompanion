@@ -5,6 +5,7 @@ import goistreamtoolredux.algorithm.LobbyTimer;
 import goistreamtoolredux.algorithm.Team;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -20,6 +21,16 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * Tests for Algorithm (Non-UI tests)
  */
 public class AlgorithmTest {
+
+    @BeforeAll
+    static void verify() {
+        try {
+            FileManager.verifyContent();
+        } catch (IOException exception) {
+            exception.printStackTrace();
+            System.err.println("Could not verify content for tests!");
+        }
+    }
 
     @Test
     public void readTeamsFromDiskTest() throws IOException {
