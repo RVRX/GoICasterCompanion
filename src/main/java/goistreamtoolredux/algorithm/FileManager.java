@@ -239,7 +239,7 @@ public class FileManager {
                 break;
 
             case "timer set":
-                LobbyTimer timer = LobbyTimer.getInstance();
+                AppTimer timer = AppTimer.getInstance();
                 try {
                     System.out.println("How many seconds would you like to set the timer for");
                     int setTime = scanner.nextInt();
@@ -259,7 +259,7 @@ public class FileManager {
 
             case "timer start":
                 try {
-                    LobbyTimer.getInstance().start();
+                    AppTimer.getInstance().start();
                 } catch (IOException exception) {
                     exception.printStackTrace();
                 } catch (NoSuchElementException exception) {
@@ -271,7 +271,7 @@ public class FileManager {
 
             case "timer stop":
                 try {
-                    LobbyTimer.getInstance().stop();
+                    AppTimer.getInstance().stop();
                     System.out.println("Stopped!");
                 } catch (IOException exception) {
                     exception.printStackTrace();
@@ -279,12 +279,12 @@ public class FileManager {
                 break;
 
             case "timer pause":
-                LobbyTimer.getInstance().pause();
+                AppTimer.getInstance().pause();
                 break;
 
             case "timer restart": case "timer reset":
                 try {
-                    LobbyTimer.getInstance().restart();
+                    AppTimer.getInstance().restart();
                 } catch (IOException | InvalidDataException exception) {
                     exception.printStackTrace();
                 }

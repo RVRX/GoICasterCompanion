@@ -2,7 +2,7 @@ package goistreamtoolredux;
 
 import goistreamtoolredux.algorithm.FileManager;
 import goistreamtoolredux.algorithm.InvalidDataException;
-import goistreamtoolredux.algorithm.LobbyTimer;
+import goistreamtoolredux.algorithm.AppTimer;
 import goistreamtoolredux.algorithm.Team;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -25,16 +25,16 @@ public class AlgorithmTest {
 
     @Test
     public void settingAndGettingInitialTimerTest() throws IOException, InvalidDataException {
-        LobbyTimer lobbyTimer = LobbyTimer.getInstance();
+        AppTimer appTimer = AppTimer.getInstance();
 
         //10
-        lobbyTimer.setInitialTimerLength(10);
-        assertEquals(10, lobbyTimer.getInitialTimerLength());
+        appTimer.setInitialTimerLength(10);
+        assertEquals(10, appTimer.getInitialTimerLength());
 
 
         //120
-        lobbyTimer.setInitialTimerLength(120);
-        assertEquals(120, lobbyTimer.getInitialTimerLength());
+        appTimer.setInitialTimerLength(120);
+        assertEquals(120, appTimer.getInitialTimerLength());
 
         Exception exception = assertThrows(NumberFormatException.class, () -> {
             Integer.parseInt("1a");
@@ -53,7 +53,7 @@ public class AlgorithmTest {
         // due to start calling restart if timer is 0, and restart starting from the initial value (which would be 0)
         // then calling start
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-           LobbyTimer.getInstance().setInitialTimerLength(0);
+           AppTimer.getInstance().setInitialTimerLength(0);
         });
     }
 
@@ -75,20 +75,20 @@ public class AlgorithmTest {
 
     @Test
     public void convertToMinTest() {
-        assertEquals("3:20", LobbyTimer.convertToMinuteFormat(200));
-        assertEquals("0:59", LobbyTimer.convertToMinuteFormat(59));
-        assertEquals("1:00", LobbyTimer.convertToMinuteFormat(60));
-        assertEquals("34:12", LobbyTimer.convertToMinuteFormat(2052));
+        assertEquals("3:20", AppTimer.convertToMinuteFormat(200));
+        assertEquals("0:59", AppTimer.convertToMinuteFormat(59));
+        assertEquals("1:00", AppTimer.convertToMinuteFormat(60));
+        assertEquals("34:12", AppTimer.convertToMinuteFormat(2052));
     }
 
     @Test
     public void convertFromMinTest() {
-        assertEquals(60, LobbyTimer.convertFromMinuteFormat("01:00"));
-        assertEquals(60, LobbyTimer.convertFromMinuteFormat("1:00"));
-        assertEquals(200, LobbyTimer.convertFromMinuteFormat("03:20"));
-        assertEquals(200, LobbyTimer.convertFromMinuteFormat("3:20"));
-        assertEquals(0, LobbyTimer.convertFromMinuteFormat("00:00"));
-        assertEquals(0, LobbyTimer.convertFromMinuteFormat("0:00"));
+        assertEquals(60, AppTimer.convertFromMinuteFormat("01:00"));
+        assertEquals(60, AppTimer.convertFromMinuteFormat("1:00"));
+        assertEquals(200, AppTimer.convertFromMinuteFormat("03:20"));
+        assertEquals(200, AppTimer.convertFromMinuteFormat("3:20"));
+        assertEquals(0, AppTimer.convertFromMinuteFormat("00:00"));
+        assertEquals(0, AppTimer.convertFromMinuteFormat("0:00"));
     }
 
     @Test

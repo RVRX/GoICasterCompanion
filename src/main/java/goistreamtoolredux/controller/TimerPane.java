@@ -3,9 +3,9 @@ package goistreamtoolredux.controller;
 import com.jfoenix.controls.*;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
 import goistreamtoolredux.App;
+import goistreamtoolredux.algorithm.AppTimer;
 import goistreamtoolredux.algorithm.FileManager;
 import goistreamtoolredux.algorithm.InvalidDataException;
-import goistreamtoolredux.algorithm.LobbyTimer;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -76,13 +76,13 @@ public class TimerPane {
 
     @FXML
     void lobbyPauseClicked(MouseEvent event) {
-        LobbyTimer.getInstance().pause();
+        AppTimer.getInstance().pause();
     }
 
     @FXML
     void lobbyPlayClicked(MouseEvent event) {
         try {
-            LobbyTimer.getInstance().start();
+            AppTimer.getInstance().start();
         } catch (IOException exception) {
             exception.printStackTrace();
             //todo handle
@@ -95,7 +95,7 @@ public class TimerPane {
     @FXML
     void lobbyRestartClicked(MouseEvent event) {
         try {
-            LobbyTimer.getInstance().restart();
+            AppTimer.getInstance().restart();
         } catch (IOException exception) {
             exception.printStackTrace();
             //todo handle
@@ -109,7 +109,7 @@ public class TimerPane {
     @FXML
     void lobbyStopClicked(MouseEvent event) {
         try {
-            LobbyTimer.getInstance().stop();
+            AppTimer.getInstance().stop();
             lobbyTimerText.setText("0");
         } catch (IOException exception) {
             exception.printStackTrace();
@@ -136,7 +136,7 @@ public class TimerPane {
 
         //get initial lobby timer length
         try {
-            lobbyTimerText.setText(String.valueOf(LobbyTimer.getInstance().get()));
+            lobbyTimerText.setText(String.valueOf(AppTimer.getInstance().get()));
         } catch (FileNotFoundException exception) {
             //if file is not found - then there is no current timer, so the default '00:00' is what we want
             // so no changes need to be made
@@ -217,7 +217,7 @@ public class TimerPane {
         anchorPane.requestFocus(); //pulls focus away from spinners - allowing them to update their values
         JFXSnackbar bar = new JFXSnackbar(anchorPane);
         try {
-            LobbyTimer.getInstance().setInitialTimerLength(timerOneSpinner.getValue());
+            AppTimer.getInstance().setInitialTimerLength(timerOneSpinner.getValue());
             prefs.putInt(TIMER_ONE_LENGTH, timerOneSpinner.getValue());
             prefs.putInt(TIMER_TWO_LENGTH, timerTwoSpinner.getValue());
             bar.enqueue(new JFXSnackbar.SnackbarEvent(new JFXSnackbarLayout("Saving Timers"),new Duration(1000)));

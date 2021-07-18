@@ -16,9 +16,9 @@ import java.util.prefs.Preferences;
  * Singleton timer class.
  * Warning: gets confusing with all the uses of timer as a word, vs the actual JDK Timer class.
  */
-public class LobbyTimer extends Timers {
+public class AppTimer extends Timers {
 
-    private static LobbyTimer singleton = new LobbyTimer();
+    private static AppTimer singleton = new AppTimer();
     private Timer currentTimer;
     protected boolean isTimerRunning = false;
 
@@ -26,10 +26,10 @@ public class LobbyTimer extends Timers {
         return currentTimer;
     }
 
-    private LobbyTimer() {}
+    private AppTimer() {}
 
     /* Static 'instance' method */
-    public static LobbyTimer getInstance() {
+    public static AppTimer getInstance() {
         return singleton;
     }
 
@@ -131,13 +131,13 @@ class CountdownTimer extends TimerTask {
 
         /*todo, implement lock*/
 
-        LobbyTimer timer = LobbyTimer.getInstance();
+        AppTimer timer = AppTimer.getInstance();
 
         try {
             int currentTime = timer.get();
             if (currentTime <= 0) {
                 System.out.println("Timer Finished!\n>");
-                LobbyTimer.getInstance().isTimerRunning = false;
+                AppTimer.getInstance().isTimerRunning = false;
                 timer.getCurrentTimer().cancel();
 
                 //set timer text to be the preferred text upon ending
