@@ -149,9 +149,6 @@ public class TimerPane {
                 e.printStackTrace();
                 //todo, handle failed file creation
             }
-        } catch (InvalidDataException invalidDataException) {
-            invalidDataException.printStackTrace();
-            //todo handle
         } catch (IOException exception) {
             exception.printStackTrace();
             //todo handle
