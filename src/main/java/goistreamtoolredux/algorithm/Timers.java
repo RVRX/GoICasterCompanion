@@ -48,11 +48,9 @@ public class Timers {
      * Gotten from the preferences API, defaults to 240 if no preference set yet.
      *
      * @return timer length in seconds
-     * @throws IOException
-     * @throws NoSuchElementException TimerLength.txt contains an unexpected character.
      * @see #setInitialTimerLength(int)
      */
-    public int getInitialTimerLength() throws IOException, NoSuchElementException, InvalidDataException {
+    public int getInitialTimerLength() {
         if (prefs.getBoolean(IS_TIMER_ONE, true)) {
             //if timer one is selected, or must be defaulted to
             return prefs.getInt(TIMER_ONE_LENGTH, 240);
@@ -80,33 +78,31 @@ public class Timers {
 
     /**
      * Gets the <b>current</b> value of the timer.
-     * If the timer file is empty or invalid, the file will be fixed,
-     * and the default length (TimerLength.txt will be returned)
+     * If the timer file is empty or invalid, the default timer will be retrieved
+     *
      * @return time left in seconds.
      * @throws FileNotFoundException timer.txt cannot be found
-     * @throws InvalidDataException incorrect values in TimerLength.txt
      */
-    public int get() throws IOException, InvalidDataException {
+    public int get() throws IOException {
         //open Timer.txt and scan first integer
         File timerSettings = new File(timerTXT);
         Scanner scanner = new Scanner(timerSettings);
         try {
             return convertFromMinuteFormat(scanner.nextLine());
-        } catch (NoSuchElementException e) {
-            //timer file is empty or invalid.
-            //write value of "TimerLength.txt" to "Timer.txt", and return such
-            Writer fileWriter = new FileWriter(timerTXT);
-            try {
-                fileWriter.write(convertToMinuteFormat(getInitialTimerLength()));
-            } catch (NoSuchElementException | InvalidDataException exception) {
-                //getInitial error, so write new value to getInitial
-                Writer fileWriterInitial = new FileWriter(FileManager.inputPath + "TimerLength.txt");
-                fileWriterInitial.write(240);
-                fileWriterInitial.close();
-            }
-            fileWriter.close();
+        } catch (NumberFormatException | NoSuchElementException exception) {
+            /*
+            NumberFormatException:
+             occurs when timer.txt does not contain int - this can be because of user input
+             but more commonly due to user setting their own end text in the file.
+             in this case, we just return the preferred length.
+            NoSuchElementException:
+             timer file is empty (no line found)
+             return preferred timer start value
+             */
+
+            return getInitialTimerLength();
+
         }
-        return 240;
     }
 
     /**

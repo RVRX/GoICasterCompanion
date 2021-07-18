@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
 <?import com.jfoenix.controls.JFXToggleButton?>
 <?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
 <?import javafx.geometry.Insets?>
@@ -34,6 +35,11 @@
                <children>
                   <Label text="Timer One" />
                   <JFXToggleButton id="timerSwitchToggler" fx:id="timerToggler" onAction="#timerTogglerAction" text="Timer Two" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <JFXTextField fx:id="timerEndTextField" promptText="Timer End Text" />
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="134.0" prefWidth="600.0">

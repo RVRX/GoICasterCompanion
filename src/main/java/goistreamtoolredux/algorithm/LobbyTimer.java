@@ -4,10 +4,13 @@ import goistreamtoolredux.App;
 import goistreamtoolredux.controller.TimerPane;
 
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Writer;
 import java.util.NoSuchElementException;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.prefs.Preferences;
 
 /**
  * Singleton timer class.
@@ -136,6 +139,11 @@ class CountdownTimer extends TimerTask {
                 System.out.println("Timer Finished!\n>");
                 LobbyTimer.getInstance().isTimerRunning = false;
                 timer.getCurrentTimer().cancel();
+
+                //set timer text to be the preferred text upon ending
+                Writer fileWriter = new FileWriter(FileManager.outputPath + "Timer.txt");
+                fileWriter.write(Preferences.userRoot().node("/goistreamtoolredux/algorithm").get("timer_end_text","0:00"));
+                fileWriter.close();
             } else {
                 timer.set(currentTime - 1);
                 TimerPane timerPaneController = (TimerPane) App.getMasterController().getTimerPaneController();
