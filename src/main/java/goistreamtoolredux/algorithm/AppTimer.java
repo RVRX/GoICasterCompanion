@@ -21,9 +21,17 @@ public class AppTimer extends Timers {
     private static AppTimer singleton = new AppTimer();
     private Timer currentTimer;
     protected boolean isTimerRunning = false;
+    private long startTime;
+    private int currentTimerStartLength;
 
     public Timer getCurrentTimer() {
         return currentTimer;
+    }
+    public long getStartTime() {
+        return startTime;
+    }
+    public int getCurrentTimerStartLength() {
+        return currentTimerStartLength;
     }
 
     private AppTimer() {}
@@ -48,6 +56,14 @@ public class AppTimer extends Timers {
                 restart();
             } else { //otherwise, resume from last position by starting goistreamtoolredux.algorithm.CountdownTimer task
                 isTimerRunning = true;
+
+                //set start time/date
+                startTime = System.currentTimeMillis();
+
+                //set length this timer will use
+                currentTimerStartLength = getInitialTimerLength();
+
+                //set up and start TimerTask
                 currentTimer = new Timer();
                 TimerTask task = new CountdownTimer();
                 currentTimer.schedule(task,0, 1000);
@@ -121,21 +137,17 @@ public class AppTimer extends Timers {
 
 /**
  * Begins countdown from current value in the <code>Timer.txt</code> file. {@link TimerTask} to be scheduled in {@link Timer#schedule(TimerTask, long, long)} for the countdown timer system.
- * @implNote Be careful with scheduling this function too fast/often, it doesn't implement any
- * file locks and is not atomic as of the current version.
  * @implNote Does not use system clock (or at least efficiently. Timer will start to lag behind if more system resources are used or application is active with other tasks
  */
 class CountdownTimer extends TimerTask {
 
     public void run() {
 
-        /*todo, implement lock*/
-
         AppTimer timer = AppTimer.getInstance();
 
         try {
-            int currentTime = timer.get();
-            if (currentTime <= 0) {
+            int currentFileTime = timer.get();
+            if (currentFileTime <= 0) { //timer has reached 0
                 System.out.println("Timer Finished!\n>");
                 AppTimer.getInstance().isTimerRunning = false;
                 timer.getCurrentTimer().cancel();
@@ -144,10 +156,16 @@ class CountdownTimer extends TimerTask {
                 Writer fileWriter = new FileWriter(FileManager.outputPath + "Timer.txt");
                 fileWriter.write(Preferences.userRoot().node("/goistreamtoolredux/algorithm").get("timer_end_text","0:00"));
                 fileWriter.close();
-            } else {
-                timer.set(currentTime - 1);
+            } else { //timer still has more to count
+
+                //get new time for timer
+                long elapsedSinceStartMilli = System.currentTimeMillis() - timer.getStartTime();
+                // timerLength - timeSinceStart
+                long foo = timer.getCurrentTimerStartLength() - (elapsedSinceStartMilli/1000);
+
+                timer.set(Math.toIntExact(foo)); //todo catch ArithmeticException
                 TimerPane timerPaneController = (TimerPane) App.getMasterController().getTimerPaneController();
-                timerPaneController.setLobbyTimerText(String.valueOf(currentTime - 1));
+                timerPaneController.setLobbyTimerText(String.valueOf(foo));
             }
         } catch (FileNotFoundException exception) {
             exception.printStackTrace();

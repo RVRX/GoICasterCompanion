@@ -70,7 +70,7 @@ public class Timers {
     }
 
     /**
-     * Gets the <b>current</b> value of the timer.
+     * Gets the <b>current</b> value of <code>timer.txt</code>.
      * If the timer file is empty or invalid, the default timer will be retrieved
      *
      * @return time left in seconds.
