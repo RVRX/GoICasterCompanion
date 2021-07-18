@@ -1,11 +1,11 @@
 package goistreamtoolredux;
 
 import goistreamtoolredux.algorithm.FileManager;
-import goistreamtoolredux.algorithm.InvalidDataException;
 import goistreamtoolredux.algorithm.LobbyTimer;
 import goistreamtoolredux.algorithm.Team;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -15,7 +15,6 @@ import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
 /**
@@ -23,40 +22,15 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  */
 public class AlgorithmTest {
 
-    @Test
-    public void settingAndGettingInitialTimerTest() throws IOException, InvalidDataException {
-        LobbyTimer lobbyTimer = LobbyTimer.getInstance();
-
-        //10
-        lobbyTimer.setInitialTimerLength(10);
-        assertEquals(10, lobbyTimer.getInitialTimerLength());
-
-
-        //120
-        lobbyTimer.setInitialTimerLength(120);
-        assertEquals(120, lobbyTimer.getInitialTimerLength());
-
-        Exception exception = assertThrows(NumberFormatException.class, () -> {
-            Integer.parseInt("1a");
-        });
+    @BeforeAll
+    static void verify() {
+        try {
+            FileManager.verifyContent();
+        } catch (IOException exception) {
+            exception.printStackTrace();
+            System.err.println("Could not verify content for tests!");
+        }
     }
-
-    /**
-     * setting initial value to 0 is not allowed. Would cause a loop of
-     * <pre>start() -> restart() -> start()</pre>
-     * due to start calling restart if timer is 0, and restart starting
-     * from the initial value (which would be 0), then calling start.
-     */
-    @Test
-    public void exceptionSetInitialTimerInvalidTest() {
-        //setting initial value to 0 is not allowed. Would cause a "start() -> restart() -> start()" loop
-        // due to start calling restart if timer is 0, and restart starting from the initial value (which would be 0)
-        // then calling start
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-           LobbyTimer.getInstance().setInitialTimerLength(0);
-        });
-    }
-
 
     @Test
     public void readTeamsFromDiskTest() throws IOException {
@@ -90,12 +64,6 @@ public class AlgorithmTest {
         assertEquals(0, LobbyTimer.convertFromMinuteFormat("00:00"));
         assertEquals(0, LobbyTimer.convertFromMinuteFormat("0:00"));
     }
-
-    @Test
-    public void getSCSBracketsTest() {
-        FileManager.getScsBracket(353);
-    }
-
 
     @Test
     public void setOutputPathPreference() {
