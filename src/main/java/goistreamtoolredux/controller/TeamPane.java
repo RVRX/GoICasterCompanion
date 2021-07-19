@@ -10,6 +10,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -23,6 +25,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Collections;
 import java.util.LinkedList;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class TeamPane {
@@ -375,14 +378,25 @@ public class TeamPane {
      * Clears the currently selected data, and empties the associated files.
      */
     public void clear() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation Dialog");
+        alert.setHeaderText("Output files will be cleared");
+        alert.setContentText("This action does not need saving, and will be executed immediately. Are you ok with this?");
 
-        //clear UI
-        teamAComboBox.getSelectionModel().clearSelection(); //change is heard by FXML!
-        teamBComboBox.getSelectionModel().clearSelection();
-        teamCComboBox.getSelectionModel().clearSelection();
-        teamDComboBox.getSelectionModel().clearSelection();
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK){
+            // ... user chose OK
 
-        //clear files
-        save();
+            //clear UI
+            teamAComboBox.getSelectionModel().clearSelection(); //change is heard by FXML!
+            teamBComboBox.getSelectionModel().clearSelection();
+            teamCComboBox.getSelectionModel().clearSelection();
+            teamDComboBox.getSelectionModel().clearSelection();
+
+            //clear files
+            save();
+        } else {
+            // ... user chose CANCEL or closed the dialog
+        }
     }
 }
