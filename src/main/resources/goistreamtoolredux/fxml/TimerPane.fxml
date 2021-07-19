@@ -68,7 +68,7 @@
             </HBox>
          </children>
       </VBox>
-      <BorderPane layoutX="481.0" layoutY="297.0" prefHeight="70.0" prefWidth="115.0">
+      <BorderPane layoutX="481.0" layoutY="297.0" prefHeight="70.0" prefWidth="115.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <bottom>
             <GridPane BorderPane.alignment="BOTTOM_RIGHT">
                <columnConstraints>
