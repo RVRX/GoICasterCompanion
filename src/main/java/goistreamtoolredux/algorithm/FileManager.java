@@ -948,4 +948,36 @@ public class FileManager {
         inputPath = getInputPath();
         outputPath = getOutputPath();
     }
+
+    /**
+     * Remove the currently set team from given team letter/identifier.
+     * Cancels out the actions done by {@link #setTeam(String, String)}
+     * @param teamIdentifier Value to identify team. Must be a valid character for filesystem
+     */
+    public static void removeTeam(String teamIdentifier) throws IOException {
+        /*--- Update TXTs ---*/
+
+        //get file names
+        String teamTXT = "Team" + teamIdentifier + ".txt";
+        String teamShortTXT = "TeamShort" + teamIdentifier + ".txt";
+
+        //update output file "TeamShortX.txt"
+        Writer fileWriter2 = new FileWriter(outputPath + teamShortTXT); //TeamShortX.txt
+        fileWriter2.write(""); //write shortName to file
+        fileWriter2.close();
+        System.out.println(teamShortTXT + " updated.");
+
+        //update output file "TeamX.txt"
+        Writer fileWriter = new FileWriter(outputPath + teamTXT); //TeamX.txt
+        fileWriter.write("");
+        fileWriter.close();
+        System.out.println(teamTXT + " updated.");
+
+
+        /*--- Remove Image ---*/
+        File outputTeamLogo = new File(outputPath + "Team" + teamIdentifier + ".png");
+        if (outputTeamLogo.exists()) {
+            outputTeamLogo.delete();
+        }
+    }
 }

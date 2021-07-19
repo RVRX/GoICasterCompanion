@@ -102,6 +102,26 @@ public class Master {
                     break;
             }
         }
+        else if ((keyEvent.isMetaDown() && keyEvent.getText().equalsIgnoreCase("w")) || (keyEvent.isControlDown() && keyEvent.getText().equalsIgnoreCase("w"))) {
+            switch (currentPage) {
+                case "/goistreamtoolredux/fxml/TeamPane.fxml":
+                    //save team content
+                    teamPaneController.clear();
+                    break;
+                case "/goistreamtoolredux/fxml/MapPane.fxml":
+                    mapPaneController.save();
+                    break;
+                case "/goistreamtoolredux/fxml/TournamentPane.fxml":
+                    tournamentPaneController.saveChanges(null);
+                    break;
+                case "/goistreamtoolredux/fxml/SettingsPane.fxml":
+                    settingsPaneController.save();
+                    break;
+                case "/goistreamtoolredux/fxml/TimerPane.fxml":
+                    timerPaneController.save(null);
+                    break;
+            }
+        }
     }
 
     @FXML
