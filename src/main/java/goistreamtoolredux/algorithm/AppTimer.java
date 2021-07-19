@@ -23,6 +23,7 @@ public class AppTimer extends Timers {
     protected boolean isTimerRunning = false;
     private long startTime;
     private int currentTimerStartLength;
+    private long timeAtPause = -1; //Positive value indicates the time at paused, -1 indicates timer is not resuming from pause
 
     public Timer getCurrentTimer() {
         return currentTimer;
@@ -32,6 +33,9 @@ public class AppTimer extends Timers {
     }
     public int getCurrentTimerStartLength() {
         return currentTimerStartLength;
+    }
+    public void setTimeAtPause(long timeAtPause) {
+        this.timeAtPause = timeAtPause;
     }
 
     private AppTimer() {}
@@ -58,7 +62,15 @@ public class AppTimer extends Timers {
                 isTimerRunning = true;
 
                 //set start time/date
-                startTime = System.currentTimeMillis();
+                if (timeAtPause < 0) { //new timer, looking to be created
+                    startTime = System.currentTimeMillis();
+                } else { //paused timer, looking to resume
+                    //if timer was paused, use a time calculated off of the saved state.
+                    //New start time will be old start time plus the time elapsed between resume and start,
+                    //  thereby pushing forward the start time by however long the timer was paused for.
+                    //T_s = T_s + (T_resume - T_pause)
+                    startTime = startTime + (System.currentTimeMillis() - timeAtPause);
+                }
 
                 //set length this timer will use
                 currentTimerStartLength = getInitialTimerLength();
@@ -89,6 +101,8 @@ public class AppTimer extends Timers {
         }
         //set Timer.txt to nothing [will cause start() to restart timer if called next]
         set(0);
+        //remove saved state
+        timeAtPause = -1;
     }
 
     /**
@@ -105,6 +119,8 @@ public class AppTimer extends Timers {
         if (currentTimer != null) {
             currentTimer.cancel();
             isTimerRunning = false;
+            //save state
+            timeAtPause = System.currentTimeMillis();
         }
     }
 
@@ -116,16 +132,13 @@ public class AppTimer extends Timers {
      */
     public void restart() throws IOException, InvalidDataException {
         //stop timer
-        if (currentTimer != null) {
-            currentTimer.cancel();
-            isTimerRunning = false;
-        }
+        stop();
 
         //write initial timer length to Timer.txt
         try {
             set(getInitialTimerLength());
         } catch (NoSuchElementException exception) {
-            App.showExceptionDialog(exception, "Error starting/restarting timer.", "Please go to the settings page and specify a lobby timer length, and save it (Cmd+S), before attempting to start the timer.");
+            App.showExceptionDialog(exception, "Error starting/restarting timer.", "Please delete your 'Timer.txt' and restart the application. Submit a bug report if the problem persists.");
             return;
         }
 
@@ -136,6 +149,7 @@ public class AppTimer extends Timers {
 }
 
 /**
+ * @// TODO: 7/19/21 UPDATE JAVADOC - HORRIDLY INCORRECT AND OUTDATED
  * Begins countdown from current value in the <code>Timer.txt</code> file. {@link TimerTask} to be scheduled in {@link Timer#schedule(TimerTask, long, long)} for the countdown timer system.
  * @implNote Does not use system clock (or at least efficiently. Timer will start to lag behind if more system resources are used or application is active with other tasks
  */
@@ -156,6 +170,9 @@ class CountdownTimer extends TimerTask {
                 Writer fileWriter = new FileWriter(FileManager.outputPath + "Timer.txt");
                 fileWriter.write(Preferences.userRoot().node("/goistreamtoolredux/algorithm").get("timer_end_text","0:00"));
                 fileWriter.close();
+
+                //remove saved state
+                AppTimer.getInstance().setTimeAtPause(-1);
             } else { //timer still has more to count
 
                 //get new time for timer
