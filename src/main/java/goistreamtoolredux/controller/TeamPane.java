@@ -380,7 +380,7 @@ public class TeamPane {
     public void clear() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirmation Dialog");
-        alert.setHeaderText("Output files will be cleared");
+        alert.setHeaderText("Team files will be cleared");
         alert.setContentText("This action does not need saving, and will be executed immediately. Are you ok with this?");
 
         Optional<ButtonType> result = alert.showAndWait();
