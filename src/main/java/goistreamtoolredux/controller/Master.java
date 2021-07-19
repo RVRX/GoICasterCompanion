@@ -111,15 +111,6 @@ public class Master {
                 case "/goistreamtoolredux/fxml/MapPane.fxml":
                     mapPaneController.clear();
                     break;
-                case "/goistreamtoolredux/fxml/TournamentPane.fxml":
-                    tournamentPaneController.saveChanges(null);
-                    break;
-                case "/goistreamtoolredux/fxml/SettingsPane.fxml":
-                    settingsPaneController.save();
-                    break;
-                case "/goistreamtoolredux/fxml/TimerPane.fxml":
-                    timerPaneController.save(null);
-                    break;
             }
         }
     }
