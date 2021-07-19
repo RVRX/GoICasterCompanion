@@ -61,6 +61,8 @@ public class MapPane {
                 mapFile = new File(FileManager.inputPath + "map_images" + File.separator + selectedMap + ".png");
             }
             mapImage.setImage(new Image(mapFile.toURI().toString()));
+        } else {
+            mapImage.setImage(null);
         }
     }
 
@@ -105,6 +107,27 @@ public class MapPane {
                 JFXSnackbar bar = new JFXSnackbar(anchorPane);
                 bar.enqueue(new JFXSnackbar.SnackbarEvent(new JFXSnackbarLayout("Error Setting Map...",null,null),new Duration(1000)));
             }
+        } else { //No map was selected
+            //Delete Map file
+            try {
+                FileManager.removeMap();
+            } catch (IOException exception) {
+                exception.printStackTrace();
+                //todo handle
+            }
         }
+    }
+
+    /**
+     * Clears the current map (In UI and filesystem).
+     */
+    public void clear() {
+
+        //Clear UI
+        mapComboBox.getSelectionModel().clearSelection();
+
+        //Clear Map File and Map Text
+        save();
+
     }
 }

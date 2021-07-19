@@ -951,7 +951,9 @@ public class FileManager {
 
     /**
      * Remove the currently set team from given team letter/identifier.
-     * Cancels out the actions done by {@link #setTeam(String, String)}
+     * Cancels out the actions done by {@link #setTeam(String, String)}.
+     *
+     * @throws IOException if files (Team.txt and TeamShort.txt) couldn't be written to
      * @param teamIdentifier Value to identify team. Must be a valid character for filesystem
      */
     public static void removeTeam(String teamIdentifier) throws IOException {
@@ -979,5 +981,23 @@ public class FileManager {
         if (outputTeamLogo.exists()) {
             outputTeamLogo.delete();
         }
+    }
+
+    /**
+     * Remove the map image and name.
+     * Intended to cancel out all actions taken by {@link #setMap(String)}.
+     *
+     * @throws IOException if <code>Map.txt</code> couldn't be written to
+     */
+    public static void removeMap() throws IOException {
+        //remove Map.png
+        File outputTeamLogo = new File(outputPath + "Map.png");
+        if (outputTeamLogo.exists()) {
+            outputTeamLogo.delete();
+        }
+        //remove text contents
+        Writer fileWriter = new FileWriter(outputPath + "Map.txt"); //TeamX.txt
+        fileWriter.write("");
+        fileWriter.close();
     }
 }

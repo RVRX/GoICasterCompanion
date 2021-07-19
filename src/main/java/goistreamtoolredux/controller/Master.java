@@ -109,7 +109,7 @@ public class Master {
                     teamPaneController.clear();
                     break;
                 case "/goistreamtoolredux/fxml/MapPane.fxml":
-                    mapPaneController.save();
+                    mapPaneController.clear();
                     break;
                 case "/goistreamtoolredux/fxml/TournamentPane.fxml":
                     tournamentPaneController.saveChanges(null);
