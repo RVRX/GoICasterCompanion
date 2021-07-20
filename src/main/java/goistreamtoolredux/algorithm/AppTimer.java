@@ -47,9 +47,19 @@ public class AppTimer extends Timers {
 
 
     /**
-     * Start the timer (initial or after a pause)
+     * Starts the timer (initial or after a pause), is one is not already running (i.e., {@link #isTimerRunning} is false).
+     * <p>
+     * Sets the value of {@link #startTime} to be either:
+     * <ul>
+     *     <li>If resuming from a pause – time at initial start, plus difference between resume and initial pause
+     *     <li>If initial start – Current system time.
+     * </ul>
+     *
+     * <p>Sets the value of {@link #isTimerRunning} to true before starting the
+     *
      * @throws IOException
      * @throws NoSuchElementException
+     *
      * @see #stop()
      * @see #pause()
      * @see #restart()
@@ -66,7 +76,7 @@ public class AppTimer extends Timers {
                     startTime = System.currentTimeMillis();
                 } else { //paused timer, looking to resume
                     //if timer was paused, use a time calculated off of the saved state.
-                    //New start time will be old start time plus the time elapsed between resume and start,
+                    //New start time will be old start time plus the time elapsed between resume and pause,
                     //  thereby pushing forward the start time by however long the timer was paused for.
                     //T_s = T_s + (T_resume - T_pause)
                     startTime = startTime + (System.currentTimeMillis() - timeAtPause);
@@ -149,9 +159,12 @@ public class AppTimer extends Timers {
 }
 
 /**
- * @// TODO: 7/19/21 UPDATE JAVADOC - HORRIDLY INCORRECT AND OUTDATED
- * Begins countdown from current value in the <code>Timer.txt</code> file. {@link TimerTask} to be scheduled in {@link Timer#schedule(TimerTask, long, long)} for the countdown timer system.
- * @implNote Does not use system clock (or at least efficiently. Timer will start to lag behind if more system resources are used or application is active with other tasks
+ * Begins countdown from current value in the <code>Timer.txt</code> file.
+ * When timer reaches zero, sets the <code>Timer.txt</code> file to value of {@link Preferences} key <code>"timer_end_text"</code>.
+ *
+ * <p>Counts down by comparing value of {@link AppTimer#getStartTime()} with {@link System#currentTimeMillis()}, and converting to int via {@link Math#toIntExact(long)}
+ *
+ * @implNote This class is a {@link TimerTask} to be scheduled with {@link Timer#schedule(TimerTask, long, long)}.
  */
 class CountdownTimer extends TimerTask {
 
