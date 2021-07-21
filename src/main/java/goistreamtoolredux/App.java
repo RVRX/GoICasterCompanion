@@ -1,7 +1,7 @@
 package goistreamtoolredux;
 
+import goistreamtoolredux.algorithm.AppTimer;
 import goistreamtoolredux.algorithm.FileManager;
-import goistreamtoolredux.algorithm.LobbyTimer;
 import goistreamtoolredux.controller.Master;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -99,8 +99,18 @@ public class App extends Application {
     public void stop() {
         System.out.println("Shutting Down");
         //cancel the current TimerTask so the app doesn't hang on quit
-        if (LobbyTimer.getInstance().getCurrentTimer() != null) {
-            LobbyTimer.getInstance().getCurrentTimer().cancel();
+        if (AppTimer.getInstance().getCurrentTimer() != null) {
+            AppTimer.getInstance().getCurrentTimer().cancel();
+        }
+
+        //reset the timer file to better align with application UI behaviour on start
+        AppTimer timerInstance = AppTimer.getInstance();
+        try {
+            timerInstance.set(timerInstance.getInitialTimerLength());
+        } catch (IOException e) {
+            //app is closing, there is not much that can be done here but just let the app close...
+            System.err.println("Failed to update timer file on system exit.");
+            e.printStackTrace();
         }
     }
 

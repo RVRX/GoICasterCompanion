@@ -47,7 +47,7 @@ var activeTableTab = "activeTableTab";
 </div>
 <div class="subNav">
 <ul class="navList">
-<li><a href="../../goistreamtoolredux/algorithm/Team.html" title="class in goistreamtoolredux.algorithm"><span class="typeNameLink">Prev&nbsp;Class</span></a></li>
+<li><a href="Team.html" title="class in goistreamtoolredux.algorithm"><span class="typeNameLink">Prev&nbsp;Class</span></a></li>
 <li>Next&nbsp;Class</li>
 </ul>
 <ul class="navList">
@@ -107,7 +107,7 @@ var activeTableTab = "activeTableTab";
 <li class="blockList">
 <dl>
 <dt>Direct Known Subclasses:</dt>
-<dd><a href="../../goistreamtoolredux/algorithm/CustomTimer.html" title="class in goistreamtoolredux.algorithm">CustomTimer</a>, <a href="../../goistreamtoolredux/algorithm/LobbyTimer.html" title="class in goistreamtoolredux.algorithm">LobbyTimer</a></dd>
+<dd><a href="AppTimer.html" title="class in goistreamtoolredux.algorithm">AppTimer</a></dd>
 </dl>
 <hr>
 <br>
@@ -263,10 +263,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>getInitialTimerLength</h4>
-<pre>public&nbsp;int&nbsp;getInitialTimerLength()
-                          throws java.io.IOException,
-                                 java.util.NoSuchElementException,
-                                 <a href="../../goistreamtoolredux/algorithm/InvalidDataException.html" title="class in goistreamtoolredux.algorithm">InvalidDataException</a></pre>
+<pre>public&nbsp;int&nbsp;getInitialTimerLength()</pre>
 <div class="block">Gets the total length of the timer. Not to be confused with the current length,
  this value is where the timer will go to when restarting or starting after a stop.
 
@@ -274,10 +271,6 @@ extends java.lang.Object</pre>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>timer length in seconds</dd>
-<dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.io.IOException</code></dd>
-<dd><code>java.util.NoSuchElementException</code> - TimerLength.txt contains an unexpected character.</dd>
-<dd><code><a href="../../goistreamtoolredux/algorithm/InvalidDataException.html" title="class in goistreamtoolredux.algorithm">InvalidDataException</a></code></dd>
 <dt><span class="seeLabel">See Also:</span></dt>
 <dd><a href="../../goistreamtoolredux/algorithm/Timers.html#setInitialTimerLength-int-"><code>setInitialTimerLength(int)</code></a></dd>
 </dl>
@@ -307,17 +300,14 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>get</h4>
 <pre>public&nbsp;int&nbsp;get()
-        throws java.io.IOException,
-               <a href="../../goistreamtoolredux/algorithm/InvalidDataException.html" title="class in goistreamtoolredux.algorithm">InvalidDataException</a></pre>
+        throws java.io.IOException</pre>
 <div class="block">Gets the <b>current</b> value of the timer.
- If the timer file is empty or invalid, the file will be fixed,
- and the default length (TimerLength.txt will be returned)</div>
+ If the timer file is empty or invalid, the default timer will be retrieved</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>time left in seconds.</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code>java.io.FileNotFoundException</code> - timer.txt cannot be found</dd>
-<dd><code><a href="../../goistreamtoolredux/algorithm/InvalidDataException.html" title="class in goistreamtoolredux.algorithm">InvalidDataException</a></code> - incorrect values in TimerLength.txt</dd>
 <dd><code>java.io.IOException</code></dd>
 </dl>
 </li>
@@ -380,7 +370,7 @@ extends java.lang.Object</pre>
 </div>
 <div class="subNav">
 <ul class="navList">
-<li><a href="../../goistreamtoolredux/algorithm/Team.html" title="class in goistreamtoolredux.algorithm"><span class="typeNameLink">Prev&nbsp;Class</span></a></li>
+<li><a href="Team.html" title="class in goistreamtoolredux.algorithm"><span class="typeNameLink">Prev&nbsp;Class</span></a></li>
 <li>Next&nbsp;Class</li>
 </ul>
 <ul class="navList">

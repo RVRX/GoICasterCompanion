@@ -67,7 +67,7 @@
 <!--   -->
 </a></div>
 <!-- ========= END OF TOP NAVBAR ========= -->
-<div class="contentContainer"><a href="#I:A">A</a>&nbsp;<a href="#I:C">C</a>&nbsp;<a href="#I:F">F</a>&nbsp;<a href="#I:G">G</a>&nbsp;<a href="#I:H">H</a>&nbsp;<a href="#I:I">I</a>&nbsp;<a href="#I:K">K</a>&nbsp;<a href="#I:L">L</a>&nbsp;<a href="#I:M">M</a>&nbsp;<a href="#I:N">N</a>&nbsp;<a href="#I:O">O</a>&nbsp;<a href="#I:P">P</a>&nbsp;<a href="#I:R">R</a>&nbsp;<a href="#I:S">S</a>&nbsp;<a href="#I:T">T</a>&nbsp;<a href="#I:V">V</a>&nbsp;<a name="I:A">
+<div class="contentContainer"><a href="#I:A">A</a>&nbsp;<a href="#I:C">C</a>&nbsp;<a href="#I:F">F</a>&nbsp;<a href="#I:G">G</a>&nbsp;<a href="#I:H">H</a>&nbsp;<a href="#I:I">I</a>&nbsp;<a href="#I:K">K</a>&nbsp;<a href="#I:M">M</a>&nbsp;<a href="#I:N">N</a>&nbsp;<a href="#I:O">O</a>&nbsp;<a href="#I:P">P</a>&nbsp;<a href="#I:R">R</a>&nbsp;<a href="#I:S">S</a>&nbsp;<a href="#I:T">T</a>&nbsp;<a href="#I:V">V</a>&nbsp;<a name="I:A">
 <!--   -->
 </a>
 <h2 class="title">A</h2>
@@ -90,6 +90,10 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="goistreamtoolredux/App.html#App--">App()</a></span> - Constructor for class goistreamtoolredux.<a href="goistreamtoolredux/App.html" title="class in goistreamtoolredux">App</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="goistreamtoolredux/algorithm/AppTimer.html" title="class in goistreamtoolredux.algorithm"><span class="typeNameLink">AppTimer</span></a> - Class in <a href="goistreamtoolredux/algorithm/package-summary.html">goistreamtoolredux.algorithm</a></dt>
+<dd>
+<div class="block">Singleton timer class.</div>
+</dd>
 </dl>
 <a name="I:C">
 <!--   -->
@@ -119,8 +123,6 @@
 <div class="block">Converts from seconds to <code>MM:SS</code> format</div>
 </dd>
 <dt><span class="memberNameLink"><a href="goistreamtoolredux/controller/SplashScreenLoader.html#createScene--">createScene()</a></span> - Method in class goistreamtoolredux.controller.<a href="goistreamtoolredux/controller/SplashScreenLoader.html" title="class in goistreamtoolredux.controller">SplashScreenLoader</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="goistreamtoolredux/algorithm/CustomTimer.html" title="class in goistreamtoolredux.algorithm"><span class="typeNameLink">CustomTimer</span></a> - Class in <a href="goistreamtoolredux/algorithm/package-summary.html">goistreamtoolredux.algorithm</a></dt>
 <dd>&nbsp;</dd>
 </dl>
 <a name="I:F">
@@ -156,9 +158,7 @@
 <dd>
 <div class="block">Loads all teams in from the <code>input/teams.txt</code> file</div>
 </dd>
-<dt><span class="memberNameLink"><a href="goistreamtoolredux/algorithm/CustomTimer.html#getCurrentTimer--">getCurrentTimer()</a></span> - Method in class goistreamtoolredux.algorithm.<a href="goistreamtoolredux/algorithm/CustomTimer.html" title="class in goistreamtoolredux.algorithm">CustomTimer</a></dt>
-<dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="goistreamtoolredux/algorithm/LobbyTimer.html#getCurrentTimer--">getCurrentTimer()</a></span> - Method in class goistreamtoolredux.algorithm.<a href="goistreamtoolredux/algorithm/LobbyTimer.html" title="class in goistreamtoolredux.algorithm">LobbyTimer</a></dt>
+<dt><span class="memberNameLink"><a href="goistreamtoolredux/algorithm/AppTimer.html#getCurrentTimer--">getCurrentTimer()</a></span> - Method in class goistreamtoolredux.algorithm.<a href="goistreamtoolredux/algorithm/AppTimer.html" title="class in goistreamtoolredux.algorithm">AppTimer</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="goistreamtoolredux/algorithm/FileManager.html#getDefaultInputPath--">getDefaultInputPath()</a></span> - Static method in class goistreamtoolredux.algorithm.<a href="goistreamtoolredux/algorithm/FileManager.html" title="class in goistreamtoolredux.algorithm">FileManager</a></dt>
 <dd>
@@ -176,9 +176,7 @@
 <dd>
 <div class="block">Gets the currently set application input folder path.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="goistreamtoolredux/algorithm/CustomTimer.html#getInstance--">getInstance()</a></span> - Static method in class goistreamtoolredux.algorithm.<a href="goistreamtoolredux/algorithm/CustomTimer.html" title="class in goistreamtoolredux.algorithm">CustomTimer</a></dt>
-<dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="goistreamtoolredux/algorithm/LobbyTimer.html#getInstance--">getInstance()</a></span> - Static method in class goistreamtoolredux.algorithm.<a href="goistreamtoolredux/algorithm/LobbyTimer.html" title="class in goistreamtoolredux.algorithm">LobbyTimer</a></dt>
+<dt><span class="memberNameLink"><a href="goistreamtoolredux/algorithm/AppTimer.html#getInstance--">getInstance()</a></span> - Static method in class goistreamtoolredux.algorithm.<a href="goistreamtoolredux/algorithm/AppTimer.html" title="class in goistreamtoolredux.algorithm">AppTimer</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="goistreamtoolredux/App.html#getMasterController--">getMasterController()</a></span> - Static method in class goistreamtoolredux.<a href="goistreamtoolredux/App.html" title="class in goistreamtoolredux">App</a></dt>
 <dd>&nbsp;</dd>
@@ -242,9 +240,7 @@
 </dd>
 <dt><span class="memberNameLink"><a href="goistreamtoolredux/algorithm/InvalidDataException.html#InvalidDataException-java.lang.String-">InvalidDataException(String)</a></span> - Constructor for exception goistreamtoolredux.algorithm.<a href="goistreamtoolredux/algorithm/InvalidDataException.html" title="class in goistreamtoolredux.algorithm">InvalidDataException</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="goistreamtoolredux/algorithm/CustomTimer.html#isTimerRunning">isTimerRunning</a></span> - Variable in class goistreamtoolredux.algorithm.<a href="goistreamtoolredux/algorithm/CustomTimer.html" title="class in goistreamtoolredux.algorithm">CustomTimer</a></dt>
-<dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="goistreamtoolredux/algorithm/LobbyTimer.html#isTimerRunning">isTimerRunning</a></span> - Variable in class goistreamtoolredux.algorithm.<a href="goistreamtoolredux/algorithm/LobbyTimer.html" title="class in goistreamtoolredux.algorithm">LobbyTimer</a></dt>
+<dt><span class="memberNameLink"><a href="goistreamtoolredux/algorithm/AppTimer.html#isTimerRunning">isTimerRunning</a></span> - Variable in class goistreamtoolredux.algorithm.<a href="goistreamtoolredux/algorithm/AppTimer.html" title="class in goistreamtoolredux.algorithm">AppTimer</a></dt>
 <dd>&nbsp;</dd>
 </dl>
 <a name="I:K">
@@ -256,16 +252,6 @@
 <dd>
 <div class="block">Upon hearing a <code>META+S</code> keypress, throws a <code>save()</code> call to
  the currently active controller for the right side (main) content.</div>
-</dd>
-</dl>
-<a name="I:L">
-<!--   -->
-</a>
-<h2 class="title">L</h2>
-<dl>
-<dt><a href="goistreamtoolredux/algorithm/LobbyTimer.html" title="class in goistreamtoolredux.algorithm"><span class="typeNameLink">LobbyTimer</span></a> - Class in <a href="goistreamtoolredux/algorithm/package-summary.html">goistreamtoolredux.algorithm</a></dt>
-<dd>
-<div class="block">Singleton timer class.</div>
 </dd>
 </dl>
 <a name="I:M">
@@ -315,11 +301,7 @@
 </a>
 <h2 class="title">P</h2>
 <dl>
-<dt><span class="memberNameLink"><a href="goistreamtoolredux/algorithm/CustomTimer.html#pause--">pause()</a></span> - Method in class goistreamtoolredux.algorithm.<a href="goistreamtoolredux/algorithm/CustomTimer.html" title="class in goistreamtoolredux.algorithm">CustomTimer</a></dt>
-<dd>
-<div class="block">Pauses the current timer state.</div>
-</dd>
-<dt><span class="memberNameLink"><a href="goistreamtoolredux/algorithm/LobbyTimer.html#pause--">pause()</a></span> - Method in class goistreamtoolredux.algorithm.<a href="goistreamtoolredux/algorithm/LobbyTimer.html" title="class in goistreamtoolredux.algorithm">LobbyTimer</a></dt>
+<dt><span class="memberNameLink"><a href="goistreamtoolredux/algorithm/AppTimer.html#pause--">pause()</a></span> - Method in class goistreamtoolredux.algorithm.<a href="goistreamtoolredux/algorithm/AppTimer.html" title="class in goistreamtoolredux.algorithm">AppTimer</a></dt>
 <dd>
 <div class="block">Pauses the current timer state.</div>
 </dd>
@@ -351,11 +333,7 @@
 <dd>
 <div class="block">Prompts the user if they would like to reset preferences.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="goistreamtoolredux/algorithm/CustomTimer.html#restart--">restart()</a></span> - Method in class goistreamtoolredux.algorithm.<a href="goistreamtoolredux/algorithm/CustomTimer.html" title="class in goistreamtoolredux.algorithm">CustomTimer</a></dt>
-<dd>
-<div class="block">Resets the timer back to beginning value and starts it again</div>
-</dd>
-<dt><span class="memberNameLink"><a href="goistreamtoolredux/algorithm/LobbyTimer.html#restart--">restart()</a></span> - Method in class goistreamtoolredux.algorithm.<a href="goistreamtoolredux/algorithm/LobbyTimer.html" title="class in goistreamtoolredux.algorithm">LobbyTimer</a></dt>
+<dt><span class="memberNameLink"><a href="goistreamtoolredux/algorithm/AppTimer.html#restart--">restart()</a></span> - Method in class goistreamtoolredux.algorithm.<a href="goistreamtoolredux/algorithm/AppTimer.html" title="class in goistreamtoolredux.algorithm">AppTimer</a></dt>
 <dd>
 <div class="block">Resets the timer back to beginning value and starts it again</div>
 </dd>
@@ -427,11 +405,7 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="goistreamtoolredux/controller/SplashScreenLoader.html#SplashScreenLoader--">SplashScreenLoader()</a></span> - Constructor for class goistreamtoolredux.controller.<a href="goistreamtoolredux/controller/SplashScreenLoader.html" title="class in goistreamtoolredux.controller">SplashScreenLoader</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="goistreamtoolredux/algorithm/CustomTimer.html#start--">start()</a></span> - Method in class goistreamtoolredux.algorithm.<a href="goistreamtoolredux/algorithm/CustomTimer.html" title="class in goistreamtoolredux.algorithm">CustomTimer</a></dt>
-<dd>
-<div class="block">Start the timer (initial or after a pause)</div>
-</dd>
-<dt><span class="memberNameLink"><a href="goistreamtoolredux/algorithm/LobbyTimer.html#start--">start()</a></span> - Method in class goistreamtoolredux.algorithm.<a href="goistreamtoolredux/algorithm/LobbyTimer.html" title="class in goistreamtoolredux.algorithm">LobbyTimer</a></dt>
+<dt><span class="memberNameLink"><a href="goistreamtoolredux/algorithm/AppTimer.html#start--">start()</a></span> - Method in class goistreamtoolredux.algorithm.<a href="goistreamtoolredux/algorithm/AppTimer.html" title="class in goistreamtoolredux.algorithm">AppTimer</a></dt>
 <dd>
 <div class="block">Start the timer (initial or after a pause)</div>
 </dd>
@@ -439,11 +413,7 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="goistreamtoolredux/controller/SplashScreenLoader.html#start-javafx.stage.Stage-">start(Stage)</a></span> - Method in class goistreamtoolredux.controller.<a href="goistreamtoolredux/controller/SplashScreenLoader.html" title="class in goistreamtoolredux.controller">SplashScreenLoader</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="goistreamtoolredux/algorithm/CustomTimer.html#stop--">stop()</a></span> - Method in class goistreamtoolredux.algorithm.<a href="goistreamtoolredux/algorithm/CustomTimer.html" title="class in goistreamtoolredux.algorithm">CustomTimer</a></dt>
-<dd>
-<div class="block">Completely stops and cancels the timer.</div>
-</dd>
-<dt><span class="memberNameLink"><a href="goistreamtoolredux/algorithm/LobbyTimer.html#stop--">stop()</a></span> - Method in class goistreamtoolredux.algorithm.<a href="goistreamtoolredux/algorithm/LobbyTimer.html" title="class in goistreamtoolredux.algorithm">LobbyTimer</a></dt>
+<dt><span class="memberNameLink"><a href="goistreamtoolredux/algorithm/AppTimer.html#stop--">stop()</a></span> - Method in class goistreamtoolredux.algorithm.<a href="goistreamtoolredux/algorithm/AppTimer.html" title="class in goistreamtoolredux.algorithm">AppTimer</a></dt>
 <dd>
 <div class="block">Completely stops and cancels the timer.</div>
 </dd>
@@ -494,7 +464,7 @@
 <dt><span class="memberNameLink"><a href="goistreamtoolredux/App.html#version">version</a></span> - Static variable in class goistreamtoolredux.<a href="goistreamtoolredux/App.html" title="class in goistreamtoolredux">App</a></dt>
 <dd>&nbsp;</dd>
 </dl>
-<a href="#I:A">A</a>&nbsp;<a href="#I:C">C</a>&nbsp;<a href="#I:F">F</a>&nbsp;<a href="#I:G">G</a>&nbsp;<a href="#I:H">H</a>&nbsp;<a href="#I:I">I</a>&nbsp;<a href="#I:K">K</a>&nbsp;<a href="#I:L">L</a>&nbsp;<a href="#I:M">M</a>&nbsp;<a href="#I:N">N</a>&nbsp;<a href="#I:O">O</a>&nbsp;<a href="#I:P">P</a>&nbsp;<a href="#I:R">R</a>&nbsp;<a href="#I:S">S</a>&nbsp;<a href="#I:T">T</a>&nbsp;<a href="#I:V">V</a>&nbsp;</div>
+<a href="#I:A">A</a>&nbsp;<a href="#I:C">C</a>&nbsp;<a href="#I:F">F</a>&nbsp;<a href="#I:G">G</a>&nbsp;<a href="#I:H">H</a>&nbsp;<a href="#I:I">I</a>&nbsp;<a href="#I:K">K</a>&nbsp;<a href="#I:M">M</a>&nbsp;<a href="#I:N">N</a>&nbsp;<a href="#I:O">O</a>&nbsp;<a href="#I:P">P</a>&nbsp;<a href="#I:R">R</a>&nbsp;<a href="#I:S">S</a>&nbsp;<a href="#I:T">T</a>&nbsp;<a href="#I:V">V</a>&nbsp;</div>
 <!-- ======= START OF BOTTOM NAVBAR ====== -->
 <div class="bottomNav"><a name="navbar.bottom">
 <!--   -->

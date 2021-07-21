@@ -7,8 +7,6 @@ import java.util.prefs.Preferences;
 
 public class Timers {
 
-//    private Timer currentTimer;
-//    protected boolean isTimerRunning = false;
 
     private static Preferences prefs = Preferences.userRoot().node("/goistreamtoolredux/algorithm");
     private static final String TIMER_ONE_LENGTH = "timer_one_length";
@@ -28,11 +26,6 @@ public class Timers {
      * @see #getInitialTimerLength()
      */
     public void setInitialTimerLength(int seconds) throws IOException, IllegalArgumentException {
-//        if (seconds <= 0) throw new IllegalArgumentException("Cannot set initial timer value to 0");
-//        //open TimerLength file and set a new value
-//        Writer fileWriter = new FileWriter(timerLength);
-//        fileWriter.write(String.valueOf(seconds));
-//        fileWriter.close();
         prefs.putInt(TIMER_TWO_LENGTH, seconds);
     }
 
@@ -77,7 +70,7 @@ public class Timers {
     }
 
     /**
-     * Gets the <b>current</b> value of the timer.
+     * Gets the <b>current</b> value of <code>timer.txt</code>.
      * If the timer file is empty or invalid, the default timer will be retrieved
      *
      * @return time left in seconds.
