@@ -102,6 +102,16 @@ public class App extends Application {
         if (AppTimer.getInstance().getCurrentTimer() != null) {
             AppTimer.getInstance().getCurrentTimer().cancel();
         }
+
+        //reset the timer file to better align with application UI behaviour on start
+        AppTimer timerInstance = AppTimer.getInstance();
+        try {
+            timerInstance.set(timerInstance.getInitialTimerLength());
+        } catch (IOException e) {
+            //app is closing, there is not much that can be done here but just let the app close...
+            System.err.println("Failed to update timer file on system exit.");
+            e.printStackTrace();
+        }
     }
 
     public static void showExceptionDialog(Exception exception, String headerText, String contentText) {
