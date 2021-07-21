@@ -27,7 +27,7 @@ import java.io.StringWriter;
 public class App extends Application {
 
     //current application version. Used for update checking
-    public static final String version = "1.0.0";
+    public static final String version = "1.1.0";
 
     /**The JavaFX application's primary stage. All Scenes are built upon this stage*/
     private static Stage primaryStage;
