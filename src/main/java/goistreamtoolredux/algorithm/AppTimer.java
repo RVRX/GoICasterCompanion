@@ -74,16 +74,21 @@ public class AppTimer extends Timers {
                 //set start time/date
                 if (timeAtPause < 0) { //new timer, looking to be created
                     startTime = System.currentTimeMillis();
+
+                    //set length this timer will use
+                    currentTimerStartLength = getInitialTimerLength();
                 } else { //paused timer, looking to resume
                     //if timer was paused, use a time calculated off of the saved state.
                     //New start time will be old start time plus the time elapsed between resume and pause,
                     //  thereby pushing forward the start time by however long the timer was paused for.
                     //T_s = T_s + (T_resume - T_pause)
                     startTime = startTime + (System.currentTimeMillis() - timeAtPause);
+
+                    //no need to update currentTimerStartLength, as we want to stick with the one that was used before
+                    // pause, so as to not update the length partway through the timer (not good).
                 }
 
-                //set length this timer will use
-                currentTimerStartLength = getInitialTimerLength();
+
 
                 //set up and start TimerTask
                 currentTimer = new Timer();
@@ -198,9 +203,25 @@ class CountdownTimer extends TimerTask {
                 timerPaneController.setLobbyTimerText(String.valueOf(foo));
             }
         } catch (FileNotFoundException exception) {
+            System.err.println("Error encountered in timer task (FileNotFoundException). Reason: '" + exception.getMessage() + "'\nCancelling Timer...");
             exception.printStackTrace();
+            AppTimer.getInstance().isTimerRunning = false;
+            AppTimer.getInstance().setTimeAtPause(-1);
+            timer.getCurrentTimer().cancel();
         } catch (IOException exception) {
+            System.err.println("Error encountered in timer task (IOException). Reason: '" + exception.getMessage() + "'\nCancelling Timer...");
             exception.printStackTrace();
+            AppTimer.getInstance().isTimerRunning = false;
+            AppTimer.getInstance().setTimeAtPause(-1);
+            timer.getCurrentTimer().cancel();
+        } catch (IllegalArgumentException exception) {
+            //possibly due to timer being set for negative seconds
+            // timer should be shut off
+            System.err.println("Error encountered in timer task (IllegalArgumentException). Reason: '" + exception.getMessage() + "'\nCancelling Timer...");
+            exception.printStackTrace();
+            AppTimer.getInstance().isTimerRunning = false;
+            AppTimer.getInstance().setTimeAtPause(-1);
+            timer.getCurrentTimer().cancel();
         }
     }
 }
