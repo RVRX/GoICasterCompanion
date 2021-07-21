@@ -26,7 +26,7 @@ import java.io.StringWriter;
 
 public class App extends Application {
 
-    //current application version. User for update checking
+    //current application version. Used for update checking
     public static final String version = "1.0.0";
 
     /**The JavaFX application's primary stage. All Scenes are built upon this stage*/
@@ -68,8 +68,10 @@ public class App extends Application {
         primaryStage.getIcons().addAll(icon32, icon64, icon256);
         System.out.println("Icons Added");
 
+        //primary stage settings
         primaryStage.setScene(new Scene(root, 700, 400)); // 600 (page) + 100 (sidebar) by 400
         primaryStage.setOpacity(0);
+        primaryStage.setResizable(false);
         primaryStage.show();
 
         //manual application delay for setup (allow user to disable), and preloader calls
@@ -142,7 +144,7 @@ public class App extends Application {
         expContent.add(label, 0, 0);
         expContent.add(textArea, 0, 1);
 
-// Set expandable Exception into the dialog pane.
+        // Set expandable Exception into the dialog pane.
         alert.getDialogPane().setExpandableContent(expContent);
 
         System.out.println("posting");
