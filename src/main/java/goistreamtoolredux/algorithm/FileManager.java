@@ -239,7 +239,7 @@ public class FileManager {
                 break;
 
             case "timer set":
-                LobbyTimer timer = LobbyTimer.getInstance();
+                AppTimer timer = AppTimer.getInstance();
                 try {
                     System.out.println("How many seconds would you like to set the timer for");
                     int setTime = scanner.nextInt();
@@ -259,7 +259,7 @@ public class FileManager {
 
             case "timer start":
                 try {
-                    LobbyTimer.getInstance().start();
+                    AppTimer.getInstance().start();
                 } catch (IOException exception) {
                     exception.printStackTrace();
                 } catch (NoSuchElementException exception) {
@@ -271,7 +271,7 @@ public class FileManager {
 
             case "timer stop":
                 try {
-                    LobbyTimer.getInstance().stop();
+                    AppTimer.getInstance().stop();
                     System.out.println("Stopped!");
                 } catch (IOException exception) {
                     exception.printStackTrace();
@@ -279,12 +279,12 @@ public class FileManager {
                 break;
 
             case "timer pause":
-                LobbyTimer.getInstance().pause();
+                AppTimer.getInstance().pause();
                 break;
 
             case "timer restart": case "timer reset":
                 try {
-                    LobbyTimer.getInstance().restart();
+                    AppTimer.getInstance().restart();
                 } catch (IOException | InvalidDataException exception) {
                     exception.printStackTrace();
                 }
@@ -947,5 +947,57 @@ public class FileManager {
     public static void refreshPreferences() {
         inputPath = getInputPath();
         outputPath = getOutputPath();
+    }
+
+    /**
+     * Remove the currently set team from given team letter/identifier.
+     * Cancels out the actions done by {@link #setTeam(String, String)}.
+     *
+     * @throws IOException if files (Team.txt and TeamShort.txt) couldn't be written to
+     * @param teamIdentifier Value to identify team. Must be a valid character for filesystem
+     */
+    public static void removeTeam(String teamIdentifier) throws IOException {
+        /*--- Update TXTs ---*/
+
+        //get file names
+        String teamTXT = "Team" + teamIdentifier + ".txt";
+        String teamShortTXT = "TeamShort" + teamIdentifier + ".txt";
+
+        //update output file "TeamShortX.txt"
+        Writer fileWriter2 = new FileWriter(outputPath + teamShortTXT); //TeamShortX.txt
+        fileWriter2.write(""); //write shortName to file
+        fileWriter2.close();
+        System.out.println(teamShortTXT + " updated.");
+
+        //update output file "TeamX.txt"
+        Writer fileWriter = new FileWriter(outputPath + teamTXT); //TeamX.txt
+        fileWriter.write("");
+        fileWriter.close();
+        System.out.println(teamTXT + " updated.");
+
+
+        /*--- Remove Image ---*/
+        File outputTeamLogo = new File(outputPath + "Team" + teamIdentifier + ".png");
+        if (outputTeamLogo.exists()) {
+            outputTeamLogo.delete();
+        }
+    }
+
+    /**
+     * Remove the map image and name.
+     * Intended to cancel out all actions taken by {@link #setMap(String)}.
+     *
+     * @throws IOException if <code>Map.txt</code> couldn't be written to
+     */
+    public static void removeMap() throws IOException {
+        //remove Map.png
+        File outputTeamLogo = new File(outputPath + "Map.png");
+        if (outputTeamLogo.exists()) {
+            outputTeamLogo.delete();
+        }
+        //remove text contents
+        Writer fileWriter = new FileWriter(outputPath + "Map.txt"); //TeamX.txt
+        fileWriter.write("");
+        fileWriter.close();
     }
 }

@@ -102,6 +102,17 @@ public class Master {
                     break;
             }
         }
+        else if ((keyEvent.isMetaDown() && keyEvent.getText().equalsIgnoreCase("w")) || (keyEvent.isControlDown() && keyEvent.getText().equalsIgnoreCase("w"))) {
+            switch (currentPage) {
+                case "/goistreamtoolredux/fxml/TeamPane.fxml":
+                    //save team content
+                    teamPaneController.clear();
+                    break;
+                case "/goistreamtoolredux/fxml/MapPane.fxml":
+                    mapPaneController.clear();
+                    break;
+            }
+        }
     }
 
     @FXML

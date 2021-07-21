@@ -10,6 +10,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -23,6 +25,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Collections;
 import java.util.LinkedList;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class TeamPane {
@@ -113,72 +116,116 @@ public class TeamPane {
                 exception.printStackTrace();
                 //todo, handle
             }
-        } else System.out.println("null team");
+        } else {
+            //remove content
+            try {
+                FileManager.removeTeam(letter);
+            } catch (IOException exception) {
+                //todo, handle
+                exception.printStackTrace();
+            }
+        }
 
     }
 
     @FXML
     void selectTeamA(ActionEvent event) {
         selectedATeam = teamAComboBox.getSelectionModel().getSelectedItem();
-        //update UI image
-        if (selectedATeam.getTeamLogo() == null) { //if there isn't an image
-            //delete image
+
+        if (selectedATeam == null) { //comboBox selection has been cleared
+            //remove image and text from UI
             teamAImage.setImage(null);
+            teamALabel.setText(null);
+
         } else {
-            //update image
-            teamAImage.setImage(new Image(selectedATeam.getTeamLogo().toUri().toString()));
+            //update UI image
+            if (selectedATeam.getTeamLogo() == null) { //if there isn't an image
+                //delete image
+                teamAImage.setImage(null);
+            } else {
+                //update image
+                teamAImage.setImage(new Image(selectedATeam.getTeamLogo().toUri().toString()));
+            }
+
+            //update label
+            teamALabel.setText(selectedATeam.getAbbreviatedName());
         }
 
-        //update label
-        teamALabel.setText(selectedATeam.getAbbreviatedName());
     }
 
     @FXML
     void selectTeamB(ActionEvent event) {
         selectedBTeam = teamBComboBox.getSelectionModel().getSelectedItem();
-        //update UI image
-        if (selectedBTeam.getTeamLogo() == null) { //if there isn't an image
-            //delete image
-            teamBImage.setImage(null);
-        } else {
-            //update image
-            teamBImage.setImage(new Image(selectedBTeam.getTeamLogo().toUri().toString()));
-        }
 
-        //update label
-        teamBLabel.setText(selectedBTeam.getAbbreviatedName());
+        if (selectedBTeam == null) { //comboBox selection has been cleared
+            //remove image and text from UI
+            teamBImage.setImage(null);
+            teamBLabel.setText(null);
+
+        } else {
+            //update UI image
+            if (selectedBTeam.getTeamLogo() == null) { //if there isn't an image
+                //delete image
+                teamBImage.setImage(null);
+            } else {
+                //update image
+                teamBImage.setImage(new Image(selectedBTeam.getTeamLogo().toUri().toString()));
+            }
+
+            //update label
+            teamBLabel.setText(selectedBTeam.getAbbreviatedName());
+        }
     }
 
     @FXML
     void selectTeamC(ActionEvent event) {
         selectedCTeam = teamCComboBox.getSelectionModel().getSelectedItem();
-        //update UI image
-        if (selectedCTeam.getTeamLogo() == null) { //if there isn't an image
-            //delete image
+
+        if (selectedCTeam == null) { //comboBox selection has been cleared
+            //remove image and text from UI
             teamCImage.setImage(null);
+            teamCLabel.setText(null);
+
         } else {
-            //update image
-            teamCImage.setImage(new Image(selectedCTeam.getTeamLogo().toUri().toString()));
+
+            //update UI image
+            if (selectedCTeam.getTeamLogo() == null) { //if there isn't an image
+                //delete image
+                teamCImage.setImage(null);
+            } else {
+                //update image
+                teamCImage.setImage(new Image(selectedCTeam.getTeamLogo().toUri().toString()));
+            }
+
+            //update label
+            teamCLabel.setText(selectedCTeam.getAbbreviatedName());
         }
 
-        //update label
-        teamCLabel.setText(selectedCTeam.getAbbreviatedName());
     }
 
     @FXML
     void selectTeamD(ActionEvent event) {
         selectedDTeam = teamDComboBox.getSelectionModel().getSelectedItem();
-        //update UI image
-        if (selectedDTeam.getTeamLogo() == null) { //if there isn't an image
-            //delete image
-            teamDImage.setImage(null);
-        } else {
-            //update image
-            teamDImage.setImage(new Image(selectedDTeam.getTeamLogo().toUri().toString()));
-        }
 
-        //update label
-        teamDLabel.setText(selectedDTeam.getAbbreviatedName());
+        if (selectedDTeam == null) { //comboBox selection has been cleared
+            //remove image and text from UI
+            teamDImage.setImage(null);
+            teamDLabel.setText(null);
+
+        } else {
+
+            //update UI image
+            if (selectedDTeam.getTeamLogo() == null) { //if there isn't an image
+                //delete image
+                teamDImage.setImage(null);
+            } else {
+                //update image
+                teamDImage.setImage(new Image(selectedDTeam.getTeamLogo().toUri().toString()));
+            }
+
+            //update label
+            teamDLabel.setText(selectedDTeam.getAbbreviatedName());
+        }
     }
 
     @FXML
@@ -325,5 +372,31 @@ public class TeamPane {
                 return null;
             }
         });
+    }
+
+    /**
+     * Clears the currently selected data, and empties the associated files.
+     */
+    public void clear() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation Dialog");
+        alert.setHeaderText("Team files will be cleared");
+        alert.setContentText("This action does not need saving, and will be executed immediately. Are you ok with this?");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK){
+            // ... user chose OK
+
+            //clear UI
+            teamAComboBox.getSelectionModel().clearSelection(); //change is heard by FXML!
+            teamBComboBox.getSelectionModel().clearSelection();
+            teamCComboBox.getSelectionModel().clearSelection();
+            teamDComboBox.getSelectionModel().clearSelection();
+
+            //clear files
+            save();
+        } else {
+            // ... user chose CANCEL or closed the dialog
+        }
     }
 }

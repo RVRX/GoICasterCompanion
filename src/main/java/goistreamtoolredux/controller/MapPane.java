@@ -9,6 +9,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -20,6 +22,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Collections;
 import java.util.LinkedList;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class MapPane {
@@ -61,6 +64,8 @@ public class MapPane {
                 mapFile = new File(FileManager.inputPath + "map_images" + File.separator + selectedMap + ".png");
             }
             mapImage.setImage(new Image(mapFile.toURI().toString()));
+        } else {
+            mapImage.setImage(null);
         }
     }
 
@@ -105,6 +110,34 @@ public class MapPane {
                 JFXSnackbar bar = new JFXSnackbar(anchorPane);
                 bar.enqueue(new JFXSnackbar.SnackbarEvent(new JFXSnackbarLayout("Error Setting Map...",null,null),new Duration(1000)));
             }
+        } else { //No map was selected
+            //Delete Map file
+            try {
+                FileManager.removeMap();
+            } catch (IOException exception) {
+                exception.printStackTrace();
+                //todo handle
+            }
+        }
+    }
+
+    /**
+     * Clears the current map (In UI and filesystem).
+     */
+    public void clear() {
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation Dialog");
+        alert.setHeaderText("Map files will be cleared");
+        alert.setContentText("This action does not need saving, and will be executed immediately. Are you ok with this?");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK){
+            //Clear UI
+            mapComboBox.getSelectionModel().clearSelection();
+
+            //Clear Map File and Map Text
+            save();
         }
     }
 }
