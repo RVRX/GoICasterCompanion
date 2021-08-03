@@ -105,6 +105,7 @@
                               <Insets bottom="5.0" left="5.0" right="5.0" />
                            </HBox.margin>
                         </JFXButton>
+                        <JFXButton fx:id="bindHotkeysButton" onAction="#bindHotKeysAction" text="Bind Hotkeys" />
                      </children>
                   </HBox>
                   <HBox prefHeight="37.0" prefWidth="600.0" />

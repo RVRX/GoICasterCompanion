@@ -64,6 +64,13 @@ public class SettingsPane {
     void save() { }
 
 
+    /**Opens the Hotkey Manager*/
+    @FXML
+    void bindHotKeysAction(ActionEvent event) {
+        //todo, open HotKey Manager
+
+    }
+
     @FXML
     void openInputFolder(ActionEvent event) {
         if (Desktop.isDesktopSupported()) {
