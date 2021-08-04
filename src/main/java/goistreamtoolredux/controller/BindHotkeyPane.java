@@ -57,6 +57,14 @@ public class BindHotkeyPane {
             return;
         }
 
+        //check input keystroke viability
+        KeyStroke inputKeyStroke = KeyStroke.getKeyStroke(timerPlayPauseField.getText());
+        if (inputKeyStroke == null) {
+            //todo, popup
+            timerPlayPauseField.setText("");
+            return;
+        }
+
         //define listener action
         HotKeyListener listener = hotKey -> {
             System.out.println("Timer Play/Pause Hotkey Pressed");
@@ -67,8 +75,10 @@ public class BindHotkeyPane {
                 try {
                     AppTimer.getInstance().start();
                 } catch (IOException exception) {
+                    //todo
                     exception.printStackTrace();
                 } catch (InvalidDataException exception) {
+                    //todo
                     exception.printStackTrace();
                 }
             }
@@ -76,12 +86,20 @@ public class BindHotkeyPane {
 
         //set listener
         Provider provider = Provider.getCurrentProvider(false);
-        provider.register(KeyStroke.getKeyStroke(timerPlayPauseField.getText()), listener);
+        provider.register(inputKeyStroke, listener);
     }
 
     @FXML
     void timerSwitchFieldAction(ActionEvent event) {
         if (timerSwitchField.getText() == null || timerSwitchField.getText().equals("")) {
+            return;
+        }
+
+        //check input keystroke viability
+        KeyStroke inputKeyStroke = KeyStroke.getKeyStroke(timerSwitchField.getText());
+        if (inputKeyStroke == null) {
+            //todo, popup
+            timerSwitchField.setText("");
             return;
         }
 
@@ -94,7 +112,7 @@ public class BindHotkeyPane {
 
         //set listener
         Provider provider = Provider.getCurrentProvider(false);
-        provider.register(KeyStroke.getKeyStroke(timerSwitchField.getText()), listener);
+        provider.register(inputKeyStroke, listener);
     }
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
