@@ -4,11 +4,14 @@ import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXToggleButton;
 import com.tulskiy.keymaster.common.HotKeyListener;
 import com.tulskiy.keymaster.common.Provider;
+import goistreamtoolredux.algorithm.AppTimer;
+import goistreamtoolredux.algorithm.InvalidDataException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;
 
 import javax.swing.*;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.prefs.Preferences;
@@ -50,7 +53,30 @@ public class BindHotkeyPane {
 
     @FXML
     void timerPlayPauseFieldAction(ActionEvent event) {
+        if (timerPlayPauseField.getText() == null || timerPlayPauseField.getText().equals("")) {
+            return;
+        }
 
+        //define listener action
+        HotKeyListener listener = hotKey -> {
+            System.out.println("Timer Play/Pause Hotkey Pressed");
+            if (AppTimer.getInstance().isTimerRunning) {
+                AppTimer.getInstance().pause();
+            } else {
+                //try to start timer
+                try {
+                    AppTimer.getInstance().start();
+                } catch (IOException exception) {
+                    exception.printStackTrace();
+                } catch (InvalidDataException exception) {
+                    exception.printStackTrace();
+                }
+            }
+        };
+
+        //set listener
+        Provider provider = Provider.getCurrentProvider(false);
+        provider.register(KeyStroke.getKeyStroke(timerPlayPauseField.getText()), listener);
     }
 
     @FXML

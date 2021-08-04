@@ -20,7 +20,7 @@ public class AppTimer extends Timers {
 
     private static AppTimer singleton = new AppTimer();
     private Timer currentTimer;
-    protected boolean isTimerRunning = false;
+    public boolean isTimerRunning = false;
     private long startTime;
     private int currentTimerStartLength;
     private long timeAtPause = -1; //Positive value indicates the time at paused, -1 indicates timer is not resuming from pause
