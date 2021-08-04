@@ -2,16 +2,12 @@ package goistreamtoolredux.controller;
 
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXToggleButton;
-import com.tulskiy.keymaster.common.HotKeyListener;
-import com.tulskiy.keymaster.common.Provider;
-import goistreamtoolredux.algorithm.AppTimer;
-import goistreamtoolredux.algorithm.InvalidDataException;
+import goistreamtoolredux.App;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;
 
 import javax.swing.*;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.prefs.Preferences;
@@ -37,10 +33,10 @@ public class BindHotkeyPane {
     private JFXTextField timerSwitchField; // Value injected by FXMLLoader
 
     private static Preferences prefs = Preferences.userRoot().node("/goistreamtoolredux/algorithm");
-    private static final String IS_TIMER_ONE = "is_timer_one";
-    private static final String IS_HOTKEYS_ENABLED = "is_hotkeys_enabled";
-    private static final String HOTKEY_PLAY_PAUSE = "hotkey_play_pause";
-    private static final String HOTKEY_TIMER_SWITCH = "hotkey_timer_switch";
+    public static final String IS_TIMER_ONE = "is_timer_one";
+    public static final String IS_HOTKEYS_ENABLED = "is_hotkeys_enabled";
+    public static final String HOTKEY_PLAY_PAUSE = "hotkey_play_pause";
+    public static final String HOTKEY_TIMER_SWITCH = "hotkey_timer_switch";
 
 
     @FXML
@@ -55,66 +51,47 @@ public class BindHotkeyPane {
 
     @FXML
     void timerPlayPauseFieldAction(ActionEvent event) {
-        if (timerPlayPauseField.getText() == null || timerPlayPauseField.getText().equals("")) {
-            return;
-        }
-
-        //check input keystroke viability
-        KeyStroke inputKeyStroke = KeyStroke.getKeyStroke(timerPlayPauseField.getText());
-        if (inputKeyStroke == null) {
-            //todo, popup
-            timerPlayPauseField.setText("");
-            return;
-        }
-
-        //define listener action
-        HotKeyListener listener = hotKey -> {
-            System.out.println("Timer Play/Pause Hotkey Pressed");
-            if (AppTimer.getInstance().isTimerRunning) {
-                AppTimer.getInstance().pause();
-            } else {
-                //try to start timer
-                try {
-                    AppTimer.getInstance().start();
-                } catch (IOException exception) {
-                    //todo
-                    exception.printStackTrace();
-                } catch (InvalidDataException exception) {
-                    //todo
-                    exception.printStackTrace();
-                }
-            }
-        };
+        KeyStroke inputKeyStroke = getKeyStroke(timerPlayPauseField, HOTKEY_PLAY_PAUSE);
+//        if (inputKeyStroke == null) return;
 
         //set listener
-        Provider provider = Provider.getCurrentProvider(false);
-        provider.register(inputKeyStroke, listener);
+        App.updateHotKeys();
+//        Provider provider = Provider.getCurrentProvider(false);
+//        provider.register(inputKeyStroke, App.getHotKeyPlayPauseListener());
     }
 
     @FXML
     void timerSwitchFieldAction(ActionEvent event) {
-        if (timerSwitchField.getText() == null || timerSwitchField.getText().equals("")) {
-            return;
+        KeyStroke inputKeyStroke = getKeyStroke(timerSwitchField, HOTKEY_TIMER_SWITCH);
+//        if (inputKeyStroke == null) return;
+
+        //set listener
+        App.updateHotKeys();
+//        Provider provider = Provider.getCurrentProvider(false);
+//        provider.register(inputKeyStroke, App.getHotKeySwitchListener());
+    }
+
+    /**
+     * gets keystroke from textField, and if its valid, saves it to provided preference
+     * @param textField to pull string ot parse into {@link KeyStroke}
+     * @param preferenceKey to save textField string into
+     * @return
+     */
+    private KeyStroke getKeyStroke(JFXTextField textField, String preferenceKey) {
+        if (textField.getText() == null || textField.getText().equals("")) {
+            return null;
         }
 
         //check input keystroke viability
-        KeyStroke inputKeyStroke = KeyStroke.getKeyStroke(timerSwitchField.getText());
+        KeyStroke inputKeyStroke = KeyStroke.getKeyStroke(textField.getText());
         if (inputKeyStroke == null) {
-            //todo, popup
-            timerSwitchField.setText("");
-            return;
+            //keystroke invalid, clear field
+            textField.setText("");
+            return null;
         }
-
-        //define listener action
-        HotKeyListener listener = hotKey -> {
-            System.out.println("Timer Swap Hotkey Pressed");
-            //swap the current pref
-            prefs.putBoolean(IS_TIMER_ONE, !prefs.getBoolean(IS_TIMER_ONE,false));
-        };
-
-        //set listener
-        Provider provider = Provider.getCurrentProvider(false);
-        provider.register(inputKeyStroke, listener);
+        //save keystroke to prefs
+        prefs.put(preferenceKey, textField.getText());
+        return inputKeyStroke;
     }
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
