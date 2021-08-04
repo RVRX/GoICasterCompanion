@@ -200,7 +200,9 @@ class CountdownTimer extends TimerTask {
 
                 timer.set(Math.toIntExact(foo)); //todo catch ArithmeticException
                 TimerPane timerPaneController = (TimerPane) App.getMasterController().getTimerPaneController();
-                timerPaneController.setLobbyTimerText(String.valueOf(foo));
+                if (timerPaneController != null) {
+                    timerPaneController.setLobbyTimerText(String.valueOf(foo));
+                }
             }
         } catch (FileNotFoundException exception) {
             System.err.println("Error encountered in timer task (FileNotFoundException). Reason: '" + exception.getMessage() + "'\nCancelling Timer...");
