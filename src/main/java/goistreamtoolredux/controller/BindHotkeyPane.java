@@ -38,17 +38,19 @@ public class BindHotkeyPane {
 
     private static Preferences prefs = Preferences.userRoot().node("/goistreamtoolredux/algorithm");
     private static final String IS_TIMER_ONE = "is_timer_one";
+    private static final String IS_HOTKEYS_ENABLED = "is_hotkeys_enabled";
+    private static final String HOTKEY_PLAY_PAUSE = "hotkey_play_pause";
+    private static final String HOTKEY_TIMER_SWITCH = "hotkey_timer_switch";
 
 
     @FXML
-    void enableHotkeyAction(ActionEvent event) {
-        if (enableHotkeyToggle.isSelected()) {
-            //set timerTwo as active
-            prefs.putBoolean(IS_TIMER_ONE, false);
-        } else {
-            //set timer one as active
-            prefs.putBoolean(IS_TIMER_ONE, true);
-        }
+    void enableHotkeyTogglerAction(ActionEvent event) {
+        //put status of toggler into preference
+        prefs.putBoolean(IS_HOTKEYS_ENABLED, enableHotkeyToggle.isSelected());
+
+        //enable or disable fields
+        timerPlayPauseField.setEditable(prefs.getBoolean(IS_HOTKEYS_ENABLED, false));
+        timerSwitchField.setEditable(prefs.getBoolean(IS_HOTKEYS_ENABLED, false));
     }
 
     @FXML
@@ -123,5 +125,12 @@ public class BindHotkeyPane {
 
         //apply default app theme
         anchorPane.getStylesheets().setAll("/goistreamtoolredux/css/light/MainStyle.css");
+
+        //init toggler
+        enableHotkeyToggle.setSelected(prefs.getBoolean(IS_HOTKEYS_ENABLED, false));
+
+        //init field editable status
+        timerPlayPauseField.setEditable(prefs.getBoolean(IS_HOTKEYS_ENABLED, false));
+        timerSwitchField.setEditable(prefs.getBoolean(IS_HOTKEYS_ENABLED, false));
     }
 }
