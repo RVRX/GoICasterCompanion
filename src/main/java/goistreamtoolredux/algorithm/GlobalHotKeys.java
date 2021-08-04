@@ -46,6 +46,7 @@ public class GlobalHotKeys {
     }
 
     /**
+     * Swaps to the other timer length, and restarts the timer
      * @return the listener function used for dealing with a timer switch request
      */
     public static HotKeyListener getHotKeySwitchListener() {
@@ -53,6 +54,14 @@ public class GlobalHotKeys {
             System.out.println("Timer Swap Hotkey Pressed");
             //swap the current pref
             prefs.putBoolean(IS_TIMER_ONE, !prefs.getBoolean(IS_TIMER_ONE,false));
+            //restart the timer
+            try {
+                AppTimer.getInstance().restart();
+            } catch (IOException exception) {
+                exception.printStackTrace();
+            } catch (InvalidDataException exception) {
+                exception.printStackTrace();
+            }
         };
     }
 
