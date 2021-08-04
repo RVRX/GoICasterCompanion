@@ -1,11 +1,13 @@
 package goistreamtoolredux.controller;
 
+import com.jfoenix.controls.JFXSnackbar;
+import com.jfoenix.controls.JFXSnackbarLayout;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXToggleButton;
-import goistreamtoolredux.App;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;
+import javafx.util.Duration;
 
 import javax.swing.*;
 import java.net.URL;
@@ -47,38 +49,34 @@ public class BindHotkeyPane {
         //enable or disable fields
         timerPlayPauseField.setEditable(prefs.getBoolean(IS_HOTKEYS_ENABLED, false));
         timerSwitchField.setEditable(prefs.getBoolean(IS_HOTKEYS_ENABLED, false));
+
+        JFXSnackbar bar = new JFXSnackbar(anchorPane);
+        bar.enqueue(new JFXSnackbar.SnackbarEvent(
+                new JFXSnackbarLayout("Updated HotKey live status. Restart to apply change", "OK", action -> bar.close()),
+                Duration.millis(2500), null));
     }
 
     @FXML
     void timerPlayPauseFieldAction(ActionEvent event) {
-        KeyStroke inputKeyStroke = getKeyStroke(timerPlayPauseField, HOTKEY_PLAY_PAUSE);
-//        if (inputKeyStroke == null) return;
-
-        //set listener
-        App.updateHotKeys();
-//        Provider provider = Provider.getCurrentProvider(false);
-//        provider.register(inputKeyStroke, App.getHotKeyPlayPauseListener());
+        //update prefs
+        getKeyStrokeAndSaveToPrefs(timerPlayPauseField, HOTKEY_PLAY_PAUSE);
     }
 
     @FXML
     void timerSwitchFieldAction(ActionEvent event) {
-        KeyStroke inputKeyStroke = getKeyStroke(timerSwitchField, HOTKEY_TIMER_SWITCH);
-//        if (inputKeyStroke == null) return;
-
-        //set listener
-        App.updateHotKeys();
-//        Provider provider = Provider.getCurrentProvider(false);
-//        provider.register(inputKeyStroke, App.getHotKeySwitchListener());
+        getKeyStrokeAndSaveToPrefs(timerSwitchField, HOTKEY_TIMER_SWITCH);
     }
 
     /**
-     * gets keystroke from textField, and if its valid, saves it to provided preference
-     * @param textField to pull string ot parse into {@link KeyStroke}
-     * @param preferenceKey to save textField string into
-     * @return
+     * Gets string from textField, and if its a valid {@link KeyStroke}, saves it to provided preference.
+     * Remove preference if field is blank
+     * @param textField Location to pull string from to test parsing into {@link KeyStroke}, and pass to preference
+     * @param preferenceKey preference key save textField string into
+     * @return either null if no preference was set due to invalid text, or the KeyStroke if valid.
      */
-    private KeyStroke getKeyStroke(JFXTextField textField, String preferenceKey) {
+    private KeyStroke getKeyStrokeAndSaveToPrefs(JFXTextField textField, String preferenceKey) {
         if (textField.getText() == null || textField.getText().equals("")) {
+            prefs.remove(preferenceKey); //remove preference value
             return null;
         }
 
@@ -91,6 +89,10 @@ public class BindHotkeyPane {
         }
         //save keystroke to prefs
         prefs.put(preferenceKey, textField.getText());
+        JFXSnackbar bar = new JFXSnackbar(anchorPane);
+        bar.enqueue(new JFXSnackbar.SnackbarEvent(
+                new JFXSnackbarLayout("Updated '" + preferenceKey + "'. Restart to apply changes", "OK", action -> bar.close()),
+                Duration.INDEFINITE, null));
         return inputKeyStroke;
     }
 

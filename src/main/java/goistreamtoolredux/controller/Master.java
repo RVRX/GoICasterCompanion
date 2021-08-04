@@ -1,7 +1,7 @@
 package goistreamtoolredux.controller;
 
 import com.jfoenix.controls.JFXButton;
-import goistreamtoolredux.App;
+import goistreamtoolredux.algorithm.GlobalHotKeys;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -154,7 +154,7 @@ public class Master {
         //set default theme
         setTheme(prefs.get(PREFERRED_THEME, "skyborne light (default)"));
 
-        App.updateHotKeys();
+        GlobalHotKeys.updateHotKeys();
     }
 
     /**

@@ -77,7 +77,7 @@ public class SettingsPane {
             root = FXMLLoader.load(getClass().getClassLoader().getResource("goistreamtoolredux/fxml/BindHotKeyPane.fxml"), resources);
             Stage stage = new Stage();
             stage.setTitle("HotKey Manager");
-            stage.setScene(new Scene(root, 400, 600));
+            stage.setScene(new Scene(root, 400, 250));
             stage.show();
         }
         catch (IOException e) {
