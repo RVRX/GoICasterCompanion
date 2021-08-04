@@ -109,3 +109,10 @@ JFXButton, JFXButton MaterialDesignIconView {
     -jfx-untoggle-color: #ffffff; /*color when not selected*/
     -jfx-untoggle-line-color: -fx--primary-light; /*background color when not selected*/
 }
+
+JFXToggleButton {
+    -jfx-toggle-color: -fx--primary; /*color when selected*/
+    -jfx-toggle-line-color: -fx--primary-light; /*background when selected*/
+    -jfx-untoggle-color: #ffffff; /*color when not selected*/
+    -jfx-untoggle-line-color: -fx--primary-light; /*background color when not selected*/
+}
