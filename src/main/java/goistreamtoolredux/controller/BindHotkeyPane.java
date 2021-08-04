@@ -103,11 +103,15 @@ public class BindHotkeyPane {
         //apply default app theme
         anchorPane.getStylesheets().setAll("/goistreamtoolredux/css/light/MainStyle.css");
 
-        //init toggler
+        //init toggler value
         enableHotkeyToggle.setSelected(prefs.getBoolean(IS_HOTKEYS_ENABLED, false));
 
         //init field editable status
         timerPlayPauseField.setEditable(prefs.getBoolean(IS_HOTKEYS_ENABLED, false));
         timerSwitchField.setEditable(prefs.getBoolean(IS_HOTKEYS_ENABLED, false));
+
+        //init field values
+        timerPlayPauseField.setText(prefs.get(HOTKEY_PLAY_PAUSE, null));
+        timerSwitchField.setText(prefs.get(HOTKEY_TIMER_SWITCH, null));
     }
 }
