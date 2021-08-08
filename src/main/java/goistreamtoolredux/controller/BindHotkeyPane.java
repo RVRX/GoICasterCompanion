@@ -47,8 +47,8 @@ public class BindHotkeyPane {
         prefs.putBoolean(IS_HOTKEYS_ENABLED, enableHotkeyToggle.isSelected());
 
         //enable or disable fields
-        timerPlayPauseField.setEditable(prefs.getBoolean(IS_HOTKEYS_ENABLED, false));
-        timerSwitchField.setEditable(prefs.getBoolean(IS_HOTKEYS_ENABLED, false));
+        timerPlayPauseField.setDisable(!prefs.getBoolean(IS_HOTKEYS_ENABLED, false));
+        timerSwitchField.setDisable(!prefs.getBoolean(IS_HOTKEYS_ENABLED, false));
 
         JFXSnackbar bar = new JFXSnackbar(anchorPane);
         bar.enqueue(new JFXSnackbar.SnackbarEvent(
@@ -108,9 +108,9 @@ public class BindHotkeyPane {
         //init toggler value
         enableHotkeyToggle.setSelected(prefs.getBoolean(IS_HOTKEYS_ENABLED, false));
 
-        //init field editable status
-        timerPlayPauseField.setEditable(prefs.getBoolean(IS_HOTKEYS_ENABLED, false));
-        timerSwitchField.setEditable(prefs.getBoolean(IS_HOTKEYS_ENABLED, false));
+        //init field disable status
+        timerPlayPauseField.setDisable(!prefs.getBoolean(IS_HOTKEYS_ENABLED, false));
+        timerSwitchField.setDisable(!prefs.getBoolean(IS_HOTKEYS_ENABLED, false));
 
         //init field values
         timerPlayPauseField.setText(prefs.get(HOTKEY_PLAY_PAUSE, null));
