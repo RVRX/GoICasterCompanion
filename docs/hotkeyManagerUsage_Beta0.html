@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Guns of Icarus Caster Companion, a cross-platform application designed to assist Guns of Icarus tournament broadcasters with their interfaces and overlays.">
+    <meta name="keywords" content="Guns of Icarus Caster Companion, GoICC, Guns of Icarus Stream Tool Redux">
+    <meta name="author" content="Cole Manning, RVRX">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://goicc.skyborne.net/">
+    <meta property="og:title" content="GoICC | Hotkey Manager">
+    <meta property="og:description" content="Guns of Icarus Caster Companion, a cross-platform application designed to assist Guns of Icarus tournament broadcasters with their interfaces and overlays.">
+    <meta property="og:image" content="https://goicc.skyborne.net/splash-halfsize.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://goicc.skyborne.net/">
+    <meta property="twitter:title" content="GoICC | Hotkey Manager">
+    <meta property="twitter:description" content="Guns of Icarus Caster Companion, a cross-platform application designed to assist Guns of Icarus tournament broadcasters with their interfaces and overlays.">
+    <meta property="twitter:image" content="https://goicc.skyborne.net/splash-halfsize.png">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <title>GoICC | Hotkey Manager</title>
+
+    <style>
+        .text-info {
+            color: #5e5e87 !important;
+        }
+
+        .footer-header {
+            color: #313045;
+        }
+
+        .hero {
+            width: 100%;
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+            color: #FFF;
+            text-align: center;
+        }
+
+        .hero-center {
+            width: 100%;
+            position: absolute;
+            top: 45%;
+            left: 0;
+            -webkit-transform: translate(0, -50%);
+            -ms-transform: translate(0, -50%);
+            transform: translate(0, -50%);
+        }
+
+        .hero-bottom {
+            width: 100%;
+            position: absolute;
+            bottom: 5%; /*distance from bottom*/
+            cursor: pointer;
+            left: 0; /*not sure why, but doesnt work without this, MDN ex's have a left!right as well*/
+            padding: 10% 10% 0;
+        }
+    </style>
+
+</head>
+<body>
+<nav class="navbar navbar-dark bg-dark sticky-top shadow navbar-expand-md" style="background-color: #313045 !important;" id="navigation">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+            <img src="splash-ubersmall.png" alt="" width="30" height="24" class="d-inline-block align-text-top">
+            GoICC
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item"><a class="nav-link" href="https://goicc.skyborne.net/#application-overview">Overview</a></li>
+                <li class="nav-item"><a class="nav-link" href="https://goicc.skyborne.net/#features">Features</a></li>
+                <li class="nav-item"><a class="nav-link" href="https://goicc.skyborne.net/#downloads">Downloads</a></li>
+                <li class="nav-item"><a class="nav-link" href="https://goicc.skyborne.net/#usage">Usage</a></li>
+                <li class="nav-item"><a class="nav-link" href="https://goicc.skyborne.net/#contributing">Contributing</a></li>
+                <form class="container-fluid justify-content-start" action="https://github.com/RVRX/GoICasterCompanion">
+                    <a href="https://github.com/RVRX/GoICasterCompanion">
+                        <button class="btn me-2 btn-outline-light" type="submit" style="background-color: #35344b; color: aliceblue; outline: aliceblue 3px">GitHub</button>
+                    </a>
+                </form>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container" id="main-container">
+    <div class="row" id="main-row">
+        <div class="col">
+            <h1 class="pt-5">HotKey Manager for GoICC v1.2.0</h1>
+            <br>
+            <h2>Overview</h2>
+            <p>Please note, this is a <em>beta</em> implementation of the hotkey manager that featured in the v1.2.0 release. Make sure your version is the intended version for this help article.</p>
+            <p>To set a hotkey, make sure the "Enable Global Hotkeys" toggler is selected. If it was not, you will need to restart the application after selecting it.
+                In the text field of your choice, you will need to put in a specially formatted string/sentence that adheres to the following syntax:</p>
+            <pre>
+     *    &lt;modifiers&gt;* (&lt;typedID&gt; | &lt;pressedReleasedID&gt;)
+     *
+     *    modifiers := shift | control | ctrl | meta | alt | altGraph
+     *    typedID := typed &lt;typedKey&gt;
+     *    typedKey := string of length 1 giving Unicode character.
+     *    pressedReleasedID := (pressed | released) key
+     *    key := KeyEvent key code name, i.e. the name following "VK_".</pre>
+<!--            <pre>-->
+<!--     *     "INSERT" =&gt; getKeyStroke(KeyEvent.VK_INSERT, 0);-->
+<!--     *     "control DELETE" =&gt; getKeyStroke(KeyEvent.VK_DELETE, InputEvent.CTRL_MASK);-->
+<!--     *     "alt shift X" =&gt; getKeyStroke(KeyEvent.VK_X, InputEvent.ALT_MASK | InputEvent.SHIFT_MASK);-->
+<!--     *     "alt shift released X" =&gt; getKeyStroke(KeyEvent.VK_X, InputEvent.ALT_MASK | InputEvent.SHIFT_MASK, true);-->
+<!--     *     "typed a" =&gt; getKeyStroke('a');-->
+<!--            </pre>-->
+            <p>For example, <code>control shift PLUS</code>, or <code>control alt T</code> would be accurate formatted bindings. Syntax is from <a href="https://docs.oracle.com/javase/7/docs/api/javax/swing/KeyStroke.html#getKeyStroke(java.lang.String)" target="_blank"><code>java.swing.KeyStroke#getKeyStroke(String)</code></a>.</p>
+
+            <br>
+            <h2>Why So Messy?</h2>
+            <p>The current implementation is rough due to the types used in our global hotkey library of choice -
+                <a href="https://github.com/tulskiy/jkeymaster">jkeymaster</a> - and the GUI framework JavaFX. They happen to both use
+            "<code>KeyEvents</code>," but it turns out they use completely <em>different</em> KeyEvents. JavaFX using its own definition, and <em>jkeymaster</em> using the <em>Java Swing</em> definition.
+                These definitions are not compatible. Converting between them is undocumented and undefined.
+                Therefore, the traditional method of simply capturing the user's input requires some extra finessing.
+                In future, we plan to sort out the conversion manually, attempt to use Swing's type throughout, or move to a new library.
+                Updates should be posted to <a href="https://github.com/RVRX/GoICasterCompanion/issues/94" target="_blank">repo issue #95</a> if progress is made.</p>
+        </div>
+    </div>
+</div>
+
+<br><br>
+<footer class="footer mt-auto py-3 bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <p class="footer-header">Downloads</p>
+                <ul class="list-unstyled">
+                    <li><a href="https://github.com/RVRX/GoICasterCompanion/releases/download/0.3.0/GoIStreamToolRedux-MacApp.zip">Mac</a></li>
+                    <li><a href="https://github.com/RVRX/GoICasterCompanion/releases/download/0.3.0/GoIStreamToolRedux.exe">Windows</a></li>
+                    <li><a href="https://github.com/RVRX/GoICasterCompanion/releases/download/0.3.0/GoIStreamToolRedux.jar">Linux</a></li>
+                </ul>
+            </div>
+            <div class="col">
+                <p class="footer-header">Explore</p>
+                <ul class="list-unstyled">
+                    <li><a href="https://goicc.skyborne.net/#application-overview">Overview</a></li>
+                    <li><a href="https://goicc.skyborne.net/#features">Features</a></li>
+                    <li><a href="https://goicc.skyborne.net/#usage">Usage</a></li>
+                </ul>
+            </div>
+            <div class="col">
+                <p class="footer-header">GitHub Links</p>
+                <ul class="list-unstyled">
+                    <li><a href="https://github.com/RVRX/GoICasterCompanion">Main GitHub Page</a></li>
+                    <li><a href="https://github.com/RVRX/GoICasterCompanion/projects/2">Task Board</a></li>
+                    <li><a href="https://github.com/RVRX/GoICasterCompanion/issues">Issue Listings</a></li>
+                </ul>
+            </div>
+            <div class="col">
+                <p class="footer-header">By RVRXFXRM</p>
+                <ul class="list-unstyled">
+                    <li><a href="https://colermanning.com">colermanning.com</a></li>
+                    <li><a href="https://skyborne.net">skyborne.net</a></li>
+                    <li><a href="https://rvrx.github.io/ParkerProjects">parker projects</a></li>
+                </ul>
+            </div>
+        </div>
+        <!--        <span class="text-muted">Place sticky footer content here.</span>-->
+    </div>
+</footer>
+
+<!-- Optional JavaScript; choose one of the two! -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</body>
+</html>

@@ -10,6 +10,10 @@ import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
 
 import javax.swing.*;
+import java.awt.*;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.prefs.Preferences;
@@ -115,5 +119,17 @@ public class BindHotkeyPane {
         //init field values
         timerPlayPauseField.setText(prefs.get(HOTKEY_PLAY_PAUSE, null));
         timerSwitchField.setText(prefs.get(HOTKEY_TIMER_SWITCH, null));
+    }
+
+    @FXML
+    public void infoLinkHotKeyAction(ActionEvent actionEvent) {
+        if(Desktop.isDesktopSupported())
+        {
+            try {
+                Desktop.getDesktop().browse(new URI("https://goicc.skyborne.net/hotkeyManagerUsage_Beta0.html"));
+            } catch (IOException | URISyntaxException exception) {
+                exception.printStackTrace();
+            }
+        }
     }
 }
