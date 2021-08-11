@@ -21,7 +21,7 @@ public class GlobalHotKeys {
      * with updated values will lead to errors
      */
     public static void updateHotKeys() {
-        System.out.println("App.updateHotKeys");
+        System.out.println("GlobalHotKeys.updateHotKeys");
         Provider provider = Provider.getCurrentProvider(false);
         System.out.println("Provider has been reset");
 
@@ -32,13 +32,18 @@ public class GlobalHotKeys {
             //if switch hotkey is set
             String timerSwitchHotKeyString = prefs.get(BindHotkeyPane.HOTKEY_TIMER_SWITCH, null);
             if (timerSwitchHotKeyString != null && !timerSwitchHotKeyString.equals("")) {
+                System.out.println("Registering new global listener: " + timerSwitchHotKeyString);
+
                 //add listener with that keybinding
+//                KeyCode.getKeyCode(timerSwitchHotKeyString);
                 provider.register(KeyStroke.getKeyStroke(timerSwitchHotKeyString), getHotKeySwitchListener());
             }
 
             //if play/pause hotkey is set
             String timerPlayPauseHotKeyString = prefs.get(BindHotkeyPane.HOTKEY_PLAY_PAUSE, null);
             if (timerPlayPauseHotKeyString != null && !timerPlayPauseHotKeyString.equals("")) {
+                System.out.println("Registering new global listener: " + timerPlayPauseHotKeyString);
+
                 //add listener with that keybinding
                 provider.register(KeyStroke.getKeyStroke(timerPlayPauseHotKeyString), getHotKeyPlayPauseListener());
             }

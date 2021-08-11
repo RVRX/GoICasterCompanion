@@ -6,11 +6,15 @@ import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXToggleButton;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
 
 import javax.swing.*;
 import java.net.URL;
+import java.util.LinkedList;
 import java.util.ResourceBundle;
 import java.util.prefs.Preferences;
 
@@ -40,6 +44,10 @@ public class BindHotkeyPane {
     public static final String HOTKEY_PLAY_PAUSE = "hotkey_play_pause";
     public static final String HOTKEY_TIMER_SWITCH = "hotkey_timer_switch";
 
+    private LinkedList<KeyEvent> playPauseHotKey = new LinkedList<>();
+    private LinkedList<String> foo = new LinkedList<String>();
+    private String hotkeyString = "";
+
 
     @FXML
     void enableHotkeyTogglerAction(ActionEvent event) {
@@ -56,15 +64,96 @@ public class BindHotkeyPane {
                 Duration.millis(2500), null));
     }
 
+    /**
+     * todo
+     *
+     * Called by FXML/JavaFX thread when 'enter' key is pressed
+     * while the {@link #timerPlayPauseField} is focused.
+     * @param event
+     */
     @FXML
     void timerPlayPauseFieldAction(ActionEvent event) {
         //update prefs
         getKeyStrokeAndSaveToPrefs(timerPlayPauseField, HOTKEY_PLAY_PAUSE);
     }
 
+    /**
+     * todo
+     *
+     * Called by FXML/JavaFX thread when 'enter' key is pressed
+     * while the {@link #timerSwitchField} is focused.
+     * @param event
+     */
     @FXML
     void timerSwitchFieldAction(ActionEvent event) {
+        System.out.println("putting '" + hotkeyString + "' into timer switch preference");
+        prefs.put(HOTKEY_TIMER_SWITCH, hotkeyString);
         getKeyStrokeAndSaveToPrefs(timerSwitchField, HOTKEY_TIMER_SWITCH);
+        //todo prompt restart!
+    }
+
+    /**
+     * todo
+     * Adds the pressed key - if not 'enter' key - into a linkedList of keyEvents.
+     *
+     * Called by FXML/JavaFX thread when any key is pressed
+     * while the {@link #timerPlayPauseField} is focused.
+     * @param event
+     */
+    @FXML
+    void playPauseKeyPressed(KeyEvent event) {
+//        if (prefs.getBoolean(IS_HOTKEYS_ENABLED, false)) {
+//            System.out.println(event);
+//            foo.add(event.getCode());
+//            playPauseHotKey.add(event);
+//        }
+    }
+
+    /**
+     * todo
+     * Adds the pressed key - if not 'enter' key - into a linkedList of keyEvents.
+     *
+     * Called by FXML/JavaFX thread when any key is pressed
+     * while the {@link #timerPlayPauseField} is focused.
+     * @param event
+     */
+    @FXML
+    void switchKeyPressed(KeyEvent event) {
+        //todo KeyEvent to KeyStroke
+        KeyCode pressedKeyCode = event.getCode();
+        KeyStroke.getAWTKeyStrokeForEvent(event);
+        KeyCodeCombination.keyCombination(event.getCode().toString());
+
+        if (!pressedKeyCode.equals(KeyCode.ENTER)) { //if not 'enter' key
+            if (!pressedKeyCode.equals(KeyCode.BACK_SPACE)) {
+                System.out.println("NOT ENTER");
+                System.out.println(event);
+//                event
+
+                //add to list of keys
+//            String currentHotkeyString = prefs.get(HOTKEY_TIMER_SWITCH, "");
+//            String newHotkeyString = currentHotkeyString + " " + event.getCode().toString();
+//            prefs.put(HOTKEY_TIMER_SWITCH, newHotkeyString);
+//                hotkeyString += " " + event.getCode()
+                if (event.getCode().equals(KeyCode.SHIFT)) {
+                    hotkeyString += " " + "SHIFT";
+                    hotkeyString += " " + event.getCode().toString();
+                } else if (event.getCode().equals(KeyCode.ALPHANUMERIC)) {
+
+                }
+                hotkeyString += " " + event.getCode().toString();
+//            foo.add(event.getCode().toString());
+
+//            foo.add(event.getCode());
+
+                //add to field
+                timerSwitchField.setText(timerSwitchField.getText() + " " + event.getCode().toString());
+
+            } else { //key pressed is backspace
+                hotkeyString = "";
+                timerSwitchField.setText("");
+            }
+        } else  System.err.println(event);
     }
 
     /**
@@ -112,8 +201,14 @@ public class BindHotkeyPane {
         timerPlayPauseField.setDisable(!prefs.getBoolean(IS_HOTKEYS_ENABLED, false));
         timerSwitchField.setDisable(!prefs.getBoolean(IS_HOTKEYS_ENABLED, false));
 
+        //dont allow direct typing into field
+        timerSwitchField.setEditable(false);
+        timerPlayPauseField.setEditable(false);
+
         //init field values
         timerPlayPauseField.setText(prefs.get(HOTKEY_PLAY_PAUSE, null));
         timerSwitchField.setText(prefs.get(HOTKEY_TIMER_SWITCH, null));
+
+        //init key thingy todo
     }
 }
