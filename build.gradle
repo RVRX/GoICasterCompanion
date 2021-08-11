@@ -5,7 +5,7 @@ plugins {
     id 'edu.sc.seis.launch4j' version '2.5.0'
 }
 mainClassName = 'goistreamtoolredux.Main'
-project.version = '1.1.0'
+project.version = '1.2.0'
 
 repositories {
     mavenCentral()
@@ -35,7 +35,7 @@ macAppBundle {
     icon = "app-icon.png"
     appName = "GoICasterCompanion"
     volumeName = "GoICC Install"
-    dmgName = "GoICC v1.1.0"
+    dmgName = "GoICC v1.2.0"
     bundleJRE = false
 //    backgroundImage = "doc/macbackground.png"
 }
